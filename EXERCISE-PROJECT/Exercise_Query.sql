@@ -54,7 +54,7 @@ GROUP BY exercise_name;
 
 -- Average weight lifted for each exercise
 SELECT 
-		AVG(weight_lbs) AS avg_weight,
+		ROUND(AVG(weight_lbs), 2) AS avg_weight,
         exercise_name
 FROM workout
 INNER JOIN exercises
