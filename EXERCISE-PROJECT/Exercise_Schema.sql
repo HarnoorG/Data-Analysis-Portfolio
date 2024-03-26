@@ -206,7 +206,7 @@ VALUES
    ('33', '08/30/23', '2', 'Dumbbell Bench Press'),
    ('33', '08/30/23', '4', 'Skull Crushers'),
    ('33', '08/30/23', '6', 'Tricep Extension'),
-   ('33', '08/16/23', '15', 'Preacher Curls');
+   ('33', '08/30/23', '15', 'Preacher Curls');
 
 CREATE TABLE exercises (
   "workout_id" INTEGER, 
