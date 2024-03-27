@@ -368,7 +368,11 @@ total_volume	workout_date
 ```
 
 
-##### The average number of total reps for each workout date
+##### The average number of total reps and reps per set for each workout date
+
+In the next two queries, I calculated the average reps per workout date and the average reps per set per workout date respectively. I used an inner join to join  the “workout” and “exercises tables by the workout_id in both queries. I also rounded the average weight to two decimals in both queries for a neater presentation
+
+-- Average number of total reps for each workout date
 
 ```
 SELECT TOP 10
@@ -395,7 +399,7 @@ avg_total_reps 	workout_date
 ```
 
 
-##### The average number of reps per set for each workout date
+-- Average number of reps per set for each workout date
 
 ```
 SELECT TOP 10
