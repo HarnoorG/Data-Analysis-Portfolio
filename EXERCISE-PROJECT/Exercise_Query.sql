@@ -12,7 +12,7 @@ ORDER BY workout_id;
 -- Displaying all of the unique exercises
 SELECT 
 	DISTINCT exercise_id, 
-    exercise_name
+    	exercise_name
 FROM workout
 ORDER BY exercise_id;
 
@@ -38,33 +38,30 @@ SELECT
 	exercise_name
 FROM workout
 INNER JOIN exercises
-	ON workout.workout_id = exercises.workout_id AND
-	workout.exercise_id = exercises.exercise_id
+	ON workout.exercise_id = exercises.exercise_id
 GROUP BY exercise_name;
 
 --Minimum weight lifted for each exercise
 SELECT 
-		MIN(weight_lbs) AS min_weight,
+	MIN(weight_lbs) AS min_weight,
         exercise_name
 FROM workout
 INNER JOIN exercises
-	ON workout.workout_id = exercises.workout_id AND
-	workout.exercise_id = exercises.exercise_id
+	ON workout.exercise_id = exercises.exercise_id
 GROUP BY exercise_name;
 
 -- Average weight lifted for each exercise
 SELECT 
-		ROUND(AVG(weight_lbs), 2) AS avg_weight,
+	ROUND(AVG(weight_lbs), 2) AS avg_weight,
         exercise_name
 FROM workout
 INNER JOIN exercises
-	ON workout.workout_id = exercises.workout_id AND
-	workout.exercise_id = exercises.exercise_id
+	ON workout.exercise_id = exercises.exercise_id
 GROUP BY exercise_name;
 
 -- How many exercises are done per workout
 SELECT
-		COUNT(exercise_id) AS number_of_exercises,
+	COUNT(exercise_id) AS number_of_exercises,
         workout_date
 FROM workout
 GROUP BY workout_date
@@ -72,44 +69,40 @@ ORDER BY workout_date;
 
 -- Average weight lifted per workout date
 SELECT
-		AVG(weight_lbs) as avg_weight,
+	ROUND(AVG(weight_lbs), 2) as avg_weight,
         workout_date
 FROM workout
 INNER JOIN exercises
-	ON workout.workout_id = exercises.workout_id AND
-	workout.exercise_id = exercises.exercise_id
+	ON workout.workout_id = exercises.workout_id
 GROUP BY workout_date
 ORDER BY workout_date;
 
 -- Volume of weight lifted per each workout date
 SELECT 
-		SUM(volume_lbs) AS total_volume,
+	SUM(volume_lbs) AS total_volume,
         workout_date 
 FROM workout
 INNER JOIN exercises
-	ON workout.workout_id = exercises.workout_id AND
-	workout.exercise_id = exercises.exercise_id
+	ON workout.workout_id = exercises.workout_id
 GROUP BY workout_date
 ORDER BY workout_date;
 
 -- Average number of total reps for each workout date
 SELECT
-		AVG(total_reps) AS avg_total_reps,
-       workout_date
+	ROUND(AVG(total_reps), 2) AS avg_total_reps,
+        workout_date
 FROM workout
 INNER JOIN exercises
-	ON workout.workout_id = exercises.workout_id AND
-	workout.exercise_id = exercises.exercise_id
+	ON workout.workout_id = exercises.workout_id
 GROUP BY workout_date
 ORDER BY workout_date;
 
 -- Average number of reps per set for each workout date
 SELECT
-	AVG(reps_per_set) as avg_reps_per_set,
+	ROUND(AVG(reps_per_set), 2) as avg_reps_per_set,
 	workout_date
 FROM workout
 INNER JOIN exercises
-	ON workout.workout_id = exercises.workout_id AND
-	workout.exercise_id = exercises.exercise_id
+	ON workout.workout_id = exercises.workout_id
 GROUP BY workout_date
 ORDER BY workout_date
