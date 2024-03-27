@@ -96,7 +96,7 @@ Workout_id	exercise_id	weight_lbs     sets  total_reps      reps_per_set   volum
 
 The next two queries were done to see all of the unique exercises that were done over the summer and each day that a workout occurred.
 
--- Displaying all of the unique workout dates
+Displaying all of the unique workout dates
 ```
 SELECT 
 	DISTINCT workout_id, 
@@ -142,7 +142,7 @@ workout_id	     workout_date
 ```
 
 
--- Displaying all of the unique exercises
+Displaying all of the unique exercises
 ```
 SELECT 
 	DISTINCT exercise_id, 
@@ -169,7 +169,7 @@ exercise_id    exercise_name
 15		Preacher Curls
 ```
 
-##### Join the workout table and exercises table
+##### Joining the workout table and exercises table
 
 In the following query I joined the “workout” and “exercises” table. I did this so the dates could be next to the “exercises” table’s information. An inner join was used to join the two tables by workout ID. I also included a new column called est_one_rep_max which calculated the estimated one repetition max using the Eply formula.
 
@@ -208,7 +208,7 @@ workout_id 	workout_date  exercise_id  exercise_name      	weight_lbs  total_rep
 
 In the following three queries I used an inner join to join the “workout” and “exercises” tables on the exercise_id column so that I could view the maximum, minimum and average weight per exercise. For the average weight query, I rounded the average weight to two decimals for a neater presentation.
 
--- Maximum weight lifted for each exercise
+Maximum weight lifted for each exercise
 ```
 SELECT TOP 10
 	MAX(weight_lbs) AS max_weight,
@@ -233,7 +233,7 @@ max_weight	exercise_name
 ```
 
 
---Minimum weight lifted for each exercise
+Minimum weight lifted for each exercise
 ```
 SELECT TOP 10
 	MIN(weight_lbs) AS min_weight,
@@ -258,7 +258,7 @@ min_weight	exercise_name
 ```
 
 
--- Average weight lifted for each exercise
+Average weight lifted for each exercise
 ```
 SELECT TOP 10
        ROUND(AVG(weight_lbs), 2) AS avg_weight,
@@ -372,8 +372,7 @@ total_volume	workout_date
 
 In the next two queries, I calculated the average reps per workout date and the average reps per set per workout date respectively. I used an inner join to join  the “workout” and “exercises tables by the workout_id in both queries. I also rounded the average weight to two decimals in both queries for a neater presentation
 
--- Average number of total reps for each workout date
-
+Average number of total reps for each workout date
 ```
 SELECT TOP 10
 	ROUND(AVG(total_reps), 2) AS avg_total_reps,
@@ -399,8 +398,7 @@ avg_total_reps 	workout_date
 ```
 
 
--- Average number of reps per set for each workout date
-
+Average number of reps per set for each workout date
 ```
 SELECT TOP 10
 	ROUND(AVG(reps_per_set), 2) as avg_reps_per_set,
