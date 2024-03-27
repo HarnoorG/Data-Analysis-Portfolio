@@ -4,7 +4,7 @@ Quick Links:
 Finished Project | Tableau Dashboard | Github Repository
 
 ## Table of Contents:
-1.	Introduction
+1.	[Introduction](https://github.com/HarnoorG/SQL-Portfolio/tree/main/EXERCISE-PROJECT#introduction)
 2.	Process 
     - Microsoft Excel
     - SQL
