@@ -422,4 +422,19 @@ avg_reps_per_set	workout_date
 7.92			  2023-06-16
 8			  2023-06-19
 ```
+### Tableau
+
+1.	I started by converting the data that I worked with in Microsoft Excel into a .csv file and then I opened the .csv file in Tableau
+2.	Next, I created a calculated field in order to estimate the one rep max
+3.	Then I started to actually create the different sheets that comprise the dashboard by starting off with a summary statistics table that contains the minimum weight, maximum weight, and average weight that was lifted for each exercise
+4.	In the second sheet I used a Gantt chart to showcase every single workout done and which exercises were done in each exercise as well as how much weight was lifted for each exercise
+5.	In the next sheet I created a bar chart that displayed how many total sets were completed in each week in order to see how consistent my friend was. 
+	- I also made it so the bars distinguished how many sets were done on day ones of my friend's exercise plan compared to how many sets were done on day twos of the exercise plan
+	- The blue parts of the bar chart represent day one while the red parts represent day two
+6.	In the fourth sheet I created a simple line chart that would display how much total volume was lifted in each workout 
+7.	In the final sheet I created more line charts but this time each unique exercise got its own line chart and each chart displayed how the estimated one rep max progressed from workout to workout
+8.	After creating the 5 different sheets that my dashboard is composed of, I started trying many different layouts to see which layout made the dashboard look the best
+9.	I first started the dashboard off simply by having it just comprise of the charts and graphs in a white box
+10.	I then continued making adjustments to the dashboard’s design and spacing of the boxes until I ended up with a dashboard I was content with
+11.	After that, I cleaned up the data visualizations and made little tweaks to make sure everything was right, trying to make sure everything was consistent and there were no grammatical errors 
 
