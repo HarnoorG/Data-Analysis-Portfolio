@@ -10,7 +10,7 @@ In this project, I analyzed the exercise data of a friend for upper body exercis
       - Schema
       - Query
     - Tableau
-3.	
+3.	[Data Summary](https://github.com/HarnoorG/SQL-Portfolio/edit/main/EXERCISE-PROJECT/README.md#data-summary)
 
 ## Introduction
 A friend of mine was talking about how he was interested in getting some insights into his workouts. He wanted to be able to see visually how he’s been progressing in each lift. He was also interested in seeing how consistent he was in his workouts over the summer. When I heard of his interests, I realized I could use my data analysis skills to deliver what he wanted and offered my services to him. Although my friend only mentioned a couple of things he wanted to see I urged him to think bigger about what he wants to learn from the data. Below is the goal he came up with and the question that I am attempting to answer
@@ -422,6 +422,32 @@ avg_reps_per_set	workout_date
 7.92			  2023-06-16
 8			  2023-06-19
 ```
+
+##### Total and average amounts of volume lifted 
+
+```
+SELECT
+	SUM(volume_lbs) AS total_volume, 
+	ROUND(AVG(volume_lbs), 2) AS avg_volume
+FROM exercises
+
+
+total_volume	avg_volume
+237835		1213.44
+```
+##### Total and average amounts of repetitions done 
+
+```
+SELECT
+	SUM(total_reps) AS all_reps, 
+	ROUND(AVG(total_reps), 2) AS avg_reps
+FROM exercises
+
+
+all_reps	avg_reps
+4947		25.24
+```
+
 ### Tableau
 
 1.	I started by converting the data that I worked with in Microsoft Excel into a .csv file and then I opened the .csv file in Tableau
@@ -437,4 +463,30 @@ avg_reps_per_set	workout_date
 9.	I first started the dashboard off simply by having it just comprise of the charts and graphs in a white box
 10.	I then continued making adjustments to the dashboard’s design and spacing of the boxes until I ended up with a dashboard I was content with
 11.	After that, I cleaned up the data visualizations and made little tweaks to make sure everything was right, trying to make sure everything was consistent and there were no grammatical errors 
+
+## Data Summary
+
+- 33 workouts occurred between May 10th, 2023, and August 30th, 2023
+- The total volume lifted for all 33 workouts was 237,835 lbs while the average volume per exercise was 1213.44 LBS
+- The total number of repetitions completed throughout all of the workouts was 4947 reps while the average number of reps per exercise was 25.24
+- Minimum, Maximum, and Average weight per Exercise
+	- For Dumbbell Rows the minimum weight lifted was 60lbs, the maximum was 80lbs and the average was 70lbs
+  	- Dumbbell Bench Press had a minimum weight lifted of 60lbs, the maximum was 80lbs and the average weight was 69.41lbs
+  	- For Reverse Curls the minimum weight lifted was 25lbs while the maximum was 35lbs and the average was 28.08lbs
+  	- Skull Crushers had a minimum weight lifted of 20lbs, a maximum of 30lbs and an average of 22.35lbs
+  	- For Bicep Curls the minimum weight lifted was 30lbs, the maximum was 40lbs and the average was 35lbs
+  	- For Triceps Extension the minimum weight lifted was 25lbs, the maximum was 30lbs and the average was 28lbs
+  	- Military Press had a minimum weight lifted of 30lbs, a maximum of 50lbs and an average of 40lbs
+  	- Zottman Curls had a minimum weight lifted of 30lbs, a maximum of 35lbs and an average of 32.5lbs
+  	- For Incline Bench Press the minimum weight lifted was 50lbs while the maximum was 70lbs and the average was 59.38lbs
+  	- For Incline Dumbbell Rows the minimum weight lifted was 60lbs, the maximum was 70lbs and the average was 64.67lbs
+  	- Hammer Curls had a minimum weight lifted of 30lbs, a maximum of 35lbs and an average of 33lbs
+  	- For Close Grip Bench Press the minimum weight lifted was 50lbs, the maximum was 70lbs and the average was 57.5lbs
+  	- Seated Shrugs have a minimum weight lifted of 80lbs, a maximum of 90lbs and an average of 87.50lbs
+  	- For Lateral Raises the minimum, maximum, and average weight lifted are all 25 pounds. No other weight was lifted for this exercise.
+  	- For Preacher Curls the minimum weight lifted was 30lbs, the maximum was 35lbs and the average was 33.33lbs
+- Every single exercise saw progress in how much weight could be lifted over time except for Lateral Raises but this could be attributed to the fact that this exercise was only completed once.
+- The estimated one rep max for every exercise trended upward for every exercise (except Lateral Raises)
+- The total volume lifted per workout also continued to trend upward with each passing workout but towards the last few workouts it began to trend down a bit
+- The sets per week follow a similar trend as the volume as the number of sets completed per week trended upwards with each passing week but in the last few weeks it began to trend downwards
 
