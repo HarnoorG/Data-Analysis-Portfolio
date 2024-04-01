@@ -1,4 +1,4 @@
-In this project, I analyzed the exercise data of a friend for upper body exercises they did during the Summer of 2023. In this time period, they completed 33 different workouts, and 15 different exercises in these workouts, while also recording how many reps, sets, weight, and volume they completed for each exercise during each workout.
+In this project, I analyzed the exercise data of a friend for upper body exercises they did during the Summer of 2023. In this period, they completed 33 different workouts, and 15 different exercises in these workouts, while also recording how many reps, sets, and weight they completed for each exercise during each workout.
 
 - [Tableau Dashboard](https://public.tableau.com/app/profile/harnoor.gill/viz/WORKOUTDASHBOARD/Dashboard1?publish=yes)
 
