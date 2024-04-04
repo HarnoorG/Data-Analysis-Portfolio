@@ -11,6 +11,9 @@ In this project, I analyzed the exercise data of a friend for upper body exercis
       - Query
     - Tableau
 3.	[Data Summary](https://github.com/HarnoorG/SQL-Portfolio/edit/main/EXERCISE-PROJECT/README.md#data-summary)
+4.	[Insights](https://github.com/HarnoorG/SQL-Portfolio/tree/main/EXERCISE-PROJECT#insights)
+5.	[What I got to Practice](https://github.com/HarnoorG/SQL-Portfolio/tree/main/EXERCISE-PROJECT#what-i-got-to-practice)
+6.	[Conclusion](https://github.com/HarnoorG/SQL-Portfolio/tree/main/EXERCISE-PROJECT#conclusion)
 
 ## Introduction
 A friend of mine was talking about how he was interested in getting some insights into his workouts. He wanted to be able to see visually how he’s been progressing in each lift. He was also interested in seeing how consistent he was in his workouts over the summer. When I heard of his interests, I realized I could use my data analysis skills to deliver what he wanted and offered my services to him. Although my friend only mentioned a couple of things he wanted to see I urged him to think bigger about what he wants to learn from the data. Below is the goal he came up with and the question that I am attempting to answer
@@ -489,4 +492,25 @@ all_reps	avg_reps
 - The estimated one rep max for every exercise trended upward for every exercise (except Lateral Raises)
 - The total volume lifted per workout also continued to trend upward with each passing workout but towards the last few workouts it began to trend down a bit
 - The sets per week follow a similar trend as the volume as the number of sets completed per week trended upwards with each passing week but in the last few weeks it began to trend downwards
+
+
+## Insights
+- The sets per week and total volume per day visualizations showed that my friend started slowly in their first few weeks in the gym before increasing the volume and sets by a significant amount which was then followed by my friend slowing down again in their last few weeks of working out.
+- Throughout these few months the weight my friend was lifting for each exercise steadily increased but not as much as they had hoped. My friend also was doing a pretty high number of reps for most exercises. 
+  - This indicated to me that my friend was not pushing themself hard enough in the gym. They should’ve been trying to lift heavier weight than they were doing for less reps than they were doing
+- It was clear that for many of my friend's exercises, they plateaued. It might’ve been useful for them to purchase some fractional weight plates. This would let them increase the weight by smaller increments instead of having to increase the weight by 5 lbs if 5 lbs is too much. 
+
+
+## What I got to Practice
+- Working with aggregate functions in SQL
+- Using the ROUND function in SQL to limit the number of decimals that are returned
+- How to use INNER JOIN in SQL to join tables together
+- Creating calculated fields in Tableau which is how I create the estimated one rep max column
+- Showcasing data in table format in Tableau which I did for the minimum, maximum and average weight table for each exercise
+- Creating multiple varying charts in Tableau and placing them all in the same dashboard to try and tell a story
+
+
+## Conclusion
+
+In the end this was a project I thoroughly enjoyed completing. I feel like I really benefited from getting to use my SQL skills to help a friend dig into their workout data and learn things about themself and potential ways that they can improve their experience in the gym. I also got to use Tableau to communicate my findings to my friend visually in a simple and easy yet effective way. This project did take me a bit longer than I anticipated but I’m confident that with this experience I’ll be able to complete other projects in shorter periods.
 
