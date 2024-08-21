@@ -19,6 +19,7 @@ In this project, I analyzed the exercise data of a friend for upper body exercis
 A friend of mine was talking about how he was interested in getting some insights into his workouts. He wanted to be able to see visually how he’s been progressing in each lift. He was also interested in seeing how consistent he was in his workouts over the summer. When I heard of his interests, I realized I could use my data analysis skills to deliver what he wanted and offered my services to him. Although my friend only mentioned a couple of things he wanted to see I urged him to think bigger about what he wants to learn from the data. Below is the goal he came up with and the question that I am attempting to answer
 
 Goal: to Improve the amount of weight he can lift for each exercise
+
 Question: How can I use the metrics at my disposal 
 
 ## Process
