@@ -33,10 +33,96 @@ I did the SQL portion of this project using MS SQL Server
 
 #### Importing the data
 -	I open MS SQL Server and then created a database called “cw”.
--	Next, I right clicked on the “crime” database click on “Tasks” and then click on “Import Flat File” and imported the VPD crime data and the weather data into SQL. 
+-	Next, I right clicked on the “crime” database click on “Tasks” and then click on “Import Flat File” and imported the VPD crime data and the weather data into SQL. I gave the crime table the name "crimedata" and the weather table the name "vancouver_weather"
 
 
 #### Query
 Below I will show the code I used in each query and then I’ll also include the output or at least a few rows of the output. 
 
-##### Previewing the tables 
+##### Previewing the crime table
+The first query I ran was simply to get a preview of how the "crimedata" table looks. I selected all of the table information using * from the respective table and limited the queries to keep the code short
+
+```
+SELECT * FROM cw.dbo.crimedata
+
+
+TYPE	                            YEAR	MONTH	DAY	HOUR	MINUTE	NEIGHBOURHOOD
+Break and Enter Commercial        	2003	1	    1	0	    0	    Victoria-Fraserview
+Break and Enter Residential/Other	2003	1	    1	0	    0	    Fairview
+Mischief	                        2003	1	    1	0	    0	    Grandview-Woodland
+Offence Against a Person	        2003	1	    1	0	    0	    West End
+Offence Against a Person	        2003	1	    1	0	    0	    West End
+Offence Against a Person	        2003	1	    1	0	    0	    West End
+Offence Against a Person	        2003	1	    1	0	    0	    Central Business District
+Offence Against a Person	        2003	1	    1	0	    0	    West End
+Offence Against a Person	        2003	1	    1	0	    0	    Strathcona
+Offence Against a Person	        2003	1	    1	0	    0	    Strathcona
+```
+
+##### Total number of crimes
+In the query below I selected the count of all the observations in the crimedata table as each observation corresponds to a crime that occured.
+
+```
+SELECT 
+	COUNT(*) AS "Total Reported Crimes"
+FROM 
+	cw.dbo.crimedata
+
+
+
+Total Reported Crimes
+885209
+```
+
+##### Number of Homicides and Offences Against a Person reported
+
+
+```
+SELECT 
+	type 
+	, COUNT(*) AS number_of_crimes
+FROM 
+	cw.dbo.crimedata
+WHERE 
+	type IN ('Homicide', 'Offence Against a Person')
+GROUP BY 
+	type
+ORDER BY 
+	number_of_crimes DESC
+
+
+type	                    number_of_crimes
+Offence Against a Person	77630
+Homicide	                318
+```
+
+##### 3 most common crimes reported
+
+
+```
+WITH top_three_crimes AS (
+	SELECT 
+		type
+		, COUNT(*) AS number_of_crimes
+	FROM 
+		cw.dbo.crimedata
+	GROUP BY 
+		[type]
+)
+SELECT TOP 3
+	type
+	, number_of_crimes
+	, CAST(100 * CAST(number_of_crimes AS NUMERIC)/SUM(number_of_crimes) OVER () AS DECIMAL(4, 2)) AS total_percentage
+FROM
+	top_three_crimes
+ORDER BY 
+	number_of_crimes DESC
+
+
+type	            number_of_crimes	total_percentage
+Theft from Vehicle	244269	            27.59
+Other Theft        	221678	            25.04
+Mischief	        108257	            12.23
+```
+
+##### 5 neighbourhoods most affected by crime
