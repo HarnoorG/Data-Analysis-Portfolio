@@ -20,7 +20,7 @@ A friend of mine was talking about how he was interested in getting some insight
 
 Goal: to Improve the amount of weight he can lift for each exercise
 
-Question: How can I use the metrics at my disposal 
+Question: How can I use the metrics at my disposal to fulfill the goal
 
 ## Process
 A quick overview of the process I undertook during this project was that I took the workout data that was originally recorded in the Notes application on my friend’s iPhone and input it into Excel in order to clean the data. I then took this clean data into SQL so that I could analyze it before I finally created a Tableau dashboard using the data.
