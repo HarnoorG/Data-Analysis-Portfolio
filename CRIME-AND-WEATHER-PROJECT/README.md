@@ -127,7 +127,6 @@ FROM
 	cw.dbo.crimedata
 
 
-
 Total Reported Crimes
 885209
 ```
@@ -155,9 +154,9 @@ Homicide	                318
 ```
 
 ##### Three most common crimes reported
-Here I wanted to display the three most common crimes committed along with the percentage that each respective crime made up of total crime. I started by using the WITH function to create a common table expression (CTE) to produce a temporary table called "top_three_crimes" that would select the type of crime committed as well as the corresponding count. 
+Here I wanted to display the three most common crimes committed along with the percentage that each respective crime made up of total crime. I started by using the WITH function to create a common table expression (CTE) to produce a temporary result set called "top_three_crimes" that would select the type of crime committed as well as the corresponding count. 
 
-In another query, I then selected the top three types of crimes committed and the count from the "top_three_crimes" temp table. I also used the CAST and OVER functions to produce the percentage that each crime made up of total crime and also used CAST again and AS DECIMAL to round the percentages to two decimal places.
+In another query, I then selected the top three types of crimes committed and the count from "top_three_crimes". I also used the CAST and OVER functions to produce the percentage that each crime made up of total crime and also used CAST again and AS DECIMAL to round the percentages to two decimal places.
 
 ```
 WITH top_three_crimes AS (
@@ -359,4 +358,106 @@ year		violent_crimes
 2016		3203
 2014		3131
 2018		3109
+```
+
+##### 
+Below, we're going to return the corresponding day of the week, year, average precipitation, and average high temperature for each year's day that had the most crime occur when there was precipitation and each year's day with the most crime when there was no precipitation.
+
+The first query involves us creating a temporary table called "weekday_precip". This table contains only observations that occurred on days where precipitation was present. The table has a year column, uses the DATEFROMPARTS function to get the day of the week each observation occurred and then also contains the average precipitation, average high temperature, and a count of the number of crimes committed for each day of the week of each year. Lastly, we use DENSE_RANK, OVER, and PARTITION BY to rank each of the seven days of the week by most crimes committed to least. This one-to-seven ranking happens for each of the twenty-one years in the data.
+
+The next query is practically the same as the first query except this time the table only contains observations that occurred on days where no precipitation was present. This time everything is put into a temporary table called "weekday_no_precip". Both the "weekday_precip" and "weekday_no_prcip" tables contain 147 observations in total, as they contain 7 observations for each year and 21 years' worth of data.
+
+In the last query, we join the two tables using their year columns and then select all of the columns from both tables as well as create a new column that calculates the difference in the number of crimes that occur on days with precipitation versus days without precipitation. We only keep the day of the week where the most crime occurred in each year so our output only contains 22 rows. Each row corresponds to a year except 2018 having two rows as the sum of crimes committed on each day of the week is equal on Fridays and Saturdays on days with precipitation in 2018 with a value of 3912.
+
+
+```
+DROP TABLE IF EXISTS #weekday_precip;
+SELECT 
+	year
+	, DATENAME(dw, DATEFROMPARTS(year, month, day)) as day_of_week
+	, ROUND(AVG(precipitation), 2) AS avg_precipitation
+	, ROUND(AVG(max_temperature), 2) AS avg_high_temp
+	, COUNT(*) AS number_of_crimes
+	, DENSE_RANK() OVER(PARTITION BY year ORDER BY COUNT(*) DESC) AS rnk
+INTO 
+	#weekday_precip
+FROM 
+	cw.dbo.crimedata
+		JOIN cw.dbo.vancouver_weather
+			ON crimedata.crime_date = vancouver_weather.date
+WHERE 
+	precipitation > 0
+GROUP BY 
+	year
+	, DATENAME(dw, DATEFROMPARTS(year, month, day))
+ORDER BY 
+	number_of_crimes DESC;
+
+DROP TABLE IF EXISTS #weekday_no_precip;
+SELECT
+	year
+	, DATENAME(dw, DATEFROMPARTS(year, month, day)) as day_of_week
+	, ROUND(AVG(precipitation), 2) AS avg_precipitation
+	, ROUND(AVG(max_temperature), 2) AS avg_high_temp
+	, COUNT(*) AS number_of_crimes
+	, DENSE_RANK() OVER(PARTITION BY year ORDER BY COUNT(*) DESC) AS rnk
+INTO 
+	#weekday_no_precip
+FROM 
+	cw.dbo.crimedata
+		JOIN cw.dbo.vancouver_weather
+			ON crimedata.crime_date = vancouver_weather.date
+WHERE 
+	precipitation = 0
+GROUP BY 
+	year
+	, DATENAME(dw, DATEFROMPARTS(year, month, day))
+ORDER BY 
+	number_of_crimes DESC;
+
+SELECT
+		t1.year 
+		, t1.day_of_week
+		, t1.avg_precipitation 
+		, t1.avg_high_temp
+		, t1.number_of_crimes 
+		, t2.day_of_week
+		, t2.avg_high_temp
+		, t2.number_of_crimes 
+		, t2.number_of_crimes - t1.number_of_crimes AS crime_difference
+FROM
+	#weekday_precip AS t1
+		JOIN #weekday_no_precip AS t2
+			ON t1.year = t2.year
+WHERE
+	t1.rnk = 1
+	AND
+	t2.rnk = 1
+ORDER BY
+	t1.year
+
+
+year	day_of_week	avg_precipitation	avg_high_temp	number_of_crimes	day_of_week	avg_high_temp	number_of_crimes	crime_difference
+2003	Saturday	5.19			13.1		4487			Tuesday		16.91		5051			564
+2004	Saturday	11.42			12.48		4838			Sunday		18		4713			-125
+2005	Saturday	7.89			12.82		4187			Thursday	16.33		5231			1044
+2006	Thursday	6.02			11.79		3888			Monday		18.09		4055			167
+2007	Saturday	6.6			10.97		3749			Friday		16.4		3605			-144
+2008	Saturday	4.08			11.2		3456			Wednesday	15.14		3662			206
+2009	Thursday	5.58			11.16		2586			Friday		15.9		3865			1279
+2010	Saturday	5.73			12.6		3038			Wednesday	16.18		3186			148
+2011	Wednesday	5.92			12.29		2761			Saturday	14.62		3175			414
+2012	Friday		6.98			11.24		2839			Saturday	17.28		2995			156
+2013	Saturday	5.79			12.61		2691			Sunday		15.37		3276			585
+2014	Friday		6.37			15.22		3011			Monday		16.24		3610			599
+2015	Friday		7.55			12.86		2718			Wednesday	16.15		3784			1066
+2016	Saturday	8.99			12.73		3634			Friday		17.5		3632			-2
+2017	Friday		4.98			11.17		3477			Sunday		15.63		4092			615
+2018	Friday		7.98			11.34		3912			Monday		15.17		4310			398
+2018	Saturday	6.51			12.34		3912			Monday		15.17		4310			398
+2019	Friday		5.3			12.95		3696			Sunday		15.4		4683			987
+2020	Saturday	4.62			12.36		3065			Sunday		15.57		3019			-46
+2021	Saturday	9.04			11.21		2352			Wednesday	16.14		2772			420
+2022	Wednesday	3.59			12.91		2273			Saturday	16.03		3412			1139
+2023	Wednesday	4.25			11.13		2204			Friday		18.08		3469			1265
 ```
