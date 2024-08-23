@@ -360,7 +360,7 @@ year		violent_crimes
 2018		3109
 ```
 
-##### 
+##### Crime on days of the week with precipitation versus days without precipitation
 Below, we're going to return the corresponding day of the week, year, average precipitation, and average high temperature for each year's day that had the most crime occur when there was precipitation and each year's day with the most crime when there was no precipitation.
 
 The first query involves us creating a temporary table called "weekday_precip". This table contains only observations that occurred on days where precipitation was present. The table has a year column, uses the DATEFROMPARTS function to get the day of the week each observation occurred and then also contains the average precipitation, average high temperature, and a count of the number of crimes committed for each day of the week of each year. Lastly, we use DENSE_RANK, OVER, and PARTITION BY to rank each of the seven days of the week by most crimes committed to least. This one-to-seven ranking happens for each of the twenty-one years in the data.
