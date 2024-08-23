@@ -320,3 +320,43 @@ December	6177			6.9
 April		6027			13
 February	5678			7.8
 ```
+
+##### Years with the most violent crimes committed
+This query is similar to the one above except this time we're looking at years instead of months and we're not looking at any weather data anymore.
+
+```
+SELECT 
+	year
+	, COUNT(*) AS violent_crimes
+FROM 
+	cw.dbo.crimedata
+WHERE 
+	type IN ('Homicide', 'Offence Against a Person')
+GROUP BY 
+	year
+ORDER BY 
+	violent_crimes DESC
+
+year		violent_crimes
+2007		4422
+2006		4350
+2008		4226
+2023		4032
+2022		3942
+2009		3896
+2011		3891
+2004		3821
+2021		3798
+2005		3776
+2020		3765
+2012		3753
+2010		3750
+2013		3637
+2003		3520
+2019		3497
+2015		3223
+2017		3206
+2016		3203
+2014		3131
+2018		3109
+```
