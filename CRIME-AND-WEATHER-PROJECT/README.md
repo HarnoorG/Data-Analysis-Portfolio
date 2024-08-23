@@ -118,7 +118,7 @@ As we can see there are observations in this data that contain no specification 
 
 
 ##### Total number of crimes
-In the query below I used the COUNT function to select the count of all the observations in the "crimedata" table as each observation corresponds to a crime that occurred.
+In the query below I used the COUNT statement to select the count of all the observations in the "crimedata" table as each observation corresponds to a crime that occurred.
 
 ```
 SELECT 
@@ -154,9 +154,9 @@ Homicide	                318
 ```
 
 ##### Three most common crimes reported
-Here I wanted to display the three most common crimes committed along with the percentage that each respective crime made up of total crime. I started by using the WITH function to create a common table expression (CTE) to produce a temporary result set called "top_three_crimes" that would select the type of crime committed as well as the corresponding count. 
+Here I wanted to display the three most common crimes committed along with the percentage that each respective crime made up of total crime. I started by using the WITH statement to create a common table expression (CTE) to produce a temporary result set called "top_three_crimes" that would select the type of crime committed as well as the corresponding count. 
 
-In another query, I then selected the top three types of crimes committed and the count from "top_three_crimes". I also used the CAST and OVER functions to produce the percentage that each crime made up of total crime and also used CAST again and AS DECIMAL to round the percentages to two decimal places.
+In another query, I then selected the top three types of crimes committed and the count from "top_three_crimes". I also used the CAST and OVER statements to produce the percentage that each crime made up of total crime and also used CAST again and AS DECIMAL to round the percentages to two decimal places.
 
 ```
 WITH top_three_crimes AS (
@@ -185,7 +185,7 @@ Mischief	        108257	            12.23
 ```
 
 ##### Five neighbourhoods most affected by crime
-For this query, I grouped the data by neighbourhood and then selected the count of crime and used the TOP and ORDER BY functions to ensure the output only displayed the top five neighbourhoods when it comes to crime prevalence. I specified using the WHERE function to only include observations where the neighbourhood is included as earlier we found that is not always the case. 
+For this query, I grouped the data by neighbourhood and then selected the count of crime and used the TOP and ORDER BY statements to ensure the output only displayed the top five neighbourhoods when it comes to crime prevalence. I specified using the WHERE statement to only include observations where the neighbourhood is included as earlier we found that is not always the case. 
 
 ```
 SELECT TOP 5 
@@ -235,7 +235,7 @@ Arbutus Ridge	9433
 ```
 
 ##### Inserting a date column into the "crimedata" table
-In some of the queries later on, I want to use a dedicated date column which this table does not have. So, I used the ALTER TABLE and ADD functions to add a column with the type date that is called "CRIME_DATE". I then used the UPDATE, SET, and DATEFROMPARTS functions to set each observation to make a date using the corresponding values in the year, month, and day columns.
+In some of the queries later on, I want to use a dedicated date column which this table does not have. So, I used the ALTER TABLE and ADD statements to add a column with the type date that is called "CRIME_DATE". I then used the UPDATE, SET, and DATEFROMPARTS statements to set each observation to make a date using the corresponding values in the year, month, and day columns.
 
 ```
 ALTER TABLE cw.dbo.crimedata
@@ -253,7 +253,7 @@ Now we're going to start working with the weather data as well
 ```
 
 ##### Months with the most crimes reported
-Below we're going to order all of the months from most crimes reported to least reported and report the corresponding average temperature high for each month. We joined the "crimedata" and "vancouver_weather" tables using their corresponding date columns. The DATENAME function was used so the months would appear in word form instead of numerical form in the output.
+Below we're going to order all of the months from most crimes reported to least reported and report the corresponding average temperature high for each month. We joined the "crimedata" and "vancouver_weather" tables using their corresponding date columns. The DATENAME statement was used so the months would appear in word form instead of numerical form in the output.
 
 ```
 SELECT 
@@ -363,11 +363,11 @@ year		violent_crimes
 ##### Crime on days of the week with precipitation versus days without precipitation
 Below, we're going to return the corresponding day of the week, year, average precipitation, and average high temperature for each year's day that had the most crime occur when there was precipitation and each year's day with the most crime when there was no precipitation.
 
-The first query involves us creating a temporary table called "weekday_precip". This table contains only observations that occurred on days where precipitation was present. The table has a year column, uses the DATEFROMPARTS function to get the day of the week each observation occurred and then also contains the average precipitation, average high temperature, and a count of the number of crimes committed for each day of the week of each year. Lastly, we use DENSE_RANK, OVER, and PARTITION BY to rank each of the seven days of the week by most crimes committed to least. This one-to-seven ranking happens for each of the twenty-one years in the data.
+The first query involves us creating a temporary table called "weekday_precip". This table contains only observations that occurred on days where precipitation was present. The table has a year column, uses the DATEFROMPARTS statement to get the day of the week each observation occurred and then also contains the average precipitation, average high temperature, and a count of the number of crimes committed for each day of the week of each year. Lastly, we use DENSE_RANK, OVER, and PARTITION BY to rank each of the seven days of the week by most crimes committed to least. This one-to-seven ranking happens for each of the twenty-one years in the data.
 
 The next query is practically the same as the first query except this time the table only contains observations that occurred on days where no precipitation was present. This time everything is put into a temporary table called "weekday_no_precip". Both the "weekday_precip" and "weekday_no_prcip" tables contain 147 observations in total, as they contain 7 observations for each year and 21 years' worth of data.
 
-In the last query, we join the two tables using their year columns and then select all of the columns from both tables as well as create a new column that calculates the difference in the number of crimes that occur on days with precipitation versus days without precipitation. We only keep the day of the week where the most crime occurred in each year so our output only contains 22 rows. Each row corresponds to a year except 2018 having two rows as the sum of crimes committed on each day of the week is equal on Fridays and Saturdays on days with precipitation in 2018 with a value of 3912.
+In the last query, we join the two tables using their year columns and then select all of the columns from both tables as well as create a new column that calculates the difference in the number of crimes that occur on days with precipitation versus days without precipitation. We only keep the day of the week when the most crime happened in each year so our output only contains 22 rows. Each row corresponds to a year except 2018 having two rows as the sum of offences committed on each day of the week is equal on Fridays and Saturdays on days with precipitation in 2018 with a value of 3912.
 
 
 ```
@@ -460,4 +460,122 @@ year	day_of_week	avg_precipitation	avg_high_temp	number_of_crimes	day_of_week	av
 2021	Saturday	9.04			11.21		2352			Wednesday	16.14		2772			420
 2022	Wednesday	3.59			12.91		2273			Saturday	16.03		3412			1139
 2023	Wednesday	4.25			11.13		2204			Friday		18.08		3469			1265
+```
+
+##### Day with most crime when there is no precipitation versus when there is greater that 10mm of precipitation
+Here we will be listing the day with the most crimes when there is zero precipitation and the day when precipitation is greater than 10mm. We will include the day of the week, high temperature, amount and precipitation and the total number of crimes from that day.
+
+In the first part, we create a common table expression called "no_precip" which for the day with the most crimes committed when there is zero precipitation, it selects the date, day of the week, max temperature and precipitation as well as the number of crimes committed on that day. 
+
+Another common table expression called "yes_precip" is created in the next part. It selects the same things as the CTE above except this time it only looks at observations where the precipitation on the day was greater than 10 millimetres.
+
+Lastly, we select all of the columns from both CTEs and display them together by using the UNION statement to link their outputs. 
+
+```
+WITH no_precip AS (
+	SELECT TOP 1
+		crime_date
+		, DATENAME(dw, DATEFROMPARTS(year, month, day)) as day_of_week
+		, max_temperature
+		, precipitation
+		, COUNT(*) AS number_of_crimes
+	FROM
+		cw.dbo.crimedata
+			JOIN cw.dbo.vancouver_weather
+				ON crimedata.crime_date = vancouver_weather.date
+	WHERE 
+		precipitation = 0
+	GROUP BY
+		DATENAME(dw, DATEFROMPARTS(year, month, day))
+		, precipitation
+		, max_temperature
+		, crime_date
+	ORDER BY
+		number_of_crimes DESC
+), 
+yes_precip AS (
+	SELECT TOP 1
+		crime_date
+		, DATENAME(dw, DATEFROMPARTS(year, month, day)) as day_of_week
+		, max_temperature
+		, precipitation
+		, COUNT(*) AS number_of_crimes
+	FROM
+		cw.dbo.crimedata
+			JOIN cw.dbo.vancouver_weather
+				ON crimedata.crime_date = vancouver_weather.date
+	WHERE 
+		precipitation > 10
+	GROUP BY
+		DATENAME(dw, DATEFROMPARTS(year, month, day))
+		, precipitation
+		, max_temperature
+		, crime_date
+	ORDER BY
+		number_of_crimes DESC
+)
+
+SELECT * 
+FROM
+	no_precip
+
+UNION
+
+SELECT * 
+FROM
+	yes_precip
+ORDER BY 
+	number_of_crimes DESC
+
+
+crime_date	day_of_week	max_temperature		precipitation		number_of_crimes
+2008-03-12	Wednesday	9.5			0			228
+2003-01-01	Wednesday	6.80000019073486	21.6000003814697	223
+```
+
+##### 
+
+```
+DROP TABLE IF EXISTS #violent_dates 
+SELECT
+	DISTINCT crime_date
+INTO 
+	#violent_dates
+FROM 
+	cw.dbo.crimedata
+WHERE 
+	type IN ('Homicide', 'Offence Against a Person')
+	;
+
+WITH rn_diff AS (
+	SELECT
+		crime_date
+		, DATEDIFF(day, ROW_NUMBER() OVER(ORDER BY crime_date), crime_date) AS diff
+	FROM 
+		#violent_dates
+),
+
+get_diff_count AS (
+	SELECT
+		crime_date
+		, COUNT(*) OVER(PARTITION BY diff) AS diff_count
+	FROM 
+		rn_diff
+	GROUP BY 
+		crime_date
+		, diff
+)
+
+SELECT	
+	MAX(diff_count) AS most_consecutive_days
+	, CONCAT(
+		MIN(crime_date), ' to ', MAX(crime_date)) AS consecutive_days_timeframe
+FROM 
+	get_diff_count
+WHERE
+	diff_count = (SELECT MAX(diff_count) FROM get_diff_count);
+
+
+most_consecutive_days		consecutive_days_timeframe
+4774				2005-07-05 to 2018-07-30
 ```
