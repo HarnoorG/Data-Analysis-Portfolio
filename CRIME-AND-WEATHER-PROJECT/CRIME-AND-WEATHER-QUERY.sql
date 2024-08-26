@@ -2,6 +2,14 @@
 
 SELECT * FROM cw.dbo.crimedata
 
+-- List the unique types of crimes in Vancouver
+
+SELECT DISTINCT type FROM cw.dbo.crimedata
+
+-- List the unique neighbourhoods in Vancouver
+
+SELECT DISTINCT neighbourhood FROM cw.dbo.crimedata
+
 -- Listing the total number of reported crimes between 2003 and 2023
 
 SELECT 
@@ -50,6 +58,8 @@ SELECT TOP 5
 	, COUNT(*) AS number_of_crimes
 FROM 
 	cw.dbo.crimedata
+WHERE
+	neighbourhood IS NOT NULL
 GROUP BY 
 	neighbourhood
 ORDER by
@@ -95,8 +105,8 @@ GROUP BY
 	DATENAME(m, crime_date)
 ORDER BY 
 	number_of_crimes DESC
-
--- Which months had the most homicides committed and what was the average temperature high
+	
+-- Which months had the most homicides and offences against a person committed and what was the average temperature high
 
 SELECT
 	DATENAME(m, crime_date) AS Month
@@ -107,7 +117,7 @@ FROM
 		JOIN cw.dbo.vancouver_weather
 			ON crimedata.crime_date = vancouver_weather.date
 WHERE 
-	type = 'Homicide'
+	type IN ('Homicide', 'Offence Against a Person')
 GROUP BY 
 	DATENAME(m, crime_date)
 ORDER BY 
@@ -132,7 +142,7 @@ ORDER BY
 DROP TABLE IF EXISTS #weekday_precip;
 SELECT 
 	year
-	, DATENAME(dw, datefromparts(year, month, day)) as day_of_week
+	, DATENAME(dw, DATEFROMPARTS(year, month, day)) as day_of_week
 	, ROUND(AVG(precipitation), 2) AS avg_precipitation
 	, ROUND(AVG(max_temperature), 2) AS avg_high_temp
 	, COUNT(*) AS number_of_crimes
@@ -147,14 +157,14 @@ WHERE
 	precipitation > 0
 GROUP BY 
 	year
-	, DATENAME(dw, datefromparts(year, month, day))
+	, DATENAME(dw, DATEFROMPARTS(year, month, day))
 ORDER BY 
 	number_of_crimes DESC;
 
 DROP TABLE IF EXISTS #weekday_no_precip;
 SELECT
 	year
-	, DATENAME(dw, datefromparts(year, month, day)) as day_of_week
+	, DATENAME(dw, DATEFROMPARTS(year, month, day)) as day_of_week
 	, ROUND(AVG(precipitation), 2) AS avg_precipitation
 	, ROUND(AVG(max_temperature), 2) AS avg_high_temp
 	, COUNT(*) AS number_of_crimes
@@ -169,7 +179,7 @@ WHERE
 	precipitation = 0
 GROUP BY 
 	year
-	, DATENAME(dw, datefromparts(year, month, day))
+	, DATENAME(dw, DATEFROMPARTS(year, month, day))
 ORDER BY 
 	number_of_crimes DESC;
 
@@ -199,7 +209,7 @@ ORDER BY
 WITH no_precip AS (
 	SELECT TOP 1
 		crime_date
-		, DATENAME(dw, datefromparts(year, month, day)) as day_of_week
+		, DATENAME(dw, DATEFROMPARTS(year, month, day)) as day_of_week
 		, max_temperature
 		, precipitation
 		, COUNT(*) AS number_of_crimes
@@ -210,15 +220,17 @@ WITH no_precip AS (
 	WHERE 
 		precipitation = 0
 	GROUP BY
-		DATENAME(dw, datefromparts(year, month, day))
+		DATENAME(dw, DATEFROMPARTS(year, month, day))
 		, precipitation
 		, max_temperature
 		, crime_date
+	ORDER BY
+		number_of_crimes DESC
 ), 
 yes_precip AS (
 	SELECT TOP 1
 		crime_date
-		, DATENAME(dw, datefromparts(year, month, day)) as day_of_week
+		, DATENAME(dw, DATEFROMPARTS(year, month, day)) as day_of_week
 		, max_temperature
 		, precipitation
 		, COUNT(*) AS number_of_crimes
@@ -229,10 +241,12 @@ yes_precip AS (
 	WHERE 
 		precipitation > 10
 	GROUP BY
-		DATENAME(dw, datefromparts(year, month, day))
+		DATENAME(dw, DATEFROMPARTS(year, month, day))
 		, precipitation
 		, max_temperature
 		, crime_date
+	ORDER BY
+		number_of_crimes DESC
 )
 
 SELECT * 
@@ -241,52 +255,53 @@ FROM
 
 UNION
 
-SELECT *
+SELECT * 
 FROM
 	yes_precip
 ORDER BY 
 	number_of_crimes DESC
 
--- Listing the most consecutive days where a commercial break and enter occured between 2003-2023 and the timeframe.
+-- Listing the most consecutive days where a homicide or offence against a person occurred between 2003-2023 and the timeframe.
 
-DROP TABLE IF EXISTS #cbe_dates 
+DROP TABLE IF EXISTS #violent_dates 
 SELECT
-	DISTINCT crime_date AS cbe_dates
+	DISTINCT crime_date
 INTO 
-	#cbe_dates
+	#violent_dates
 FROM 
 	cw.dbo.crimedata
 WHERE 
-	type = 'Break and Enter Commercial'
+	type IN ('Homicide', 'Offence Against a Person')
 	;
 
 WITH rn_diff AS (
 	SELECT
-		cbe_dates
-		, DATEDIFF(day, ROW_NUMBER() OVER(ORDER BY cbe_dates), cbe_dates) AS diff
+		crime_date
+		, DATEDIFF(day, ROW_NUMBER() OVER(ORDER BY crime_date), crime_date) AS diff
 	FROM 
-		#cbe_dates
+		#violent_dates
 ),
 
 get_diff_count AS (
 	SELECT
-		cbe_dates
+		crime_date
 		, COUNT(*) OVER(PARTITION BY diff) AS diff_count
 	FROM 
 		rn_diff
 	GROUP BY 
-		cbe_dates
+		crime_date
 		, diff
 )
 
 SELECT	
 	MAX(diff_count) AS most_consecutive_days
 	, CONCAT(
-		MIN(cbe_dates), ' to ', MAX(cbe_dates)) AS consecutive_days_timeframe
+		MIN(crime_date), ' to ', MAX(crime_date)) AS consecutive_days_timeframe
 FROM 
 	get_diff_count
 WHERE
 	diff_count = (SELECT MAX(diff_count) FROM get_diff_count);
+
 
 -- Calculating the year over year growth in the number of reported crimes.
 
@@ -359,7 +374,7 @@ WITH buckets AS (
 	SELECT
 		*
 		, CAST((number_of_crimes - LAG(number_of_crimes) OVER (ORDER BY year)) / CAST(LAG(number_of_crimes) OVER (ORDER BY year) AS NUMERIC) AS DECIMAL(4, 2)) AS total_crime_growth
-		, ntile(21) OVER (ORDER BY year) AS nt
+		, NTILE(21) OVER (ORDER BY year) AS nt
 	FROM 
 		#yearly_seasonal
 )
@@ -370,12 +385,13 @@ SELECT
 			WHEN season = '2' THEN 'Spring'
 			WHEN season = '3' THEN 'Summer'
 			WHEN season = '4' THEN 'Autumn'
-	END
+	END AS season
 	, avg_temp
 	, total_crime_growth
 	, CASE
 			WHEN total_crime_growth < 0 THEN 'Loss'
+			WHEN total_crime_growth IS NULL THEN NULL
 			ELSE 'Gain'
 	END AS seasonal_growth
 FROM 
-	buckets
+	buckets;
