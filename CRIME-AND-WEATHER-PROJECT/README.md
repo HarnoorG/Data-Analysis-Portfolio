@@ -118,7 +118,7 @@ As we can see there are observations in this data that contain no specification 
 
 
 ##### Total number of crimes
-In the query below I used the COUNT statement to select the count of all the observations in the "crimedata" table as each observation corresponds to a crime that occurred.
+In the query below I used the COUNT function to select the count of all the observations in the "crimedata" table as each observation corresponds to a crime that occurred.
 
 ```
 SELECT 
@@ -154,9 +154,9 @@ Homicide	                318
 ```
 
 ##### Three most common crimes reported
-Here I wanted to display the three most common crimes committed along with the percentage that each respective crime made up of total crime. I started by using the WITH statement to create a common table expression (CTE) to produce a temporary result set called "top_three_crimes" that would select the type of crime committed as well as the corresponding count. 
+Here I wanted to display the three most common crimes committed along with the percentage that each respective crime made up of total crime. I started by using the WITH clause to create a common table expression (CTE) to produce a temporary result set called "top_three_crimes" that would select the type of crime committed as well as the corresponding count. 
 
-In another query, I then selected the top three types of crimes committed and the count from "top_three_crimes". I also used the CAST and OVER statements to produce the percentage that each crime made up of total crime and also used CAST again and AS DECIMAL to round the percentages to two decimal places.
+In another query, I then selected the top three types of crimes committed and the count from "top_three_crimes". I also used the CAST and OVER functions to produce the percentage that each crime made up of total crime and also used CAST again and AS DECIMAL to round the percentages to two decimal places.
 
 ```
 WITH top_three_crimes AS (
@@ -185,7 +185,7 @@ Mischief	        108257	            12.23
 ```
 
 ##### Five neighbourhoods most affected by crime
-For this query, I grouped the data by neighbourhood and then selected the count of crime and used the TOP and ORDER BY statements to ensure the output only displayed the top five neighbourhoods when it comes to crime prevalence. I specified using the WHERE statement to only include observations where the neighbourhood is included as earlier we found that is not always the case. 
+For this query, I grouped the data by neighbourhood and then selected the count of crime and used TOP and ORDER BY to ensure the output only displayed the top five neighbourhoods when it comes to crime prevalence. I specified using the WHERE clause to only include observations where the neighbourhood is included as earlier we found that is not always the case. 
 
 ```
 SELECT TOP 5 
@@ -235,7 +235,7 @@ Arbutus Ridge	9433
 ```
 
 ##### Inserting a date column into the "crimedata" table
-In some of the queries later on, I want to use a dedicated date column which this table does not have. So, I used the ALTER TABLE and ADD statements to add a column with the type date that is called "CRIME_DATE". I then used the UPDATE, SET, and DATEFROMPARTS statements to set each observation to make a date using the corresponding values in the year, month, and day columns.
+In some of the queries later on, I want to use a dedicated date column which this table does not have. So, I used the ALTER TABLE statement and ADD to add a column with the type date that is called "CRIME_DATE". I then used the UPDATE statement with SET and the DATEFROMPARTS function to set each observation to make a date using the corresponding values in the year, month, and day columns.
 
 ```
 ALTER TABLE cw.dbo.crimedata
@@ -253,7 +253,7 @@ Now we're going to start working with the weather data as well
 ```
 
 ##### Months with the most crimes reported
-Below we're going to order all of the months from most crimes reported to least reported and report the corresponding average temperature high for each month. We joined the "crimedata" and "vancouver_weather" tables using their corresponding date columns. The DATENAME statement was used so the months would appear in word form instead of numerical form in the output.
+Below we're going to order all of the months from most crimes reported to least reported and report the corresponding average temperature high for each month. We joined the "crimedata" and "vancouver_weather" tables using their corresponding date columns. The DATENAME function was used so the months would appear in word form instead of numerical form in the output.
 
 ```
 SELECT 
@@ -363,7 +363,7 @@ year		violent_crimes
 ##### Crime on days of the week with precipitation versus days without precipitation
 Below, we're going to return the corresponding day of the week, year, average precipitation, and average high temperature for each year's day that had the most crime occur when there was precipitation and each year's day with the most crime when there was no precipitation.
 
-The first query involves us creating a temporary table called "weekday_precip". This table contains only observations that occurred on days where precipitation was present. The table has a year column, uses the DATEFROMPARTS statement to get the day of the week each observation occurred and then also contains the average precipitation, average high temperature, and a count of the number of crimes committed for each day of the week of each year. Lastly, we use DENSE_RANK, OVER, and PARTITION BY to rank each of the seven days of the week by most crimes committed to least. This one-to-seven ranking happens for each of the twenty-one years in the data.
+The first query involves us creating a temporary table called "weekday_precip". This table contains only observations that occurred on days where precipitation was present. The table has a year column, uses the DATEFROMPARTS function to get the day of the week each observation occurred and then also contains the average precipitation, average high temperature, and a count of the number of crimes committed for each day of the week of each year. Lastly, we use DENSE_RANK, OVER, and PARTITION BY to rank each of the seven days of the week by most crimes committed to least. This one-to-seven ranking happens for each of the twenty-one years in the data.
 
 The next query is practically the same as the first query except this time the table only contains observations that occurred on days where no precipitation was present. This time everything is put into a temporary table called "weekday_no_precip". Both the "weekday_precip" and "weekday_no_prcip" tables contain 147 observations in total, as they contain 7 observations for each year and 21 years' worth of data.
 
@@ -469,7 +469,7 @@ In the first part, we create a common table expression called "no_precip" which 
 
 Another common table expression called "yes_precip" is created in the next part. It selects the same things as the CTE above except this time it only looks at observations where the precipitation on the day was greater than 10 millimetres.
 
-Lastly, we select all of the columns from both CTEs and display them together by using the UNION statement to link their outputs. 
+Lastly, we select all of the columns from both CTEs and display them together by using the UNION operator to link their outputs. 
 
 ```
 WITH no_precip AS (
@@ -536,11 +536,11 @@ crime_date	day_of_week	max_temperature		precipitation		number_of_crimes
 ##### The most consecutive days a violent crime occurred
 Below we'll list the most consecutive days where a homicide or offence against a person occurred between 2003-2023 and the timeframe of those successive days. We start with a query that creates a temporary table called "violent_dates" that selects all of the distinct dates that a violent crime occurred from the "crimedata" table.
 
-Next, we create a common table expression, "rn_diff" containing the dates from the temporary table above. It also uses the DATEDIFF, ROW_NUMBER, and OVER statements to create a difference column called diff that helps distinguish when one streak of violent crimes and a new one starts.
+Next, we create a common table expression, "rn_diff" containing the dates from the temporary table above. It also uses the DATEDIFF, ROW_NUMBER, and OVER functions to create a difference column called diff that helps distinguish when one streak of violent crimes and a new one starts.
 
-After that, we create another CTE, "get_diff_count" that selects the date column from the "rn_diff" CTE and also uses the COUNT statement to create a column aliased as diff_count. For each streak of consecutive days where a violent crime occurs, it returns the length of the streak for each corresponding date that was a part of that streak.
+After that, we create another CTE, "get_diff_count" that selects the date column from the "rn_diff" CTE and also uses the COUNT function to create a column aliased as diff_count. For each streak of consecutive days where a violent crime occurs, it returns the length of the streak for each corresponding date that was a part of that streak.
 
-Finally, we use a subquery in the WHERE statement to alter the diff_count column we created in the previous CTE to only include values from the longest streak of days where violent crimes occurred. We then use the MAX statement to return this longest streak of consecutive days where a violent crime occurred. Lastly, we use the CONCAT, MIN and MAX statements so that we have the first date of the violent crime streak returned in the output and then the word "to" followed by the final date of the streak.
+Finally, we use a subquery in the WHERE clause to alter the diff_count column we created in the previous CTE to only include values from the longest streak of days where violent crimes occurred. We then use the MAX function to return this longest streak of consecutive days where a violent crime occurred. Lastly, we use the CONCAT, MIN and MAX functions so that we have the first date of the violent crime streak returned in the output and then the word "to" followed by the final date of the streak.
 
 ```
 DROP TABLE IF EXISTS #violent_dates 
@@ -640,13 +640,13 @@ year		number_of_crimes	previous_year_count	year_over_year
 ##### Crimes per season of each year
 For our last query, we'll list the number of crimes reported and seasonal growth for each meteorological season and the average temperature for each season. For the seasonal growth column it'll display whether there was a gain or loss compared to the previous season.
 
-We start by creating a temporary table called "yearly_seasonal" that has a common table expression called "season_count" inside of it. for the "season_count" CTE we select the year and then we use the CASE and WHEN statements to create 3 different columns. For the first one, we use CASE and WHEN to assign months to their correct season, for example, December, January, and February get assigned the value 1 to indicate they're in winter. Our second use of CASE and WHEN involves us getting the count of the number of crimes for each season. The last use of CASE and WHEN involves getting the average maximum temperature reached in a day for each of the seasons.
+We start by creating a temporary table called "yearly_seasonal" that has a common table expression called "season_count" inside of it. for the "season_count" CTE we select the year and then we use the CASE and WHEN expressions to create 3 different columns. For the first one, we use CASE and WHEN to assign months to their correct season, for example, December, January, and February get assigned the value 1 to indicate they're in winter. Our second use of CASE and WHEN involves us getting the count of the number of crimes for each season. The last use of CASE and WHEN involves getting the average maximum temperature reached in a day for each of the seasons.
 
 In the SELECT statement that follows our CTE we assign the year column and then the season, average temperature and number of crimes columns we just created into the "yearly_seasonal" temp table. We group the data by year and season so we get values that represent each season of each year.
 
-Next, we create another CTE called "buckets". Here we select all of the columns from "yearly_seasonal" and then we use the CAST, LAG, and OVER statements to create a column that displays how crime has changed from the previous season in percentage form. We also use the NTILE statement to have each of the 21 years be assigned a number in chronological order, so 2003 would be assigned 1, 2004 would be assigned 2, etc.
+Next, we create another CTE called "buckets". Here we select all of the columns from "yearly_seasonal" and then we use the CAST, LAG, and OVER functions to create a column that displays how crime has changed from the previous season in percentage form. We also use the NTILE function to have each of the 21 years be assigned a number in chronological order, so 2003 would be assigned 1, 2004 would be assigned 2, etc.
 
-Lastly, in the corresponding SELECT statement, we select the year, average temperature and total crime growth to be displayed in our output. We also use the CASE and WHEN statements to change the seasons from numerical form to being represented by the actual word for the season. We also use CASE, WHEN, and ELSE to create the seasonal growth column that shows gain when the change in crime from the previous season is positive and loss when the change is negative. If we wanted to filter by a specific year we could add a WHERE statement at the very end where we set nt = to any number between 1 to 21 for the specific year out of our 21 years that we want to filter for but we did not filter for any year here.
+Lastly, in the corresponding SELECT statement, we select the year, average temperature and total crime growth to be displayed in our output. We also use the CASE and WHEN expressions to change the seasons from numerical form to being represented by the actual word for the season. We also use CASE, WHEN, and ELSE to create the seasonal growth column that shows gain when the change in crime from the previous season is positive and loss when the change is negative. If we wanted to filter by a specific year we could add a WHERE clause at the very end where we set nt = to any number between 1 to 21 for the specific year out of our 21 years that we want to filter for but we did not filter for any year here.
 
 ```
 DROP TABLE IF EXISTS #yearly_seasonal;
