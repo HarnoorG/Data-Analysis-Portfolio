@@ -462,7 +462,7 @@ year	day_of_week	avg_precipitation	avg_high_temp	number_of_crimes	day_of_week	av
 2023	Wednesday	4.25			11.13		2204			Friday		18.08		3469			1265
 ```
 
-##### Day with most crime when there is no precipitation versus when there is greater that 10mm of precipitation
+##### Day with most crime when there is no precipitation versus when there is greater than 10mm of precipitation
 Here we will be listing the day with the most crimes when there is zero precipitation and the day when precipitation is greater than 10mm. We will include the day of the week, high temperature, amount and precipitation and the total number of crimes from that day.
 
 In the first part, we create a common table expression called "no_precip" which for the day with the most crimes committed when there is zero precipitation, it selects the date, day of the week, max temperature and precipitation as well as the number of crimes committed on that day. 
@@ -533,7 +533,14 @@ crime_date	day_of_week	max_temperature		precipitation		number_of_crimes
 2003-01-01	Wednesday	6.80000019073486	21.6000003814697	223
 ```
 
-##### 
+##### The most consecutive days a violent crime occurred
+Below we'll list the most consecutive days where a homicide or offence against a person occurred between 2003-2023 and the timeframe of those successive days. We start with a query that creates a temporary table called "violent_dates" that selects all of the distinct dates that a violent crime occurred from the "crimedata" table.
+
+Next, we create a common table expression, "rn_diff" containing the dates from the temporary table above. It also uses the DATEDIFF, ROW_NUMBER, and OVER statements to create a difference column called diff that helps distinguish when one streak of violent crimes and a new one starts.
+
+After that, we create another CTE, "get_diff_count" that selects the date column from the "rn_diff" CTE and also uses the COUNT statement to create a column aliased as diff_count. For each streak of consecutive days where a violent crime occurs, it returns the length of the streak for each corresponding date that was a part of that streak.
+
+Finally, we use a subquery in the WHERE statement to alter the diff_count column we created in the previous CTE to only include values from the longest streak of days where violent crimes occurred. We then use the MAX statement to return this longest streak of consecutive days where a violent crime occurred. Lastly, we use the CONCAT, MIN and MAX statements so that we have the first date of the violent crime streak returned in the output and then the word "to" followed by the final date of the streak.
 
 ```
 DROP TABLE IF EXISTS #violent_dates 
@@ -578,4 +585,226 @@ WHERE
 
 most_consecutive_days		consecutive_days_timeframe
 4774				2005-07-05 to 2018-07-30
+```
+
+##### Year-over-year growth in crime
+In this query, we're going to calculate the year-over-year growth in the number of reported crimes. So the output will return the year, the number of crimes in each year, the number of crimes in the previous year, and the year-over-year change in crime as a percentage.
+
+First, we create a common table expression called "year_count" which selects the year column and a count of the number of crimes that occurred in each year from the "crimedata" table.
+
+From this CTE we select the year and the number of crimes per year. We then also use the LAG and OVER functions to create a column that returns the previous year's count of how many crimes occurred. Lastly, we use the LAG, OVER, and CAST to calculate the percentage change in crime compared to the previous year. We also use the combo of CAST and AS DECIMAL to round the percentage to two decimals.
+
+```
+WITH year_count AS (
+	SELECT
+		year
+		, COUNT(*) AS number_of_crimes
+	FROM 
+		cw.dbo.crimedata
+	GROUP BY 
+		year
+)
+SELECT
+	year
+	, number_of_crimes
+	, LAG(number_of_crimes) OVER (ORDER BY year) AS previous_year_count
+	, CAST(100*(number_of_crimes - LAG(number_of_crimes) OVER (ORDER BY year)) / CAST(LAG(number_of_crimes) OVER (ORDER BY year) AS NUMERIC) AS DECIMAL(4, 2)) AS year_over_year 
+FROM
+	year_count;
+
+
+year		number_of_crimes	previous_year_count	year_over_year
+2003		58814			NULL			NULL
+2004		58111			58814			-1.20
+2005		53401			58111			-8.11
+2006		49634			53401			-7.05
+2007		44385			49634			-10.58
+2008		41700			44385			-6.05
+2009		37965			41700			-8.96
+2010		35639			37965			-6.13
+2011		34410			35639			-3.45
+2012		35497			34410			3.16
+2013		35781			35497			0.80
+2014		39201			35781			9.56
+2015		40235			39201			2.64
+2016		44090			40235			9.58
+2017		43229			44090			-1.95
+2018		44283			43229			2.44
+2019		48169			44283			8.78
+2020		37523			48169			-22.10
+2021		32205			37523			-14.17
+2022		34315			32205			6.55
+2023		36622			34315			6.72
+```
+
+##### Crimes per season of each year
+For our last query, we'll list the number of crimes reported and seasonal growth for each meteorological season and the average temperature for each season. For the seasonal growth column it'll display whether there was a gain or loss compared to the previous season.
+
+We start by creating a temporary table called "yearly_seasonal" that has a common table expression called "season_count" inside of it. for the "season_count" CTE we select the year and then we use the CASE and WHEN statements to create 3 different columns. For the first one, we use CASE and WHEN to assign months to their correct season, for example, December, January, and February get assigned the value 1 to indicate they're in winter. Our second use of CASE and WHEN involves us getting the count of the number of crimes for each season. The last use of CASE and WHEN involves getting the average maximum temperature reached in a day for each of the seasons.
+
+In the SELECT statement that follows our CTE we assign the year column and then the season, average temperature and number of crimes columns we just created into the "yearly_seasonal" temp table. We group the data by year and season so we get values that represent each season of each year.
+
+Next, we create another CTE called "buckets". Here we select all of the columns from "yearly_seasonal" and then we use the CAST, LAG, and OVER statements to create a column that displays how crime has changed from the previous season in percentage form. We also use the NTILE statement to have each of the 21 years be assigned a number in chronological order, so 2003 would be assigned 1, 2004 would be assigned 2, etc.
+
+Lastly, in the corresponding SELECT statement, we select the year, average temperature and total crime growth to be displayed in our output. We also use the CASE and WHEN statements to change the seasons from numerical form to being represented by the actual word for the season. We also use CASE, WHEN, and ELSE to create the seasonal growth column that shows gain when the change in crime from the previous season is positive and loss when the change is negative. If we wanted to filter by a specific year we could add a WHERE statement at the very end where we set nt = to any number between 1 to 21 for the specific year out of our 21 years that we want to filter for but we did not filter for any year here.
+
+```
+DROP TABLE IF EXISTS #yearly_seasonal;
+WITH season_count AS (
+	SELECT
+		year
+		, CASE
+				WHEN month IN ('1', '2', '12') THEN '1'
+				WHEN month IN ('3', '4', '5') THEN '2'
+				WHEN month IN ('6', '7', '8') THEN '3'
+				WHEN month IN ('9', '10', '11') THEN '4'
+		END AS season
+		, CASE
+				WHEN month IN ('1', '2', '12') THEN COUNT(*)
+				WHEN month IN ('3', '4', '5') THEN COUNT(*)
+				WHEN month IN ('6', '7', '8') THEN COUNT(*)
+				WHEN month IN ('9', '10', '11') THEN COUNT(*)
+		END AS number_of_crimes
+		, CASE
+				WHEN month IN ('1', '2', '12') THEN AVG(max_temperature)
+				WHEN month IN ('3', '4', '5') THEN AVG(max_temperature)
+				WHEN month IN ('6', '7', '8') THEN AVG(max_temperature)
+				WHEN month IN ('9', '10', '11') THEN AVG(max_temperature)
+		END AS avg_temp
+	FROM
+		cw.dbo.crimedata
+			JOIN cw.dbo.vancouver_weather
+				ON crimedata.crime_date = vancouver_weather.date
+	GROUP BY
+		month
+		, year
+)
+SELECT 
+	year
+	, season
+	, ROUND(AVG(avg_temp), 2) AS avg_temp
+	, SUM(number_of_crimes) AS number_of_crimes
+INTO 
+	#yearly_seasonal
+FROM 
+	season_count
+GROUP BY
+	year
+	, season
+ORDER BY	
+	year 
+	, season;
+
+WITH buckets AS (
+	SELECT
+		*
+		, CAST((number_of_crimes - LAG(number_of_crimes) OVER (ORDER BY year)) / CAST(LAG(number_of_crimes) OVER (ORDER BY year) AS NUMERIC) AS DECIMAL(4, 2)) AS total_crime_growth
+		, NTILE(21) OVER (ORDER BY year) AS nt
+	FROM 
+		#yearly_seasonal
+)
+SELECT 
+	year
+	, CASE
+			WHEN season = '1' THEN 'Winter'
+			WHEN season = '2' THEN 'Spring'
+			WHEN season = '3' THEN 'Summer'
+			WHEN season = '4' THEN 'Autumn'
+	END AS season
+	, avg_temp
+	, total_crime_growth
+	, CASE
+			WHEN total_crime_growth < 0 THEN 'Loss'
+			WHEN total_crime_growth IS NULL THEN NULL
+			ELSE 'Gain'
+	END AS seasonal_growth
+FROM 
+	buckets;
+
+
+year		season		avg_temp	total_crime_growth	seasonal_growth
+2003		Winter		8.07		NULL			NULL
+2003		Spring		13.09		0.08			Gain
+2003		Summer		22.57		0.02			Gain
+2003		Autumn		14.12		-0.05			Loss
+2004		Autumn		13.57		0.07			Gain
+2004		Summer		23.2		-0.07			Loss
+2004		Spring		15.07		-0.01			Loss
+2004		Winter		8.12		-0.06			Loss
+2005		Winter		7.67		-0.06			Loss
+2005		Spring		14.63		0.09			Gain
+2005		Summer		21.52		-0.01			Loss
+2005		Autumn		13.74		-0.05			Loss
+2006		Autumn		14.15		-0.07			Loss
+2006		Summer		21.87		0.07			Gain
+2006		Spring		13.43		-0.07			Loss
+2006		Winter		7.88		0.03			Gain
+2007		Winter		6.9		-0.15			Loss
+2007		Spring		13.06		0.04			Gain
+2007		Summer		21.24		0.09			Gain
+2007		Autumn		13.14		-0.08			Loss
+2008		Autumn		14.21		-0.04			Loss
+2008		Summer		20.65		0.03			Gain
+2008		Spring		12.33		0.00			Gain
+2008		Winter		6.64		-0.11			Loss
+2009		Winter		5.69		-0.06			Loss
+2009		Spring		12.73		0.03			Gain
+2009		Summer		22.58		0.06			Gain
+2009		Autumn		14.38		-0.03			Loss
+2010		Autumn		14.14		-0.07			Loss
+2010		Summer		21.11		0.05			Gain
+2010		Spring		13.35		-0.06			Loss
+2010		Winter		9.28		-0.04			Loss
+2011		Winter		6.89		-0.05			Loss
+2011		Spring		11.71		0.01			Gain
+2011		Summer		20.7		0.19			Gain
+2011		Autumn		13.97		-0.13			Loss
+2012		Autumn		14.41		0.10			Gain
+2012		Summer		20.97		0.01			Gain
+2012		Spring		12.66		-0.07			Loss
+2012		Winter		6.93		-0.05			Loss
+2013		Winter		6.31		-0.03			Loss
+2013		Spring		13.49		0.13			Gain
+2013		Summer		21.81		0.06			Gain
+2013		Autumn		13.47		-0.05			Loss
+2014		Autumn		15.15		0.12			Gain
+2014		Summer		22.05		0.07			Gain
+2014		Spring		13.76		-0.14			Loss
+2014		Winter		6.78		-0.08			Loss
+2015		Winter		8.87		0.11			Gain
+2015		Spring		14.66		-0.03			Loss
+2015		Summer		22.67		0.15			Gain
+2015		Autumn		13.75		0.02			Gain
+2016		Autumn		14.6		-0.02			Loss
+2016		Summer		21.43		0.12			Gain
+2016		Spring		15.31		-0.04			Loss
+2016		Winter		7.31		-0.11			Loss
+2017		Winter		5.87		-0.07			Loss
+2017		Spring		12.9		0.11			Gain
+2017		Summer		21.88		0.08			Gain
+2017		Autumn		14.39		0.02			Gain
+2018		Autumn		14.2		-0.05			Loss
+2018		Summer		22.24		0.01			Gain
+2018		Spring		13.69		-0.03			Loss
+2018		Winter		7.35		0.01			Gain
+2019		Winter		6.63		-0.01			Loss
+2019		Spring		13.98		0.05			Gain
+2019		Summer		22.31		0.12			Gain
+2019		Autumn		13.64		0.02			Gain
+2020		Autumn		14.4		-0.30			Loss
+2020		Summer		21.03		-0.08			Loss
+2020		Spring		13.49		0.09			Gain
+2020		Winter		7.75		0.15			Gain
+2021		Winter		6.76		-0.26			Loss
+2021		Spring		13.34		-0.02			Loss
+2021		Summer		23.1		0.12			Gain
+2021		Autumn		13.75		-0.03			Loss
+2022		Autumn		14.79		0.04			Gain
+2022		Summer		22.13		0.06			Gain
+2022		Spring		12.21		-0.03			Loss
+2022		Winter		6.7		-0.12			Loss
+2023		Winter		8.03		0.09			Gain
+2023		Spring		13.69		0.07			Gain
+2023		Summer		22.36		0.12			Gain
+2023		Autumn		14.56		-0.11			Loss
 ```
