@@ -249,7 +249,11 @@ SET CRIME_DATE = DATEFROMPARTS(year, month, day);
 Now we're going to start working with the weather data as well 
 
 ```
+SELECT TOP 1 * FROM cw.dbo.vancouver_weather
 
+
+date		max_temperature		avg_hourly_temperature		avg_temperature		min_temperature		max_humidex			min_windchill		max_relative_humidity		avg_hourly_relative_humidity		avg_relative_humidity		min_relative_humidity		max_dew_point		avg_hourly_dew_point		avg_dew_point		min_dew_point			max_wind_speed		avg_hourly_wind_speed		avg_wind_speed		min_wind_speed		max_wind_gust		wind_gust_dir_10s	max_pressure_sea	avg_hourly_pressure_sea		avg_pressure_sea	min_pressure_sea	max_pressure_station		avg_hourly_pressure_station		avg_pressure_station		min_pressure_station		heatdegdays		cooldegdays		growdegdays_5		growdegdays_7		growdegdays_10		precipitation		rain		snow		snow_on_ground		sunrise_hhmm		sunrise_unixtime	sunrise_f		sunset_hhmm		sunset_unixtime		sunset_f		daylight		min_uv_forecast		max_uv_forecast		min_high_temperature_forecast		max_high_temperature_forecast			min_low_temperature_forecast		max_low_temperature_forecast
+2023-12-31	10.6000003814697	7				7.25			3.90000009536743	NULL				NULL			100				96					90				80				8.60000038146973	6.40000009536743		6.19999980926514	3.90000009536743		16			10.6199998855591		10			4			NULL			NULL			102.339996337891	102.180000305176		102.110000610352	101.870002746582	102.290000915527		102.129997253418			102.059997558594		101.819999694824		10.8000001907349	0			2.20000004768372	0.200000002980232	0			0			0		0		NULL			08:08:00.0000000	1704038880		8.13000011444092	16:24:00.0000000	1704068640		16.3999996185303	8.27000045776367	1			1			10					10						3					4
 ```
 
 ##### Months with the most crimes reported
