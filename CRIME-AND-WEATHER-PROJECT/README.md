@@ -22,7 +22,7 @@ I started the project by downloading the open-source Vancouver Police Department
 ### Microsoft Excel
 1.	I first opened the .csv file for the crime data in Excel.
 2.	Next, I put a custom sort on the data which sorted it by Year, Month, Day, Hour, and Minute in that order.
-3.	After that I Put a filter on the Year column and then deleted all observations that occurred in 2024 as that year has not been completed yet. I wanted the data to only include the years 2003 to 2023.
+3.	After that I Put a filter on the Year column and then deleted all observations that occurred in 2024 as that year has not been completed yet. I wanted the data only to include the years 2003 to 2023.
 4.	Lastly, I deleted the X and Y coordinate columns and the HUNDRED_BLOCK column as those columns are not relevant and are missing a lot of data.
 5.	After finishing up with the crime data I opened the .csv file for the weather data.
 6.	I again put a custom sort on the data which sorted it by the date column and then observed the data to make sure it included only observations from 2003 to 2023.
@@ -812,3 +812,13 @@ year		season		avg_temp	total_crime_growth	seasonal_growth
 2023		Summer		22.36		0.12			Gain
 2023		Autumn		14.56		-0.11			Loss
 ```
+
+### Tableau
+
+## Data Summary
+
+## Insights
+
+## What I Got to Practice
+
+## Conclusion
