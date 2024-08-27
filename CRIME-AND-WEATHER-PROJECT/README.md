@@ -4,7 +4,7 @@ In this project, I took Vancouver crime data and Vancouver weather data from 200
 
 ## Table of Contents:
 1.	[Introduction](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-AND-WEATHER-PROJECT#introduction)
-2.	[Process](https://github.com/HarnoorG/SQL-Portfolio/tree/main/cRIME-AND-WEATHER-PROJECT#process)
+2.	[Process](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-AND-WEATHER-PROJECT#process)
     - Microsoft Excel
     - SQL
     - Tableau
