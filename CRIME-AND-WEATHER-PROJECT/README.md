@@ -7,6 +7,7 @@ In this project, I took Vancouver crime data and Vancouver weather data from 200
 2.	[Process](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-AND-WEATHER-PROJECT#process)
     - Microsoft Excel
     - SQL
+    - R
     - Tableau
 3.	[Data Summary](https://github.com/HarnoorG/SQL-Portfolio/edit/main/CRIME-AND-WEATHER-PROJECT#data-summary)
 4.	[Insights](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-AND-WEATHER-PROJECT#insights)
@@ -811,6 +812,106 @@ year		season		avg_temp	total_crime_growth	seasonal_growth
 2023		Spring		13.69		0.07			Gain
 2023		Summer		22.36		0.12			Gain
 2023		Autumn		14.56		-0.11			Loss
+```
+
+
+### R
+
+I wanted a CSV. file that contained the year, month, day, date, day of week, and the count of violent crimes and property crimes that occur on each unique day so I used R to create that.
+
+#### Loading libraries
+
+In the chunk below I loaded the tidyverse and lubridate libraries as these contain all the functions I needed.
+
+```
+library(tidyverse)
+library(lubridate)
+```
+
+#### Filtering the violent crimes
+In this chunk I'm trying to get the violent crime count for each day while also adding a date and day of the week column. 
+
+I used the read_csv function to load the crime data and then the filter function filters it so only homicides and offences against a person are included (the two crimes that make up violent crime). 
+
+The group_by function is used to group by year, month, and day and then the summarize and n() functions are used to assign a unique id to each observation. So, the 37th crime to occur would have an id equal to 37. 
+
+Lastly, the mutate function is used to create two new columns, one for the date using the make_date function and the other for the day of the week using the wday function. This is all stored in a data frame called “violentcrime”.
+
+```
+violentcrime <- read_csv("crimedata_csv.csv") %>%
+  filter(TYPE == 'Homicide' | TYPE == 'Offence Against a Person') %>%
+  group_by(YEAR, MONTH, DAY) %>%
+  summarize(violentcrimes=n()) %>%
+  mutate(date=make_date(YEAR,MONTH,DAY)) %>%
+  mutate(dayofweek=wday(date))
+
+
+YEAR	MONTH	DAY	violentcrimes	date		dayofweek
+2003	1	1	32		2003-01-01	4
+2003	1	2	14		2003-01-02	5
+2003	1	3	14		2003-01-03	6
+2003	1	4	13		2003-01-04	7
+2003	1	5	12		2003-01-05	1
+2003	1	6	13		2003-01-06	2
+2003	1	7	16		2003-01-07	3
+2003	1	8	16		2003-01-08	4
+2003	1	9	8		2003-01-09	5
+2003	1	10	16		2003-01-10	6
+```
+
+#### Filtering the property crimes
+In the next sequence of code, I did the exact same thing I did above except instead of filtering for violent crimes I filtered for property crimes. 
+
+So here only mischief, theft from vehicle, theft of bicycle, and other theft are included. This is stored in a data frame called “propertcrime”.
+
+```
+propertycrime <- read_csv("crimedata_csv.csv") %>%
+  filter(TYPE == "Mischief" | TYPE == 'Theft from Vehicle' | TYPE == 'Other Theft' | TYPE == 'Theft of Bicycle') %>%
+  group_by(YEAR, MONTH, DAY) %>%
+  summarize(propertycrimes=n()) %>%
+  mutate(date=make_date(YEAR,MONTH,DAY)) %>%
+  mutate(dayofweek=wday(date))  
+
+
+YEAR	MONTH	DAY	propertycrimes	date		dayofweek
+2003	1	1	137		2003-01-01	4
+2003	1	2	85		2003-01-02	5
+2003	1	3	108		2003-01-03	6
+2003	1	4	98		2003-01-04	7
+2003	1	5	75		2003-01-05	1
+2003	1	6	103		2003-01-06	2
+2003	1	7	101		2003-01-07	3
+2003	1	8	98		2003-01-08	4
+2003	1	9	82		2003-01-09	5
+2003	1	10	135		2003-01-10	6
+```
+
+#### Combining the data frames
+In the last code chunk, I used a right join to join the "violentcrime" and "propertycrime" dataframes. 
+
+I then used the relocate function so the violentcrimes column would show up towards the end right next to the propertycrimes column. The arrange function was then used so the dataframe is sorted by the year, month, and day in that order. 
+
+After that, the replace and is.na functions were used to replace any NA values with a zero instead. Lastly, the write.csv function was used to save this code in CSV format in my files on my computer with the name “VCPC”.
+
+```
+dailycrime <- right_join(violentcrime, propertycrime) %>%
+  relocate('violentcrimes', .before = 'propertycrimes') %>%
+  arrange(YEAR, MONTH, DAY) %>%
+  replace(is.na(.), 0) %>%
+  write.csv("VCPC.csv")
+
+
+YEAR	MONTH	DAY	date		dayofweek	violentcrimes	propertycrimes
+2003	1	1	2003-01-01	4		32		137
+2003	1	2	2003-01-02	5		14		85
+2003	1	3	2003-01-03	6		14		108
+2003	1	4	2003-01-04	7		13		98
+2003	1	5	2003-01-05	1		12		75
+2003	1	6	2003-01-06	2		13		103
+2003	1	7	2003-01-07	3		16		101
+2003	1	8	2003-01-08	4		16		98
+2003	1	9	2003-01-09	5		8		82
+2003	1	10	2003-01-10	6		16		135
 ```
 
 ### Tableau
