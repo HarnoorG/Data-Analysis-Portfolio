@@ -7,7 +7,7 @@ In this project, I took Vancouver crime data and Vancouver weather data from 200
 2.	[Process](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-AND-WEATHER-PROJECT#process)
     - Microsoft Excel
     - SQL
-    - R
+    - R Programming
     - Tableau
 3.	[Data Summary](https://github.com/HarnoorG/SQL-Portfolio/edit/main/CRIME-AND-WEATHER-PROJECT#data-summary)
 4.	[Insights](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-AND-WEATHER-PROJECT#insights)
@@ -815,7 +815,7 @@ year		season		avg_temp	total_crime_growth	seasonal_growth
 ```
 
 
-### R
+### R Programming
 
 I wanted a CSV. file that contained the year, month, day, date, day of week, and the count of violent crimes and property crimes that occur on each unique day so I used R to create that.
 
