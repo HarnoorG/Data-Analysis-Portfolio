@@ -915,6 +915,41 @@ YEAR	MONTH	DAY	date		dayofweek	violentcrimes	propertycrimes
 ```
 
 ### Tableau
+1.	I opened the three separate csv. files for the crime data, the weather data, and the violent and property crimes (VCPC) data in Tableau
+2.	Since the weather data and the VCPC data have their dates in the same format where each specific date gets its own row, I joined these two tables together.
+3.	Next, I created a calculated field for the crime data that took the year, month, and day columns and made a date column from them.
+4.	On my first worksheet I put the count of the crime data and the date variable on the sheet to get a table of the specific dates that the most crime occurred and the corresponding count of crimes that occurred on that day. 
+	- However, I elected against including this sheet in my dashboard.
+5.	In my second worksheet I worked with just the crime data again. 
+	- I put the neighbourhood variable and the count of crime on the sheet and selected a tree map so I could visualize which neighbourhoods are the most crime-ridden using the size of the rectangles and colours.
+	- I also added labels so you could see which neighbourhood is being represented and what the specific count of crime was for that neighbourhood over the 20-year period.
+6.	For the third worksheet I worked with both the crime data and the joined weather and VCPC data but I did not need any of the weather data here. 
+	- In the Measure Values section of the sheet I placed the sum of property crimes and the sum of violent crimes. 
+	- I also included the count of total crimes as for the crime data each specific observation belongs to a unique crime that occurred. Doing this provides a row of numbers that contains the total number of all crimes, the total number of property crimes, and the total number of violent crimes.
+7.	I then created a second calculated field for the crime data that used the DATENAME function to express the month in character form as the month column that we already had in our crime data was in numerical form. I then named the old month column “Numeric_Month” to avoid confusion.
+8.	Now, in the fourth worksheet I worked with just the weather and VCPC data. 
+	- I started it off by creating a bar chart that has month on the x-axis and violent crime on the y-axis, so it displayed the total count of violent crime that occurred for each of the 12 months over the 20-year period. 
+	- I then added labels that wrote out the number of violent crimes for each month above each bar. 
+	- Following that I added Gantt bars that display the average of the maximum temperature for each month. 
+	- That meant the sheet now had two y axes, an axis for violent crimes on the left and an axis for average maximum temperature on the right.
+9.	In the fifth worksheet I again worked with the weather and VCPC data. 
+	- This time I created a scatter plot to visualize the relationship between violent crimes and precipitation. We have violent crimes on the y-axis and precipitation on the x-axis.
+	- I also added a trend line to showcase the direction of the relationship.
+10.	After this, I created a third calculated field for the crime data that used the DATENAME function again but this time to create a day of the week column using the date column we created in the first calculated field.
+11.	For the final segment that would appear on the dashboard I used a technique called sheet swapping to display multiple worksheets in the same area of the dashboard and being able to select which of the sheets you want to see at the time. 
+	- I started by creating 3 new worksheets. The first sheet contains a bar chart of month vs count of crime, the second sheet contains a bar chart of year vs count of crime, and the third sheet contains a bar chart of day of the week vs count of crime.
+	- Next, in the data pane in one of the sheets I created a parameter called “Worksheet Selection Parameter” that has the data type string and I added a list with values “Month”, “Year”, and “Day of Week”. 
+	- I then set it, so the parameter shows in the data pane for each of the three worksheets.
+	- Next, I right-clicked the parameter and created a calculated field. I did not edit the calculated field at all.
+	- I then dragged the calculated field to the filter section of the sheets and edited the filter in each sheet to have the condition where [Worksheet Selection Parameter] = “Month” for the month vs count sheet, [Worksheet Selection Parameter] = “Year” for the year vs count sheet, and [Worksheet Selection Parameter] = “Day of Week” for the DOW vs count sheet.
+	- I then created a dashboard and placed a vertical layout container and placed my three sheets into that container. After that, I hid the title for all three sheets.
+	- I then added a text object to the dashboard and set the title to “Count of Crime per <Parameters.Worksheet Selection Parameter>”. This makes it so that depending on which sheet I have selected the title varies. If I have the month vs count sheet selected the title appears as “Count of Crime per Month”.
+12.	At this point I was done creating worksheets, so it was time to start adding the rest of the sheets to the dashboard. At this point, I only had the 3 swapping sheets on the dashboard. 
+	- I then added the four other sheets and organized them in the way I thought looked best.
+	- After that, I added the title “CRIME AND WEATHER ANALYSIS”
+	- I then made cosmetic changes to each section of the dashboard such as adding borders, changing the font, size, and colour of text, changing the background colour, and adjusting the inner and outer padding  
+
+
 
 ## Data Summary
 
