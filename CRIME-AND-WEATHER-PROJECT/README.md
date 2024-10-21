@@ -952,6 +952,30 @@ YEAR	MONTH	DAY	date		dayofweek	violentcrimes	propertycrimes
 
 
 ## Data Summary
+-	885,209 total crimes occurred in the city of Vancouver from the start of 2003 until the end of 2023
+-	Of the near 900k crimes, 611,565 of the cases were property crimes, 77,948 violent crimes occurred and then there were 195,696 occurrences of other types of crime that don’t fall into the property or violent categories
+-	Of the 77,948 violent crimes, 77,630 of them were cases of offence against a person while 318 of them were homicides.
+-	The three most reported crimes were theft from vehicle which made up 27.59% of total crime, other theft which made up 25.04% and mischief which made up 12.23% of total crime. 
+	- These three crimes happen to be 3 of the 4 types of crime that make up property crimes, combined they made up 64.86% of total crime
+-	The five most crime-ridden neighbourhoods are the Central Business District at number one followed by the West End, Strathcona, Mount Pleasant, and Fairview at five.
+-	The five neighbourhoods that had the least crime are the Musqueam neighbourhood at one followed by Stanley Park, Shaughnessy, South Cambie, and Arbutus Ridge at number five.
+-	August and July are the two months with the most crime occurrences. These months are also the two months with the highest average temperature highs.
+-	December and February are the two months with the least amount of crime. These months are first and third respectively for months with the lowest average temperature highs.
+-	For violent crimes, August and July are both still the top 2 for occurrences and February is still the month with the least number of occurrences but for violent crimes December has moved from second least to third least with April being the month with the second least.
+-	The three years with the most violent crimes are 2007, 2006, and 2008 respectively. 2018, 2014, and 2016 were the three years with the least violent crimes respectively.
+-	For our 21 years of data, the day of the week that had the most crime when there was precipitation was Saturday in 11 out of 21 years. Friday was the most crime-ridden day when there was precipitation for 6 years.
+-	For the days of the week that the most crime in each year when there was no precipitation there is way more variation. Sunday, Monday, Friday, and Wednesday all had 4 out of the 21 years to themselves where the most crime occurred on that day. 
+	- These 4 days account for 16 years between them. 
+	- Saturday had the most crime when there was no precipitation in 3 of the 21 years.
+-	For 17 of the 21 years, the day of the week with the most crime when there was no precipitation had more crime occur than the day of the week with the most crime when there was precipitation.
+-	The date with the most crime was June 15th, 2011, with 708 total crimes. This day had 457 crimes more than the date with the second most crimes. 
+	- This number appears to be a huge outlier as the difference in crimes that occurred on the 2nd most crime-ridden date and the 50th is only 55 crimes. 
+	- It turns out June 15th, 2011, was the date of Game 7 of the Stanley Cup Finals where the Vancouver Canucks lost and a riot ensued. 
+-	The most consecutive days where a violent crime occurred was 4774 consecutive days starting on July 5th, 2005 and ending on July 30th, 2018.
+-	From 2004 to 2011 We see crime decrease every year. Then from 2012 to 2016, we began to see crime increase every year. 
+	- Since 2017 it's been more random with crime decreasing in some years and increasing in others.
+-	When looking at how crime changes season by season from 2003 to 2023, the most general trend is more often than not we see increases in crime going from Winter to Spring and then when we go from Spring to Summer. We also tend to see crime decrease more when we go from Summer to Autumn and when we go from Autumn to Winter.
+
 
 ## Insights
 
