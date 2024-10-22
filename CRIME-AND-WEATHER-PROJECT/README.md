@@ -978,7 +978,23 @@ YEAR	MONTH	DAY	date		dayofweek	violentcrimes	propertycrimes
 
 
 ## Insights
+-	It does appear that there is an increase in both violent crime and all types of crime in the summer months. 
+-	For the most part, higher temperatures do seem to lead to more crime.
+-	Crime is more likely to occur towards the end of the week, specifically on Friday and Saturday.
+-	For violent crime and all types of crime in general, there appears to be a correlation between precipitation and less crime occurring.
+-	The bulk of the crime in Vancouver occurs Downtown.
+
 
 ## What I Got to Practice
+-	Working with common table expressions, subqueries, and temporary tables 
+-	Using functions/clauses like DATEFROMPARTS, DATENAME, DATEDIFF, ROW_NUMBER, OVER, DENSE_RANK, PARTITION BY, UNION, CONCAT, LAG, NTILE, and CASE WHEN THEN expressions.
+-	Altering a table in SQL to add a column
+-	Demonstrating my knowledge of R programming
+-	Using Sheet swapping and parameters in Tableau
+-	Joining data in Tableau
+-	Visualizing with treemaps, Gantt bars, and scatterplots
+-	Displaying measure values on a dashboard
+
 
 ## Conclusion
+As a result, it appears that Arianna Johnson’s article is correct about more violent crime occurring in the summer months. In fact, it appears that there is just more crime in general in these months. After all this research it appears crime is most likely to occur downtown during the warm months of July and August specifically when people get off work on a Friday night and carry on to Saturdays. This was a difficult project as I attempted to do a lot of things in SQL I’ve never done before but completing it was extremely rewarding and I’m happy with my findings. After completing this project one thing I’m interested in finding now is the correlation between holidays and crime. When looking at the months with the most crime, it appeared that a lot of the non-summer months near the top had major holidays. Holidays having more crime hypothetically makes sense to me as it appears crime occurs the most when people have days off and are consuming alcohol and holidays fit this criterion like a glove.
