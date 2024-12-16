@@ -109,7 +109,7 @@ Date                Item_Code           Wholesale_Price_RMB_kg
 SELECT TOP 10 * FROM avg_loss_rate;
 
 
-Item_Code	        Item_Name	                Loss_Rate
+Item_Code	        Item_Name	           Loss_Rate
 102900005115168	    Niushou Shengcai	        4.3899998664856
 102900005115199	    Sichuan Red Cedar	        10.460000038147
 102900005115250	    Xixia Black Mushroom (1)	10.8000001907349
