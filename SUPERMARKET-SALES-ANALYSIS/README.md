@@ -75,7 +75,7 @@ Item_Code	        Item_Name        Category_Code	            Category_Name
 SELECT TOP 10 * FROM everyday_sales;
 
 
-Date                Time                Item_Code           Quantity_Sold_Kilo      Unit_Selling_Price_RMB_kg       Sale_or_Return      Discount_Yes_No
+Date                Time                Item_Code           Quantity_Sold_Kilo      Unit_Selling_Price_RMB_kg           Sale_or_Return      Discount_Yes_No
 2020-07-01	    09:15:07.9240000	102900005117056	    0.396	                7.6	                            sale	            No
 2020-07-01	    09:17:27.2950000	102900005115960	    0.849	                3.2	                            sale	            No
 2020-07-01          09:17:33.9050000	102900005117056	    0.409	                7.6	                            sale	            No
