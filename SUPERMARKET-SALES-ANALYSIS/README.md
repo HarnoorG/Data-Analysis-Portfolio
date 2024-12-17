@@ -288,7 +288,7 @@ Aquatic Tuberous Vegetables 40607	        350306.06
 Solanum	                    22442	        191226.98
 ```
 
-Flower/Leaf Vegetables is clearly the top category as it has sold more than double the total quantity that the next highest category, capsicum has sold. It also did more than 250,000 RMB in revenue compared to Capsicum.
+Flower/Leaf Vegetables is clearly the top category as it has sold more than double the total quantity that the next highest category, capsicum has sold. It also did more than 250,000 RMB more in revenue compared to Capsicum.
 
 ### Tableau
 
