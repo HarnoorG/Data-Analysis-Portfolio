@@ -326,6 +326,126 @@ Yunnan Lettuce (Bag)	10
 
 Wuhu Green Peppers, Broccoli, Xixia Mushroom, and Net Lotus Root comprise the top 4 for returns. This makes sense as these four products also compose the top 4 highest revenue-generating products.
 
+##### What percentage of all returned products does each specific item make up
+First, I used the WITH clause to create a temporary table called "returned" that contains the item code and the number of returns for each specific item. I then joined the temporary table with the item_category table on the item code. In the SELECT statement, I selected the item name and used the CAST and OVER functions to calculate the percentage that the number of times a specific item was returned makes up all returns in total. CAST and AS DECIMAL were also used to round the percentage to 2 decimals.
+
+```
+WITH returned AS (
+	SELECT 
+			item_code
+			,COUNT(*) as number_of_returns
+	FROM 
+			everyday_sales
+	WHERE 
+			sale_or_return = 'Return'
+	GROUP BY 
+			item_code
+)
+SELECT TOP 20
+		item_name
+		,CAST(100*CAST(number_of_returns AS NUMERIC)/SUM(number_of_returns) OVER() AS DECIMAL(5, 2)) AS percentage_returned
+FROM 
+		returned e
+LEFT JOIN 
+		item_category a 
+	ON
+		e.item_code = a.item_code
+ORDER BY 
+		percentage_returned DESC;
+
+
+item_name		percentage_returned
+Wuhu Green Pepper (1)		8.24
+Broccoli			7.81
+Xixia Mushroom (1)		7.38
+Net Lotus Root (1)		4.77
+Wawacai				3.90
+Zhuyecai			3.04
+Millet Pepper (Bag)		2.82
+Huangbaicai (2)			2.39
+Eggplant (2)			2.17
+Yunnan Shengcai			2.17
+Yunnan Lettuce (Bag)		2.17
+Garden Chrysanthemum		1.95
+Zhijiang Qinggengsanhua		1.95
+Yunnan Lettuces			1.74
+Paopaojiao (Jingpin)		1.74
+Naibaicai			1.74
+Yunnan Leaf Lettuce (Bag)	1.74
+Amaranth			1.52
+Xixia Black Mushroom (1)	1.52
+Niushou Youcai			1.30
+```
+
+##### What percentage of each specific product sold is returned
+In this query, I created two temporary tables. The first temporary table titled "returned" contains the item code and the number of returns for each specific item. The second temporary table called "s_or_r" contains the item code and the total number of purchases for each item. I then selected the item name, the number of returns and total sales per item. I also used the CAST function to calculate the percentage that returns of an item made up of the total sales of that item. The output was ordered by the return percentage. 
+
+```
+WITH returned AS (
+	SELECT 
+			item_code
+			,COUNT(*) as number_of_returns
+	FROM 
+			everyday_sales
+	WHERE 
+			sale_or_return = 'Return'
+	GROUP BY 
+			item_code
+),
+
+s_or_r AS  (
+	SELECT 
+			item_code
+			,COUNT(*) as total_sales
+	FROM 
+			everyday_sales
+	GROUP BY 
+			item_code
+)
+SELECT TOP 20
+		item_name
+		, number_of_returns
+		, total_sales
+		,CAST(100*CAST(number_of_returns AS NUMERIC)/total_sales AS DECIMAL(5, 3)) AS percentage_returned
+FROM 
+		returned e 
+LEFT JOIN 
+		s_or_r f 
+	ON 
+		e.item_code = f.item_code 
+LEFT JOIN 
+		item_category a 
+	ON 
+		a.item_code = e.item_code
+ORDER BY 
+		percentage_returned DESC;
+
+
+item_name			number_of_returns	total_sales	percentage_returned
+The Steak Mushrooms (Box)	1			36		2.778
+Yellow Baicai (1)		2			445		0.449
+Lameizi				2			455		0.440
+Red Line Pepper			1			248		0.403
+Tremella (Flower)		1			289		0.346
+Machixian			1			313		0.319
+Pepper Mix			2			641		0.312
+Chinese Cabbage (Bag)		1			343		0.292
+Red Lotus Root Zone		1			353		0.283
+The Crab Flavor Mushroom (Bag)	1			401		0.249
+Wild Lotus Root (1)		2			892		0.224
+Wawacai				18			8994		0.200
+Needle Mushroom (Bag) (2)	6			3185		0.188
+Jigu Mushroom (Bunch)		2			1075		0.186
+Red Hot Peppers			3			1872		0.160
+Xixia Xianggu Mushroom (2)	3			1881		0.159
+Haixian Mushroom (Bag)		2			1305		0.153
+Jigu (Bag)			1			684		0.146
+Red Hang Pepper (Bag)		1			709		0.141
+Haixian Mushroom (Bag) (2)	1			709		0.141
+```
+
+In the top 20 returned items by percentage, the only item returned a double-digit amount of times was Wawacai which was returned 18 times. 0.2% of all Wawacais sold were returned.
+
 ### Tableau
 
 
