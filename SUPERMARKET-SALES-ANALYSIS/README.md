@@ -290,6 +290,42 @@ Solanum	                    22442	        191226.98
 
 Flower/Leaf Vegetables is clearly the top category as it has sold more than double the total quantity that the next highest category, capsicum has sold. It also did more than 250,000 RMB more in revenue compared to Capsicum.
 
+##### Which products are returned the most
+Here in the WHERE clause, I stated for only returns to be included in the output. I also joined the item_category and everyday_sales tables again using item code to  display the item name and the count of how many items were returned for each product.
+
+```
+SELECT TOP 10
+		item_name
+		, COUNT(*) AS returned
+FROM 
+		item_category a 
+LEFT JOIN 
+		everyday_sales b 
+	ON
+		a.item_code = b.item_code
+WHERE 
+		sale_or_return = 'Return'
+GROUP BY 
+		item_name
+ORDER BY 
+		returned DESC;
+
+
+item_name		returned
+Wuhu Green Pepper (1)	38
+Broccoli		36
+Xixia Mushroom (1)	34
+Net Lotus Root (1)	22
+Wawacai			18
+Zhuyecai		14
+Millet Pepper (Bag)	13
+Huangbaicai (2)		11
+Eggplant (2)		10
+Yunnan Lettuce (Bag)	10
+```
+
+Wuhu Green Peppers, Broccoli, Xixia Mushroom, and Net Lotus Root comprise the top 4 for returns. This makes sense as these four products also compose the top 4 highest revenue-generating products.
+
 ### Tableau
 
 
