@@ -178,7 +178,117 @@ SELECT MAX(date) FROM everyday_sales
 ```
 So we see that the data includes the full second half of 2020, the full years of 2021 and 2022 and then the full first half of 2023. This would make any year-to-year comparisons of the data more difficult because we don't have a full year's worth of data for 2020 and 2023.
 
+##### Finding the best selling products
+In the following query, I joined the item_category and everyday_sales table using the item_code column to help display the best-selling items by revenue and by the total quantity sold. I also had to group by item name and declare in the WHERE clause to only include sales, no returns. I also used the FLOOR and ROUND functions to make the output neater.
 
+```
+SELECT TOP 10
+		item_name
+		, FLOOR(SUM(quantity_sold_kilo)) AS total_quantity_sold
+		, ROUND(SUM(quantity_sold_kilo*unit_selling_price_rmb_kg), 2) AS revenue
+FROM 
+		item_category a
+LEFT JOIN 
+		everyday_sales b 
+	ON
+		a.item_code = b.item_code
+WHERE 
+		sale_or_return = 'Sale'
+GROUP BY 
+		item_name
+ORDER BY 
+		revenue DESC;	
+
+
+item_name	    total_quantity_sold	    revenue
+Broccoli                27556	            270067.27
+Net Lotus Root (1)      27166	            211769.94
+Xixia Mushroom (1)      11929	            211356.72
+Wuhu Green Pepper (1)	28181	            205219.94
+Yunnan Shengcai	        15915	            129797.07
+Eggplant (2)	        13608	            117797.53
+Paopaojiao (Jingpin)	9707	            95610.68
+Luosi Pepper	        7794	            82031.93
+Yunnan Lettuces	        10309	            70692.25
+Chinese Cabbage	        20905	            65729.65
+```
+Here we see that Broccoli is the top seller by a significant margin in terms of revenue. If you look at it from a quantity-sold perspective, Wuhu Green Pepper is the top seller.
+
+##### Finding the best selling dates
+For this query, I did practically the exact same thing I did in the previous query except this time I looked at dates instead of items which means I had to group the data by date instead of grouping by item name.
+
+```
+SELECT TOP 20
+		date
+		, FLOOR(SUM(quantity_sold_kilo)) AS total_quantity_sold
+		, ROUND(SUM(quantity_sold_kilo*unit_selling_price_rmb_kg), 2) AS revenue
+FROM 
+		everyday_sales
+WHERE 
+		sale_or_return = 'Sale'
+GROUP BY 
+		date
+ORDER BY 
+		revenue DESC;
+
+
+date	    total_quantity_sold	    revenue
+2021-02-10	2103	            28748.89
+2021-02-09	1471	            18775.41
+2023-01-20	2121	            18382.79
+2022-01-30	1210	            16480.13
+2022-01-29	1138	            14270.39
+2023-01-19	1429	            13111
+2021-02-08	1068	            11443.58
+2022-11-19	2484	            10126.29
+2022-01-28	892	            9984.54
+2022-11-21	1969	            9411.84
+2022-10-21	1534	            9384.91
+2021-02-15	829	            8462.71
+2023-01-25	801	            8216.6
+2023-01-26	869	            8068.93
+2023-01-18	897	            7735.37
+2023-01-27	972	            7674.41
+2021-02-16	719	            7621.67
+2022-08-19	1248	            7547.71
+2021-02-07	700	            7274.54
+2023-01-14	1049	            7036.98
+```
+
+We see that the majority of the best-selling dates occur in January and February. These dates align well with the start of the Chinese New Year and are likely to explain the uptick in revenue for those dates.
+
+##### Which categories of produce sell the best
+This query is also similar to the two above except this time we select the category column and group by category.
+
+```
+SELECT 
+		category_name
+		, FLOOR(SUM(quantity_sold_kilo)) AS total_quantity_sold
+		, ROUND(SUM(quantity_sold_kilo*unit_selling_price_rmb_kg), 2) AS revenue
+FROM 
+		item_category a 
+LEFT JOIN 
+		everyday_sales b 
+	ON
+		a.item_code = b.item_code
+WHERE 
+		sale_or_return = 'Sale'
+GROUP BY 
+		category_name
+ORDER BY 
+		revenue DESC;
+
+
+category_name	        total_quantity_sold	revenue
+Flower/Leaf Vegetables	    198659	        1079834.83
+Capsicum	            91645	        754564.42
+Edible Mushroom	            76131	        620110.2
+Cabbage	                    41789	        375980.84
+Aquatic Tuberous Vegetables 40607	        350306.06
+Solanum	                    22442	        191226.98
+```
+
+Flower/Leaf Vegetables is clearly the top category as it has sold more than double the total quantity that the next highest category, capsicum has sold. It also did more than 250,000 RMB in revenue compared to Capsicum.
 
 ### Tableau
 
