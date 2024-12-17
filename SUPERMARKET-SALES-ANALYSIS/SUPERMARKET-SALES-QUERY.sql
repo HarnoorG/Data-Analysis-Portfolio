@@ -185,6 +185,7 @@ FROM
 WHERE 
 		discount_yes_no = 'Yes';
 
+-- WHICH MONTHS HAVE THE MOST DISCOUNT USAGE
 SELECT 
 		DATENAME(m, date) AS month
 		, COUNT(discount_yes_no) as discount_used
