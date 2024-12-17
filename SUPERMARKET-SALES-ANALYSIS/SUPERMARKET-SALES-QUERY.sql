@@ -173,7 +173,8 @@ LEFT JOIN
 		item_category a 
 	ON 
 		a.item_code = e.item_code
-ORDER BY percentage_returned DESC;
+ORDER BY 
+		percentage_returned DESC;
 
 -- DISPLAYING THE TOTAL DISCOUNTS USED AND WHAT PERCENTAGE OF ALL PURCHASES DOES DISCOUNTED PURCHASES MAKE UP
 SELECT 
