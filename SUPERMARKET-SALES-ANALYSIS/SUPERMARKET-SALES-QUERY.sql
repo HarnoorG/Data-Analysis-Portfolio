@@ -222,16 +222,16 @@ ORDER BY
 -- FINDING THE BEST SELLING DAYS OF THE WEEK
 SELECT
 		DATENAME(dw, date) AS day_of_week
-		, AVG(unit_selling_price_rmb_kg) AS avg_price
-		, AVG(quantity_sold_kilo) AS avg_quantity
-		, AVG(quantity_sold_kilo*Unit_Selling_Price_rmb_kg) AS avg_revenue
-		, SUM(quantity_sold_kilo*Unit_Selling_Price_rmb_kg) AS total_revenue
+		, ROUND(AVG(unit_selling_price_rmb_kg), 3) AS avg_price
+		, ROUND(AVG(quantity_sold_kilo), 3) AS avg_quantity
+		, ROUND(AVG(quantity_sold_kilo*Unit_Selling_Price_rmb_kg), 3) AS avg_revenue
+		, ROUND(SUM(quantity_sold_kilo*Unit_Selling_Price_rmb_kg), 2) AS total_revenue
 FROM 
 		everyday_sales
 GROUP BY 
 		DATENAME(dw, date)
 ORDER BY 
-		avg_revenue DESC;
+		total_revenue DESC;
 
 -- DISPLAYING THE SALES MADE PER EACH DAY OF THE WEEK
 SELECT 
@@ -247,10 +247,10 @@ ORDER BY
 -- FINDING THE BEST SELLING MONTHS
 SELECT
 		DATENAME(m, date) AS month
-		, AVG(unit_selling_price_rmb_kg) AS avg_price
-		, AVG(quantity_sold_kilo) AS avg_quantity
-		, AVG(quantity_sold_kilo*Unit_Selling_Price_rmb_kg) AS avg_revenue
-		, SUM(quantity_sold_kilo*Unit_Selling_Price_rmb_kg) AS total_revenue 
+		, ROUND(AVG(unit_selling_price_rmb_kg), 3) AS avg_price
+		, ROUND(AVG(quantity_sold_kilo), 3) AS avg_quantity
+		, ROUND(AVG(quantity_sold_kilo*Unit_Selling_Price_rmb_kg), 3) AS avg_revenue
+		, ROUND(SUM(quantity_sold_kilo*Unit_Selling_Price_rmb_kg), 2) AS total_revenue 
 FROM 
 		everyday_sales
 GROUP BY 
@@ -261,10 +261,10 @@ ORDER BY
 -- FINDING THE BEST SELLING YEARS
 SELECT
 		DATENAME(yyyy, date) AS year
-		, AVG(unit_selling_price_rmb_kg) AS avg_price
-		, AVG(quantity_sold_kilo) AS avg_quantity
-		, AVG(quantity_sold_kilo*Unit_Selling_Price_rmb_kg) AS avg_revenue
-		, SUM(quantity_sold_kilo*Unit_Selling_Price_rmb_kg) AS total_revenue
+		, ROUND(AVG(unit_selling_price_rmb_kg), 3) AS avg_price
+		, ROUND(AVG(quantity_sold_kilo), 3) AS avg_quantity
+		, ROUND(AVG(quantity_sold_kilo*Unit_Selling_Price_rmb_kg), 3) AS avg_revenue
+		, ROUND(SUM(quantity_sold_kilo*Unit_Selling_Price_rmb_kg), 2 AS total_revenue
 FROM 
 		everyday_sales
 GROUP BY 
@@ -276,10 +276,10 @@ ORDER BY
 SELECT
 		DATENAME(yyyy, date) AS year
 		, DATENAME(qq, date) AS quarter
-		, AVG(unit_selling_price_rmb_kg) AS avg_price
-		, AVG(quantity_sold_kilo) AS avg_quantity
-		, AVG(quantity_sold_kilo*Unit_Selling_Price_rmb_kg) AS avg_revenue
-		, SUM(quantity_sold_kilo*Unit_Selling_Price_rmb_kg) AS total_revenue
+		, ROUND(AVG(unit_selling_price_rmb_kg), 3) AS avg_price
+		, ROUND(AVG(quantity_sold_kilo), 3) AS avg_quantity
+		, ROUND(AVG(quantity_sold_kilo*Unit_Selling_Price_rmb_kg), 3) AS avg_revenue
+		, ROUND(SUM(quantity_sold_kilo*Unit_Selling_Price_rmb_kg), 2) AS total_revenue
 FROM 
 		everyday_sales
 GROUP BY 
