@@ -36,7 +36,7 @@ I repeated the following steps for each of the 4 .csv files which are named Anne
    - Annex4 has Item Code, Item Name and Loss Rate
 4. I then applied a filter to all of the columns that checked to see if there were any null values present
    - None of the tables contained nulls
-5. Next, I looked for any rows where all of the columns were duplicates of a different row. To do this, in an empty column I concatenated all of the other columns using the TEXTJOIN function. I then used conditional formatting to highlight duplicate values to find duplicate rows and remove these rows. I also used filters here to see which cells were highlighted
+5. Next, I looked for any rows where all of the columns were duplicates of a different row. To do this, in an empty column, I concatenated all of the other columns using the TEXTJOIN function. I then used conditional formatting to highlight duplicate values to find duplicate rows and remove these rows. I also used filters here to see which cells were highlighted
    - None of the tables contained duplicate rows
 
 ### SQL
@@ -465,6 +465,88 @@ total_discount_uses	discount_percentage
 For this supermarket, there were 47,366 discount uses in total. Discounted purchases made up 5.39% of all purchases
 
 ##### Which months have the most discount usage
+For this query, I used the DATENAME function to display the months from the date variable and then I also grouped the query by the months. I then used the COUNT function to display the number of discount uses per month. I ordered the output by discount usage in descending order.
+
+```
+SELECT 
+		DATENAME(m, date) AS month
+		, COUNT(discount_yes_no) as discount_used
+FROM
+		everyday_sales
+WHERE 
+		discount_yes_no = 'Yes'
+GROUP BY 
+		DATENAME(m, date)
+ORDER BY 
+		discount_used DESC;
+
+
+month		discount_used
+August		7475
+September	6846
+October		6305
+July		5309
+November	3702
+March		3664
+April		3278
+February	2387
+May		2289
+January		2129
+December	2110
+June		1872
+```
+
+We see that August, September, October, and July all comprise the top 4 and these months all occur in the same 4-month span. This could potentially indicate that sales in these months tend to be lower so the supermarket tries to counteract that by offering more discounts in these months. February and January are both in the bottom 5 and this could be because we saw earlier that most of the best selling dates were in these 2 months so the supermarket didn't need to offer discounts to attract business.
+
+##### Which items have the biggest difference in unit price and wholesale price
+Here we used the AVG function to get the average unit price per item, the average wholesale price per item, and the difference between these two prices for each item. The ROUND function was used to round all of these down to two decimal places. In order to display these things as well as the item name, I had to join the item_category table with the everyday_sales table using the item code and then I also had to join the everyday_wholesale table to the other tables also using the item code. I ordered the output by the difference in descending order
+
+```
+SELECT TOP 20
+		item_name
+		, ROUND(AVG(unit_selling_price_rmb_kg), 2) AS avg_unit_price
+		, ROUND(AVG(wholesale_price_rmb_kg), 2) AS avg_wholesale_price
+		, ROUND(AVG(unit_selling_price_rmb_kg) - AVG(wholesale_price_rmb_kg), 2) AS difference
+FROM
+		item_category a
+LEFT JOIN
+		everyday_sales b
+	ON
+		a.item_code = b.item_code
+LEFT JOIN
+		everyday_wholesale c
+	ON
+		b.item_code = c.item_code
+GROUP BY
+		item_name
+ORDER BY
+		difference DESC;
+
+
+item_name					avg_unit_price		avg_wholesale_price	difference
+Black Chicken Mushroom				104.89			62.79			42.11
+Malan Head					47.05			29.98			17.07
+Chinese Caterpillar Fungus Flowers		28.88			14.91			13.97
+Black Porcini					77.65			64.41			13.24
+The Steak Mushrooms				28.36			15.59			12.77
+Huanghuacai					67.85			55.31			12.55
+Pepper Mix					14.68			2.4			12.28
+Xixia Black Mushroom (2)			19.26			7.23			12.03
+Green Hangjiao (1)				17.48			5.91			11.57
+7 Colour Pepper (2)				24.04			12.84			11.2
+The Dandelion					29.79			19			10.79
+Ganlanye					12			2			10
+7 Colour Pepper (1)				21.26			11.75			9.51
+Chinese Caterpillar Fungus Flowers (Box) (2)	12.9			3.5			9.4
+Millet Pepper					26.58			17.27			9.31
+Wild Lotus Root (2)				13			3.83			9.17
+Sophora Japonica				19.32			10.52			8.8
+Round Eggplant					12.29			3.68			8.61
+Xixia Xianggu Mushroom (2)			21.79			13.25			8.54
+Artemisia Stelleriana				26.16			17.75			8.41
+```
+
+Black Chicken Mushroom had the highest difference in unit and wholesale price by a substantial margin. Its difference of 42.11 Chinese Yuan (RMB) was more than 25 RMB larger than the item with the second highest difference, Malan Head.
 
 ### Tableau
 
