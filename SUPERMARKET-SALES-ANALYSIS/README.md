@@ -446,6 +446,26 @@ Haixian Mushroom (Bag) (2)	1			709		0.141
 
 In the top 20 returned items by percentage, the only item returned a double-digit amount of times was Wawacai which was returned 18 times. 0.2% of all Wawacais sold were returned.
 
+##### Displaying the total discounts used and what percentage of all purchases discounted purchases make up
+Here I used the COUNT function to get the total number of discount uses in the data. I also used COUNT and CAST in conjunction to calculate percentage discounted purchases made up of all purchases in total. I had to use a subquery in the SELECT statement to get the number of total sales. In the WHERE clause I also had to specify to only include discounted purchases
+
+```
+SELECT 
+		COUNT(discount_yes_no) AS total_discount_uses
+		, CAST(100*CAST(COUNT(discount_yes_no) AS NUMERIC)/(SELECT COUNT(*) FROM everyday_sales) AS DECIMAL(4,2)) AS discount_percentage
+FROM 
+		everyday_sales
+WHERE 
+		discount_yes_no = 'Yes';
+
+
+total_discount_uses	discount_percentage
+47366			5.39
+```
+For this supermarket, there were 47,366 discount uses in total. Discounted purchases made up 5.39% of all purchases
+
+##### Which months have the most discount usage
+
 ### Tableau
 
 
