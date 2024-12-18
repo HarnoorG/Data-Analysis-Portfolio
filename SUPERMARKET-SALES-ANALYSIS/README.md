@@ -548,6 +548,96 @@ Artemisia Stelleriana				26.16			17.75			8.41
 
 Black Chicken Mushroom had the highest difference in unit and wholesale price by a substantial margin. Its difference of 42.11 Chinese Yuan (RMB) was more than 25 RMB larger than the item with the second highest difference, Malan Head.
 
+##### Finding the best-selling days of the week
+In this query, I used the DATENAME function to get the day of the week from my date variable. I also used the AVG function to get the average price, average quantity, and average revenue for each day of the week. The SUM function was used to get the total revenue for each day. ROUND was used to round the three averages to 3 decimal places and the total revenue to 2 decimals. I ordered the output by the total revenue in descending order
+
+```
+SELECT
+		DATENAME(dw, date) AS day_of_week
+		, ROUND(AVG(unit_selling_price_rmb_kg), 3) AS avg_price
+		, ROUND(AVG(quantity_sold_kilo), 3) AS avg_quantity
+		, ROUND(AVG(quantity_sold_kilo*Unit_Selling_Price_rmb_kg), 3) AS avg_revenue
+		, ROUND(SUM(quantity_sold_kilo*Unit_Selling_Price_rmb_kg), 2) AS total_revenue
+FROM 
+		everyday_sales
+GROUP BY 
+		DATENAME(dw, date)
+ORDER BY 
+		total_revenue DESC;
+
+
+day_of_week	avg_price	avg_quantity	avg_revenue	total_revenue
+Saturday	8.872		0.539		3.833		609259.8
+Sunday		8.959		0.531		3.834		596645.41
+Friday		8.857		0.547		3.892		470955.96
+Wednesday	9.158		0.53		3.888		435496.44
+Monday		8.78		0.535		3.765		425199.52
+Tuesday		8.953		0.531		3.818		418815.7
+Thursday	8.848		0.539		3.818		413393.64
+```
+For the average price, average quantity and average revenue we see very few differences across the seven days. However, for total revenue, we see substantially higher revenues for Sunday and Saturday. This could potentially indicate that the purchase amounts and prices don't really vary day by day but the number of purchases made does vary among the days of the week with significantly more purchases occurring on the weekend. This could explain the total revenue jumps for Saturday and Sunday (and even Friday slightly) but not really any changes for the average revenue of these days.
+
+##### Displaying the sales made per each day of the week
+Here I used the DATENAME function again to display the day of the week and used COUNT to display purchases per day by grouping by the day of the week. I ordered the output by the count of purchases in descending order.
+
+```
+SELECT 
+		DATENAME(dw, date) AS day_of_week
+		, COUNT(*) as purchases
+FROM 
+		everyday_sales
+GROUP BY 
+		DATENAME(dw, date)
+ORDER BY 
+		purchases DESC;
+
+
+day_of_week	purchases
+Saturday	158939
+Sunday		155626
+Friday		121014
+Monday		112947
+Wednesday	112008
+Tuesday		109697
+Thursday	108272
+```
+As I speculated earlier, Saturday and Sunday have significantly more purchases than the other days of the week with the next closest day Friday having over 34 thousand fewer purchases. Even Friday sees about 10 thousand more purchases than the next highest day. This would line up with the fact that Saturday and Sunday are the two days that people have the most free time and Friday is the clear third day when it comes to free time.
+
+##### Find the best-selling months
+For this query, I did the same thing I did for the best-selling days of the week query except this time I used DATENAME to get the month and grouped by month. I also ordered by average revenue instead of total revenue because I don't have a full years worth of data for 2020 and 2023 so sorting by total revenue could skew the results.
+
+```
+SELECT
+		DATENAME(m, date) AS month
+		, ROUND(AVG(unit_selling_price_rmb_kg), 3) AS avg_price
+		, ROUND(AVG(quantity_sold_kilo), 3) AS avg_quantity
+		, ROUND(AVG(quantity_sold_kilo*Unit_Selling_Price_rmb_kg), 3) AS avg_revenue
+		, ROUND(SUM(quantity_sold_kilo*Unit_Selling_Price_rmb_kg), 2) AS total_revenue 
+FROM 
+		everyday_sales
+GROUP BY 
+		DATENAME(m, date)
+ORDER BY 
+		avg_revenue DESC;
+
+
+month		avg_price	avg_quantity	avg_revenue	total_revenue
+February	11.288		0.575		4.907		351241.42
+January		10.358		0.594		4.851		407091.31
+March		9.408		0.548		4.045		259619.1
+September	9.557		0.514		4.044		309878.73
+October		8.898		0.546		3.884		326784.25
+April		8.663		0.542		3.721		215570.98
+August		8.441		0.523		3.645		361641.74
+December	7.755		0.597		3.474		233662.39
+July		9.183		0.445		3.473		297347.88
+November	7.453		0.576		3.296		215501.41
+May		7.695		0.494		3.229		201546.5
+June		7.584		0.488		3.153		189880.77
+```
+
+Here we see that the higher/lower the average price is, the higher/lower the average revenue except for July where it has the 5th highest average price but the fourth worst average revenue. This is due to July having the lowest average quantity sold. We also see that January and February are the top 2 selling months which checks out when we think back to the best-selling dates we looked at earlier having so many January and February dates. March is the third highest month for average month which could indicate that something to do with the Winter leads to an increase in sales for this supermarket as January, February and March are all winter months.
+
 ### Tableau
 
 
