@@ -230,7 +230,8 @@ FROM
 		everyday_sales
 GROUP BY 
 		DATENAME(dw, date)
-ORDER BY avg_revenue DESC;
+ORDER BY 
+		avg_revenue DESC;
 
 -- FINDING THE BEST SELLING MONTHS
 SELECT
@@ -243,7 +244,8 @@ FROM
 		everyday_sales
 GROUP BY 
 		DATENAME(m, date)
-ORDER BY avg_revenue DESC;
+ORDER BY 
+		avg_revenue DESC;
 
 -- FINDING THE BEST SELLING YEARS
 SELECT
@@ -256,7 +258,8 @@ FROM
 		everyday_sales
 GROUP BY 
 		DATENAME(yyyy, date)
-ORDER BY avg_revenue DESC;
+ORDER BY 
+		avg_revenue DESC;
 
 -- FINDING THE BEST SELLING QUARTERLIES
 SELECT
