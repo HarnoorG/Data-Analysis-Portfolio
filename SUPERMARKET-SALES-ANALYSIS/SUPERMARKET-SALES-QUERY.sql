@@ -233,6 +233,17 @@ GROUP BY
 ORDER BY 
 		avg_revenue DESC;
 
+-- DISPLAYING THE SALES MADE PER EACH DAY OF THE WEEK
+SELECT 
+		DATENAME(dw, date) AS day_of_week
+		, COUNT(*) as purchases
+FROM 
+		everyday_sales
+GROUP BY 
+		DATENAME(dw, date)
+ORDER BY 
+		purchases DESC;
+
 -- FINDING THE BEST SELLING MONTHS
 SELECT
 		DATENAME(m, date) AS month
