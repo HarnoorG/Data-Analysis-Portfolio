@@ -292,7 +292,7 @@ ORDER BY
 -- FINDING ITEMS WITH THE HIGHEST LOSS RATE
 SELECT
 		item_name
-		, ROUND(loss_rate, 2)
+		, ROUND(loss_rate, 2) AS loss_rate
 FROM
 		avg_loss_rate
 ORDER BY 
