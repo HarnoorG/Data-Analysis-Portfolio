@@ -264,7 +264,7 @@ SELECT
 		, ROUND(AVG(unit_selling_price_rmb_kg), 3) AS avg_price
 		, ROUND(AVG(quantity_sold_kilo), 3) AS avg_quantity
 		, ROUND(AVG(quantity_sold_kilo*Unit_Selling_Price_rmb_kg), 3) AS avg_revenue
-		, ROUND(SUM(quantity_sold_kilo*Unit_Selling_Price_rmb_kg), 2 AS total_revenue
+		, ROUND(SUM(quantity_sold_kilo*Unit_Selling_Price_rmb_kg), 2) AS total_revenue
 FROM 
 		everyday_sales
 GROUP BY 
