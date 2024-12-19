@@ -292,7 +292,7 @@ ORDER BY
 -- FINDING ITEMS WITH THE HIGHEST LOSS RATE
 SELECT
 		item_name
-		, loss_rate
+		, ROUND(loss_rate, 2)
 FROM
 		avg_loss_rate
 ORDER BY 
@@ -310,7 +310,7 @@ WHERE
 -- FINDING THE CATEGORIES WITH THE HIGHEST LOSS RATE
 SELECT
 		category_name
-		, AVG(loss_rate) AS avg_rate_of_loss
+		, ROUND(AVG(loss_rate), 2) AS avg_rate_of_loss
 FROM
 		item_category a
 LEFT JOIN
