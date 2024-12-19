@@ -603,7 +603,7 @@ Thursday	108272
 ```
 As I speculated earlier, Saturday and Sunday have significantly more purchases than the other days of the week with the next closest day Friday having over 34 thousand fewer purchases. Even Friday sees about 10 thousand more purchases than the next highest day. This would line up with the fact that Saturday and Sunday are the two days that people have the most free time and Friday is the clear third day when it comes to free time.
 
-##### Find the best-selling months
+##### Finding the best-selling months
 For this query, I did the same thing I did for the best-selling days of the week query except this time I used DATENAME to get the month and grouped by month. I also ordered by average revenue instead of total revenue because I don't have a full years worth of data for 2020 and 2023 so sorting by total revenue could skew the results.
 
 ```
@@ -637,6 +637,224 @@ June		7.584		0.488		3.153		189880.77
 ```
 
 Here we see that the higher/lower the average price is, the higher/lower the average revenue except for July where it has the 5th highest average price but the fourth worst average revenue. This is due to July having the lowest average quantity sold. We also see that January and February are the top 2 selling months which checks out when we think back to the best-selling dates we looked at earlier having so many January and February dates. March is the third highest month for average month which could indicate that something to do with the Winter leads to an increase in sales for this supermarket as January, February and March are all winter months.
+
+##### Finding the best-selling years
+Here I did the same thing as above except I used DATENAME to get the year and then grouped by the year.
+
+```
+SELECT
+		DATENAME(yyyy, date) AS year
+		, ROUND(AVG(unit_selling_price_rmb_kg), 3) AS avg_price
+		, ROUND(AVG(quantity_sold_kilo), 3) AS avg_quantity
+		, ROUND(AVG(quantity_sold_kilo*Unit_Selling_Price_rmb_kg), 3) AS avg_revenue
+		, ROUND(SUM(quantity_sold_kilo*Unit_Selling_Price_rmb_kg), 2) AS total_revenue
+FROM 
+		everyday_sales
+GROUP BY 
+		DATENAME(yyyy, date)
+ORDER BY 
+		avg_revenue DESC;
+
+
+year	avg_price	avg_quantity	avg_revenue	total_revenue
+2023	8.353		0.659		4.333		563102.15
+2022	8.179		0.611		3.928		1036772.4
+2021	9.518		0.46		3.683		1100362.65
+2020	9.394		0.466		3.603		669529.27
+```
+
+We see that from 2020 to 2023, every year the average price gradually came down while the average quantity and average revenue increased year by year. These could be signs that this is a successful business that was able to lower their costs but still make more and more money every year as they establish a larger customer base with each coming year. However, these numbers could instead reflect the effect of COVID-19 in 2020 and then the business slowly recovering from those effects with each coming year. No judgments can be made based on the total revenue because we're missing the data for half of 2020 and 2023.
+
+##### Finding the best-selling quartiles
+Because we are missing full-year data for two of the four years, I thought looking into the quarters of each year might give us a better idea of what the data represents. This query is very similar to the past few except this time I used DATENAME to display both the year and quarter and grouped by both of these. I ordered the output by year first, and then by the quarter.
+
+```
+SELECT
+		DATENAME(yyyy, date) AS year
+		, DATENAME(qq, date) AS quarter
+		, ROUND(AVG(unit_selling_price_rmb_kg), 3) AS avg_price
+		, ROUND(AVG(quantity_sold_kilo), 3) AS avg_quantity
+		, ROUND(AVG(quantity_sold_kilo*Unit_Selling_Price_rmb_kg), 3) AS avg_revenue
+		, ROUND(SUM(quantity_sold_kilo*Unit_Selling_Price_rmb_kg), 2) AS total_revenue
+FROM 
+		everyday_sales
+GROUP BY 
+		 DATENAME(yyyy, date)
+		 , DATENAME(qq, date)
+ORDER BY 
+		year
+		, quarter
+
+
+year	quarter		avg_price	avg_quantity	avg_revenue	total_revenue
+2020	3		9.824		0.419		3.692		363001.46
+2020	4		8.91		0.519		3.503		306527.81
+2021	1		11.533		0.511		4.594		406644.76
+2021	2		7.791		0.438		2.875		209600.68
+2021	3		9.022		0.431		3.445		283048.91
+2021	4		9.305		0.451		3.643		201068.31
+2022	1		10.698		0.537		4.679		271073.25
+2022	2		8.359		0.47		3.426		174529.24
+2022	3		8.013		0.652		3.986		322817.99
+2022	4		6.268		0.721		3.622		268351.93
+2023	1		8.745		0.681		4.646		340233.82
+2023	2		7.846		0.631		3.93		222868.32
+```
+
+We see that the average price is always the highest in the first quarter. It seems to be this way because demand seems to be the most inelastic in the months of January, February, and March so even though prices are higher the supermarket still does well sales and revenue-wise.
+
+##### Finding items with the highest loss rates
+I selected the item name and the loss rate rounded to 2 decimal places from the avg_loss_rate table. The output is ordered by loss rate in descending order.
+
+```
+SELECT TOP 20
+		item_name
+		, ROUND(loss_rate, 2) AS loss_rate
+FROM
+		avg_loss_rate
+ORDER BY 
+		loss_rate DESC;
+
+
+item_name			loss_rate
+High Melon (1)			29.25
+Chuncai				29.03
+Dongmenkou Xiaobaicai		27.84
+Foreign Garland Chrysanthemum 	26.16
+Purple Cabbage (1)		25.53
+Honghu Lotus Root		24.05
+Chinese Cabbage			22.27
+Kuaicai				20.38
+The Steak Mushrooms (Box)	19.8
+Purple Beicai			19.58
+Amaranth			18.52
+Spinach				18.51
+Qinggengsanhua			17.06
+Panax Notoginseng		16.95
+Huanghuacai			16.89
+Sophora Japonica		16.8
+Red Lotus Root Zone		16.63
+Bell Pepper (1)			16.33
+Hericium 			16.19
+The Crab Flavor Mushroom (2)	16.04
+```
+
+We see that High Melon and Chuncai have the two highest loss rates with just over 29%. This means that just over 29% of these two products are lost in transit or some other means and therefore are not available to be sold.
+
+##### Finding items with 0 loss occurrences
+Here I displayed which items have no loss occurences by setting the loss rate equal to zero in the WHERE clause.
+
+```
+SELECT
+		item_name
+		, loss_rate
+FROM
+		avg_loss_rate
+WHERE
+		loss_rate = 0;
+
+
+item_name				loss_rate
+Green Hangjiao (1)			0
+Lameizi					0
+Purple Screw Pepper			0
+Hongshan Shoutidai			0
+Hongshan Gift Box			0
+Chopped Red Pine (Box)			0
+The Pork Stomach Mushroom (Box)		0
+Black Porcini (Box)			0
+Black Chicken Fir Bacteria (Box)	0
+Xiangtianhongcaitai (Bag)		0
+Artemisia Stelleriana			0
+Zhimaxiancai				0
+Xianzongye				0
+Xianzongye (Bag) (1)			0
+Chinese Cabbage Seedling		0
+Velvet Antler Mushroom (Box)		0
+Lotus Root Tip				0
+Haixian Mushroom (Bag) (2)		0
+The White Mushroom (Box)		0
+The Crab Flavor Mushroom (Box)		0
+Haixian Mushroom (Bunch)		0
+Xianzongye (Bag) (2)			0
+```
+
+We see 22 items that have not been affected by loss at all.
+
+##### Finding the categories with the highest loss rate
+I joined the item_category and avg_loss_rate tables using the item code so I could display the category name and the average loss per category rounded to 2 decimal places.
+
+```
+SELECT
+		category_name
+		, ROUND(AVG(loss_rate), 2) AS avg_rate_of_loss
+FROM
+		item_category a
+LEFT JOIN
+		avg_loss_rate d
+	ON
+		a.item_code = d.item_code
+GROUP BY
+		category_name
+ORDER BY 
+		avg_rate_of_loss DESC;
+
+
+category_name			avg_rate_of_loss
+Cabbage				14.14
+Aquatic Tuberous Vegetables	11.97
+Flower/Leaf Vegetables		10.28
+Capsicum			8.52
+Edible Mushroom			8.13
+Solanum				7.12
+```
+
+There isn't too large of a difference in loss rate across the categories.
+
+##### Finding which items lost the most potential revenue because of loss.
+Here we're assuming that all of the lost produce would've sold. I joined the everyday_sales and avg_loss_rate tables so I could select the item name and the average loss rate rounded to 2 decimals. I also used quantity sold, loss rate and unit selling price variables with the SUM and ROUND functions to calculate the revenue lost per item due to loss. The output was sorted by lost revenue.
+
+```
+SELECT TOP 20
+		item_name
+		, ROUND(AVG(loss_rate), 2) AS loss_rate
+		, ROUND(SUM((quantity_sold_kilo*(loss_rate/100))*Unit_Selling_Price_rmb_kg), 2) AS lost_revenue
+FROM
+		everyday_sales b
+LEFT JOIN
+		avg_loss_rate d
+	ON
+		b.item_code = d.item_code
+GROUP BY 
+		item_name
+ORDER BY 
+		lost_revenue DESC
+
+
+item_name				loss_rate	lost_revenue
+Xixia Mushroom (1)			13.82		29187.62
+Broccoli				9.26		24990.99
+Yunnan Shengcai				15.25		19787.94
+Net Lotus Root (1)			5.54		11725.53
+Wuhu Green Pepper (1)			5.7		11691.48
+Chinese Cabbage				19.23		10674.54
+Qinggengsanhua				17.06		9941.41
+Spinach					18.51		9689.9
+Yunnan Lettuces				12.81		9052.2
+Luosi Pepper				10.18		8348.55
+Huangbaicai (2)				15.61		8347.94
+Shanghaiqing				14.43		8209.44
+Honghu Lotus Root Powder (Fenou)	11.81		7598.51
+Eggplant (2)				6.07		7146.18
+Paopaojiao (Jingpin)			7.08		6766.26
+Red Pepper (1)				11.76		6736.82
+Xixia Black Mushroom (1)		10.8		6492.57
+Yunnan Lettuce (Bag)			9.43		6034.72
+Zhuyecai				13.62		5302.91
+Millet Pepper (Bag)			9.43		5184.56
+```
+
+This list of items sorted by revenue potentially lost is nearly identical to the list of best-selling items.
 
 ### Tableau
 
