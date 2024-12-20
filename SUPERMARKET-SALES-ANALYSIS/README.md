@@ -857,6 +857,58 @@ Millet Pepper (Bag)			9.43		5184.56
 This list of items sorted by revenue potentially lost is nearly identical to the list of best-selling items.
 
 ### Tableau
+1.	I opened Tableau Public and imported Annex1.csv as a text file
+2.	Next, I added the 3 other tables and formed relationships between all 4 tables by using the item code variable as the linking variable
+	- This allowed me to use all 4 tables together for my visualizations
+3.	I then created a Parameter called “Choose a Metric” that would allow me to switch between Revenue, Units Sold, and Returns for each visualization on my dashboard
+4.	The first calculated field I created was called “Returned” and it used the IF, THEN, and ELSE functions to change the return variable that came with the data from saying “return” or “sale” when a sale was returned or not to displaying a 1 if it was returned and a 0 if it was not.
+	- This change was necessary for the variable to be used in the parameter and to comply with the rules of the CASE function.
+5.	For the parameter to work I then created a calculated field called “Metric Selected” that used the CASE, WHEN AND THEN functions to make it so that when I select one of the options in the parameter, the corresponding variable is displayed on the visualization
+6.	Next, I created a calculated field using the DATENAME function and the Date variable in annex2 to get a month variable
+7.	I then created a bar chart that displays the “Metric Selected” for each month
+	- The months are on the x-axis while the metrics are on the y-axis
+8.	After that, I used the DATENAME function to create a year variable
+9.	I used the year variable and the “Metric Selected” measure to create a pie chart to display each of the metrics for each year
+	- The chart has labels on the outside of the visualization which display the year and the sum of the metric displayed for each corresponding slice of the pie.
+10.	Next, I once again created a calculated field using DATENAME, this time to make a day-of-the-week variable
+11.	For my next visualization, I produced a highlighted table that displays the “Metrics Selected” measure for each day of the week
+	- It is a 2-column by 7-row table where the first column has each of the days of the week and the second column has the value of whatever metric is selected for each specific day.
+12.	I then created another bar chart, this time to display my metrics for each specific item
+	- This bar chart has horizontal bars while the bar chart for month vs. metric selected has vertical bars. This means the items are on the y-axis while the metrics are on the x-axis.
+13.	On the next worksheet, I displayed some key performance indicators for the supermarket such as the total number of sales that occurred, the quantity of produce sold in kilograms, the total revenue, the number of discounts used and lastly how many returns were made.
+	- To display the number of discounts I created a calculated field that used the IF, THEN and ELSE functions to change the variable from displaying either “yes” or “no” for whether a discount was used to now displaying a 1 if a discount was used and 0 if it was not used.
+	- I then summed the column to get the total number of discounts used
+14.	For my last worksheet, I created a tree map that displays all of my metrics for each category type.
+	- Each rectangle in the visualization was labelled with the corresponding category table and the metric value for that specific category
+15.	I then went back to every worksheet and changed the colour of the visualization
+	- For this dashboard, I wanted a brown-red-orange kind of theme so the visualizations got changed to these types of colours.
+16.	For every sheet I also adjusted the title to say <Paramaters.Choose a Metric> per whatever was also on the visualization
+	- Doing this made it so it would display whichever metric I selected in the title of the visualization.
+	- For example, if I was on my bar chart that visualized all of the metrics per month and I selected revenue as the metric I wanted to see, the title would be "Revenue per Month" and I would see the corresponding information below.
+17.	Next I created three different filters and made it so the work on every worksheet
+	- The first filter lets you pick the date range of what appears in the visualization. It starts in Quarter 3 of 2020 and ends in Quarter 2 of 2023
+	- The next filter lets you toggle between if you want to include data when only discounts were used, data when only discounts weren't used or all data regardless of whether a discount was used
+	- The final filter lets toggle between which of the categories you want to be reflected in the data
+18.	After all that, I created a dashboard and set the dimensions of it equal to 1200 px width by 700 px height
+19.	I then mapped the layout of how I wanted the dashboard to appear by adding horizontal and vertical containers
+20.	I started by adding the metrics per item bar chart and the metrics per category tree map to the very right of the dashboard in a vertical container
+21.	Next, at the very top in a horizontal container I added the title of the dashboard on the left and then the key performance indicators on the right.
+22.	I then added the metric per day of the week highlighted table and the metric per month bar chart in a vertical container to the left of the other two visualizations I already put on the dashboard.
+23.	In another vertical container I added 5 different things
+	- The date range filter
+ 	- The parameter that lets you choose which metric is displayed
+	- The discount usage filter
+	- the category name filter
+	- The pie chart that displays the metrics per year
+24.	For all of the visualizations except for the tree map, I set them to be used as filters so if you clicked on an element of the dashboard the rest of the dashboard would adjust to only include values that correspond to whatever you click on.
+	- For example, if I clicked on the October bar in the metric per month bar chart, the entire dashboard would filter to only include values from October.
+25.	Lastly, I made cosmetic changes to the dashboard such as adding some areas that were filled in red, adding borders, changing the font, size, and colour of text, and adjusting the inner and outer padding
+
+After all of that, I was left with a dashboard that looks like this:
+
+![Screenshot 2024-12-20 123409](https://github.com/user-attachments/assets/0116597a-d823-4379-b655-d912cef88fca)
+
+
 
 
 
