@@ -123,10 +123,10 @@ Item_Code	        Item_Name	           Loss_Rate
 ```
 
 ##### Displaying the unique types of items and categories
-In the following two queries I used the DISTINCT function to find the all of the unique items and categories.
+In the following two queries, I used the DISTINCT function to find the all of the unique items and categories.
 
 ###### The distinct item types
-There were 252 items in total so I decided to only display the first 15 here.
+There were 247 distinct items in total so I decided to only display the first 15 here.
 
 ```
 SELECT DISTINCT(item_name) FROM item_category;
