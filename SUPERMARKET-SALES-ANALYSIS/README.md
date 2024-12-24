@@ -913,7 +913,40 @@ After all of that, I was left with a dashboard that looks like this:
 
 
 ## Data Summary
-
+- There were 878,503 sales in total
+- There were 470,503 kilograms of vegetables sold in total
+- The total revenue was 3,369,766 Chinese Yuan
+- There are 247 distinct items sold by the supermarket
+- There are 6 different vegetable categories
+- The data spans from July 1st, 2020 to June 30th. 2023, an exact 3 years of data
+- Broccoli, Net Lotus Root, and Xixia Mushroom were the top-selling products by revenue
+- Broccoli, Net Lotus Root and Chinese Cabbage were the top-selling products by total quantity sold
+- February 10th, 2021 was the best-selling date in the data by a substantial margin. It did 28,748.89 RMB in revenue which was just under 10000 Chinese Yuan more than the second highest date which was February 9th, 2021, the day before. 
+- January contained 10 of the top 20 best-selling dates by revenue. February contained 6 of the top 20
+- Flower/Leaf Vegetables is the best-selling category selling 198,659 total units and doing 1,079,834.83 RMB in revenue. This was 107,014 more units and 325,270.41 more Chinese Yuan than the second-best-selling category.
+- Solanum is the worst-selling category selling 22,442 units and doing 191,226.98 RMB in revenue
+- Bagged Needle Mushroom, White Jelly Mushroom, and Red Oak Leaf were the 3 worst-selling products doing 3.5 RMB, 4.9 RMB, and 8.3 RMB in revenue respectively
+- November 28th, 29th, and 27th were the 3 worst-selling dates with a combined 210 units sold and 824.55 RMB in revenue
+- 9 of the top 20 worst-selling dates were in the month of November. December contained 4 of the top 20 dates while May contained 3
+- There were 461 returns in total
+- Wuhu Green Pepper, Broccoli, and Xixia Mushroom were the 3 most returned products with 38, 36, and 34 returns respectively
+- Wuhu Green Pepper returns made up 8.24% of all returns while Broccoli returns made up 7.81% and Xixia Mushroom returns made up 7.38%
+- The most returned product proportionate to how many units of that product were sold is The Steak Mushrooms. It has 36 total units sold and 1 return meaning 2.778% of all Steak Mushrooms sold were returned. The next closest was Yellow Baicai with a 0.449% return rate.
+- Discounts were used 47,336 times. Discount usage made up 5.39% of all sales made.
+- August is the month with the most discounts used while June is the month with the least discounts used
+- Black Chicken Mushroom has the biggest difference between unit price and wholesale price as the unit price is 42.11 RMB more than the wholesale price
+- Saturday and Sunday are the best-selling days of the week by total revenue and total purchases made while Thursday and Tuesday are the worst
+- February, January, and March are the best-selling months by average revenue doing 4.907 RMB, 4.851 RMB, and 4.085 RMB respectively
+- June, May, and November are the worst-selling months by average revenue doing 3.153 RMB, 3.229 RMB, and 3.296 RMB respectively
+- 2023 is the best-selling month by average revenue with 4.333 RMB followed by 2022 with 3.928 RMB, 2021 with 3.683 RMB and lastly, 2020 as the worst-selling year with 3.603 RMB as the average revenue
+- The 1st quarter of 2021 was the best-selling quarter by total revenue doing 406,644.76 RMB followed by the 3rd quarter of 2020 with 363,001.46 RMB and the 1st quarter of 2023 with 340,223.82 RMB
+- The 2nd quarter of 2022 was the worst selling quarter by total revenue doing 174,529.24 RMB in revenue followed by the 4th quarter of 2021 with 201,068.31 RMB
+- The best-selling quarters by average revenue are the 1st quarters of 2022, 2023, and 2021 with average revenues of 4.679 RMB, 4,646 RMB, and 4.594 RMB respectively
+- The worst-selling quarters by average revenue are the 2nd quarter of 2021, the 2nd quarter of 2022, and the 3rd quarter of 2021 with average revenues of 2.875 RMB, 3.426 RMB, and 3.445 RMB respectively
+- The items with the highest loss rate are High Melon with 29.25%, Chuncai with 29.03% and Dongmenkou Xiaobaicai with 27.84%
+- 22 products had a 0% loss rate
+- Cabbage was the category with the highest loss rate of 14.14% while Solanum had the lowest loss rate of 7.12%
+- Xixia mushroom had the highest potential lost revenue with 29,187.62 RMB lost followed by Broccoli with 24,990.99 RMB lost, and Yunnan Shengcai with 19,787.94 RMB lost.
 
 
 ## Insights
