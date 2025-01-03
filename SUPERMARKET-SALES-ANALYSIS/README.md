@@ -2,6 +2,7 @@ For this project, I took the sales data for vegetables in a supermarket in China
 
 - [Tableau Dashboard](https://public.tableau.com/app/profile/harnoor.gill/viz/SupermarketSalesDashboard_17340389386660/Dashboard1?publish=yes)
 
+
 ## Table of Contents:
 1.	[Introduction](https://github.com/HarnoorG/SQL-Portfolio/tree/main/SUPERMARKET-SALES-ANALYSIS#introduction)
 2.	[Process](https://github.com/HarnoorG/SQL-Portfolio/tree/main/SUPERMARKET-SALES-ANALYSIS#process)
@@ -13,8 +14,9 @@ For this project, I took the sales data for vegetables in a supermarket in China
 5.	[What I got to Practice](https://github.com/HarnoorG/SQL-Portfolio/tree/main/SUPERMARKET-SALES-ANALYSIS#what-i-got-to-practice)
 6.	[Conclusion](https://github.com/HarnoorG/SQL-Portfolio/tree/main/SUPERMARKET-SALES-ANALYSIS#conclusion)
 
-## Introduction
 
+## Introduction
+My inspiration for this project came from wanting to do some sort of project analyzing sales. So, I went to Kaggle browsing different sales datasets until I landed on this supermarket data. This stood out to me because it included 4 different tables which would force me to use joins to get the query results I want. I also liked how it contained columns that I didn’t understand at the time and is data that is based in China. This would force me to go out of my way to try and understand what the data meant and investigate reasons specific to China of why certain trends might be occurring.
 
 ## Process
 The first thing I did was go to kaggle.com and download the supermarket data from https://www.kaggle.com/datasets/yapwh1208/supermarket-sales-data/data?select=annex1.csv. The data came with 4 different .csv files.
@@ -38,6 +40,7 @@ I repeated the following steps for each of the 4 .csv files which are named Anne
    - None of the tables contained nulls
 5. Next, I looked for any rows where all of the columns were duplicates of a different row. To do this, in an empty column, I concatenated all of the other columns using the TEXTJOIN function. I then used conditional formatting to highlight duplicate values to find duplicate rows and remove these rows. I also used filters here to see which cells were highlighted
    - None of the tables contained duplicate rows
+
 
 ### SQL
 
@@ -856,6 +859,7 @@ Millet Pepper (Bag)			9.43		5184.56
 
 This list of items sorted by revenue potentially lost is nearly identical to the list of best-selling items.
 
+
 ### Tableau
 1.	I opened Tableau Public and imported Annex1.csv as a text file
 2.	Next, I added the 3 other tables and formed relationships between all 4 tables by using the item code variable as the linking variable
@@ -938,7 +942,7 @@ After all of that, I was left with a dashboard that looks like this:
 - Saturday and Sunday are the best-selling days of the week by total revenue and total purchases made while Thursday and Tuesday are the worst
 - February, January, and March are the best-selling months by average revenue doing 4.907 RMB, 4.851 RMB, and 4.085 RMB respectively
 - June, May, and November are the worst-selling months by average revenue doing 3.153 RMB, 3.229 RMB, and 3.296 RMB respectively
-- 2023 is the best-selling month by average revenue with 4.333 RMB followed by 2022 with 3.928 RMB, 2021 with 3.683 RMB and lastly, 2020 as the worst-selling year with 3.603 RMB as the average revenue
+- 2023 is the best-selling year by average revenue with 4.333 RMB followed by 2022 with 3.928 RMB, 2021 with 3.683 RMB and lastly, 2020 as the worst-selling year with 3.603 RMB as the average revenue
 - The 1st quarter of 2021 was the best-selling quarter by total revenue doing 406,644.76 RMB followed by the 3rd quarter of 2020 with 363,001.46 RMB and the 1st quarter of 2023 with 340,223.82 RMB
 - The 2nd quarter of 2022 was the worst selling quarter by total revenue doing 174,529.24 RMB in revenue followed by the 4th quarter of 2021 with 201,068.31 RMB
 - The best-selling quarters by average revenue are the 1st quarters of 2022, 2023, and 2021 with average revenues of 4.679 RMB, 4,646 RMB, and 4.594 RMB respectively
@@ -950,12 +954,23 @@ After all of that, I was left with a dashboard that looks like this:
 
 
 ## Insights
-
+- Winter was the busiest season for the supermarket with January and February being the months with the most sales by quite a big margin
+	- The uptick in sales in January and February is likely correlated with the start of the Chinese New Year as the best-selling individual dates tend to be 1 or 2 days before the start of the Chinese New Year.
+- Saturday and Sunday are the best-selling days by a considerable margin
+	- This likely occurs because the weekend is the time where most people have free time and can get their grocery shopping done. 
+- The supermarket saw increases in average revenue, decreases in average price and increases in the average quantity sold with every passing year
+	- This likely indicates that the supermarket is growing at a great rate in its ability to reduce prices and sell more quantities but still increase its revenue in the process. 
 
 
 ## What I Got to Practice
-
+- Working with four tables in conjunction with each other
+- Using multiple temporary tables at once
+- Analyzing sales patterns 
+- Working with data that is not from my region
+- Creating a dashboard that displays the same metrics across all the visualizations and the metrics are toggleable.
+- Working with filters on a dashboard
+- Creating a more cohesive dashboard regarding practicality and appearance
 
 
 ## Conclusion
-
+After analyzing the sales data for this Chinese supermarket, I came out with the takeaway that they are a successful business that are growing at a good rate. Every year their sales grow while their prices decrease and revenue increases. They also do a great job of capitalizing on the celebrations of the Chinese New Year as their best-selling days come around this time. But I also have a couple of suggestions that might help the supermarket grow. Firstly, from time to time for the weekdays they should offer more discount promotions, especially in May, June, and November when sales are low. This could help boost sales for the days when there aren’t many. Secondly, I would cut down on how many different products are sold. They sell over 250 different vegetables and that can be overwhelming for a consumer. They have about 20 products that have not made 100 Chinese Yuan in revenue so I think they could get rid of these products and maybe some others.
