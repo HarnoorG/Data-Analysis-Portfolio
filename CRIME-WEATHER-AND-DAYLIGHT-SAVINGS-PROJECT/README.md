@@ -118,7 +118,7 @@ library(lubridate)
 library(car)
 ```
 
-## Reading in the crime data
+### Reading in the crime data
 
 ```
 dailycrime <- read_csv("crimedata_csv_AllNeighbourhoods_AllYears.csv") %>%
@@ -144,7 +144,7 @@ year   month   day   dailycrimes   date         dayofweek
 2003	1	6	 161	  2003-01-06	  2
 ```
 
-## Reading in the weather data
+### Reading in the weather data
 
 ```
 weather <- read_csv("weatherstats_vancouver_daily.csv") %>%
@@ -171,14 +171,14 @@ date         avg_temperature   precipitation   avg_relative_humidity   avg_wind_
 
 Here we notice that under the date it says "<chr>" which means the date variable has the type character. You want your dates to be of the date type most of the time but here we need it to have type date as the crime data's date variable is of type date and the two date columns need to be of the same type if we want to join them.
 
-## Changing the type of the date variable in the weather table
+### Changing the type of the date variable in the weather table
 Since our date variable is of the character type when it should be in the date format we use the mdy() function to change it. We use this function because the date is in the month, day, year format.
 
 ```
 weather$date = mdy(weather$date)
 ```
 
-## Joining the crime and weather data
+### Joining the crime and weather data
 
 ```
 crimes_and_weather <- dailycrime %>% 
@@ -198,7 +198,7 @@ year   month   day   dailycrimes     date     dayofweek   avg_temperature   prec
 2003	1	6	161	  2003-01-06	2	  4.85	            0.0             85.0	            4.5
 ```
 
-## Turning the day of week, year, and month variables into factors
+### Turning the day of week, year, and month variables into factors
 The day of week, year, and month variables are all currently of the double type. If we want to see the effect that each specific day of the week, year, and month has on daily crime when we do a linear regression, we need to switch these variables type to factor.
 
 ```
@@ -207,7 +207,7 @@ crimes_and_weather$year <- as.factor(crimes_and_weather$year)
 crimes_and_weather$month <- as.factor(crimes_and_weather$month)
 ```
 
-## Ordinary Least Squares Linear Regression
+### Ordinary Least Squares Linear Regression
 
 ```
 dailycrime_model <- lm(dailycrimes ~ avg_temperature + precipitation + avg_relative_humidity + avg_wind_speed + dayofweek + year + month, data = crimes_and_weather)
@@ -215,7 +215,7 @@ dailycrime_model <- lm(dailycrimes ~ avg_temperature + precipitation + avg_relat
 summary(dailycrime_model)
 ```
 
-## Checking our assumptions for the OLS linear regression model
+### Checking our assumptions for the OLS linear regression model
 As discussed before in the Methodology section of this project, this is the code used to check some of the assumptions of required for an OLS estimator.
 
 ```
@@ -228,7 +228,7 @@ lmtest::bptest(dailycrime_model)
 
 The first line of code was used the plot the residuals vs the fitted values for the OLS model. This
 
-## Reading in and creating the regression discontinuity data
+### Reading in and creating the regression discontinuity data
 
 ```
 violentcrime <- read_csv("crimedata_csv_AllNeighbourhoods_AllYears.csv") %>%
@@ -268,7 +268,7 @@ year   month   day      date       dayofweek   violentcrimes   propertycrimes
 
 ```
 
-## Creating a list of the dates Daylight Savings occurred on
+### Creating a list of the dates Daylight Savings occurred on
 
 ```
 dst_list <- ymd(c("2003-4-6", "2004-4-4", "2005-4-3",
@@ -280,7 +280,7 @@ dst_list <- ymd(c("2003-4-6", "2004-4-4", "2005-4-3",
                   "2021-3-14", "2022-3-13", "2023-03-12"))
 ```
 
-## Creating a sequence of dates
+### Creating a sequence of dates
 Here, for every daylight savings day the 60 days before it and the 60 days after it are all included in the list titled "dates_range".
 
 ```
@@ -289,7 +289,7 @@ dates_range <- sapply(dst_list, function(x){
 }) %>% as.Date(origin = "1970-01-01")
 ```
 
-## Filtering the data to dates that are 60 days before daylight savings and 60 days after
+### Filtering the data to dates that are 60 days before daylight savings and 60 days after
 
 ```
 RDD <- crimesrd %>% 
@@ -309,7 +309,7 @@ year   month   day      date       dayofweek   violentcrimes   propertycrimes
 2020	1	8	2020-01-08	4	10	        63
 ```
 
-## Creating a days variable, a base_dst variable, and an after_dst variable
+### Creating a days variable, a base_dst variable, and an after_dst variable
 The days variable displays how many days before/after that date occurred from daylight savings. The base_dst variable displays the date of daylight savings for the year of the corresponding observation. The after_dst variable displays a 0 if the observation is before daylight savings and 1 if it is after
 
 ```
@@ -334,7 +334,7 @@ year   month   day      date       dayofweek   violentcrimes   propertycrimes  b
 2020	1	8	2020-01-08	4	10	        63             2020-03-08     -60     0
 ```
 
-## Aggregating the RD data
+### Aggregating the RD data
 Here, we group the data by the "days" variable and then calculate the means for both property crimes and violent crimes. This gives us 121 different unique values for each mean, each value corresponding to the 121-day date range which includes 60 days before daylight savings and 60 days after. 
 
 ```
@@ -345,7 +345,7 @@ RDD_plot <- RDD %>%
             after_dst = after_dst)
 ```
 
-## Regression Discontinuity plot for property crimes
+### Regression Discontinuity plot for property crimes
 
 ```
 ggplot(aes(days, propertycrimes), data = RDD_plot) + 
@@ -357,7 +357,7 @@ ggplot(aes(days, propertycrimes), data = RDD_plot) +
        title = "Property crimes before and after DST")
 ```
 
-## Regression Discontinuity plot for violent crimes
+### Regression Discontinuity plot for violent crimes
 
 ```
 ggplot(aes(days, violentcrimes), data = RDD_plot) + 
