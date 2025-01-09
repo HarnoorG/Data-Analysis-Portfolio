@@ -109,3 +109,94 @@ When it comes to the dataset used for these methods, we have 6940 observations w
 
 ## R Code and Estimation Results
 In this section, I'll go through all of the R code used for this project and explain its purpose and its results if it produced any. 
+
+### Loading libraries for necessary packages
+
+```
+library(tidyverse)
+library(modelsummary)
+library(vtable)
+library(lubridate)
+library(dagitty)
+library(ggdag)
+```
+
+## Reading in the crime data
+
+```
+dailycrime <- read_csv("crimedata_csv_AllNeighbourhoods_AllYears.csv") %>%
+  group_by(YEAR, MONTH, DAY) %>%
+  summarize(dailycrimes=n()) %>%
+  rename(year = YEAR) %>% 
+  rename(month = MONTH) %>% 
+  rename(day = DAY) %>%
+  mutate(date=make_date(year,month,day)) %>%
+  mutate(dayofweek=wday(date))
+
+head(dailycrime)
+
+
+year   month   day   dailycrimes   date         dayofweek
+<dbl>  <dbl>  <dbl>     <int>     <date>        <dbl>
+
+2003	1	1	 223	  2003-01-01	  4
+2003	1	2	 161	  2003-01-02	  5
+2003	1	3	 181	  2003-01-03	  6
+2003	1	4	 162	  2003-01-04	  7
+2003	1	5	 132	  2003-01-05	  1
+2003	1	6	 161	  2003-01-06	  2
+```
+
+## Reading in the weather data
+
+```
+weather <- read_csv("weatherstats_vancouver_daily.csv") %>%
+  select(date, 
+         avg_temperature,  
+         precipitation, 
+         avg_relative_humidity, 
+         avg_wind_speed)
+
+head(weather)
+
+
+date         avg_temperature   precipitation   avg_relative_humidity   avg_wind_speed
+<chr>          <dbl>           <dbl>           <dbl>                   <dbl>
+
+12/31/2023	7.25	        0.0	        90.0	                10.0
+12/30/2023	10.80	        6.4	        84.5	                12.0
+12/29/2023	9.94	        1.4	        85.0	                9.0
+12/28/2023	10.64	        4.3	        85.5	                21.0
+12/27/2023	9.19	        1.1	        77.5	                18.5
+12/26/2023	7.95	        2.8	        83.0	                19.5
+
+```
+
+Here we notice that under the date it says "<chr>" which means the date variable has the type character. You want your dates to be of the date type most of the time but here we need it to have type date as the crime data's date variable is of type date and the two date columns need to be of the same type if we want to join them.
+
+## Changing the type of the date variable in the weather table
+Since our date variable is of the character type when it should be in the date format we use the mdy() function to change it. We use this function because the date is in the month, day, year format.
+
+```
+weather$date = mdy(weather$date)
+```
+
+## Joining the crime and weather data
+
+```
+crimes_and_weather <- dailycrime %>% 
+  left_join(weather, by="date")
+
+head(crimes_and_weather)
+
+
+year   month   day   dailycrimes     date     dayofweek   avg_temperature   precipitation   avg_relative_humidity   avg_wind_speed
+<dbl>  <dbl>  <dbl>    <int>        <date>    <dbl>       <dbl>             <dbl>           <dbl>                   <dbl>
+
+2003	1	1	223	  2003-01-01	4	  5.90	            21.6	    86.5	            26.0
+2003	1	2	161	  2003-01-02	5	  8.80	            23.4	    86.5	            31.0
+2003	1	3	181	  2003-01-03	6	  8.80	            2.8             78.5	            36.0
+2003	1	4	162	  2003-01-04	7	  9.25	            13.9	    84.0	            14.0
+2003	1	5	132	  2003-01-05	1	  7.05	            0.0             86.5	            7.5
+2003	1	6	161	  2003-01-06	2	  4.85	            0.0             85.0	            4.5
+```
