@@ -268,4 +268,68 @@ year   month   day      date       dayofweek   violentcrimes   propertycrimes
 
 ```
 
+## Creating a list of the dates Daylight Savings occurred on
 
+```
+dst_list <- ymd(c("2003-4-6", "2004-4-4", "2005-4-3",
+                  "2006-4-2", "2007-3-11", "2008-3-9",
+                  "2009-3-8", "2010-3-14", "2011-3-13",
+                  "2012-3-11", "2013-3-10", "2014-3-9",
+                  "2015-3-8", "2016-3-13", "2017-3-12",
+                  "2018-3-11", "2019-3-10", "2020-3-8",
+                  "2021-3-14", "2022-3-13", "2023-03-12"))
+```
+
+## Creating a sequence of dates
+Here, for every daylight savings day the 60 days before it and the 60 days after it are all included in the list titled "dates_range".
+
+```
+dates_range <- sapply(dst_list, function(x){
+  seq(x - 60, x + 60, by = "days")
+}) %>% as.Date(origin = "1970-01-01")
+```
+
+## Filtering the data to dates that are 60 days before daylight savings and 60 days after
+
+```
+RDD <- crimesrd %>% 
+  mutate(Date = ymd(paste(year, month, day, sep = "-"))) %>%
+  filter(Date %in% dates_range)
+
+head(RDD)
+
+year   month   day      date       dayofweek   violentcrimes   propertycrimes
+<dbl>  <dbl>  <dbl>    <date>         <dbl>    <int>           <int>
+
+2009	1	7	2009-01-07	4	11	        51
+2015	1	7	2015-01-07	4	7	        41
+2009	1	8	2009-01-08	5	11	        29
+2014	1	8	2014-01-08	4	4	        46
+2015	1	8	2015-01-08	5	2	        48
+2020	1	8	2020-01-08	4	10	        63
+```
+
+## Creating a days variable, a base_dst variable, and an after_dst variable
+The days variable displays how many days before/after that date occurred from daylight savings. The base_dst variable displays the date of daylight savings for the year of the corresponding observation. The after_dst variable displays a 0 if the observation is before daylight savings and 1 if it is after
+
+```
+RDD <- RDD %>% 
+  mutate(base_dst = dst_list[match(year, year(dst_list))], # Function which() also can be used
+         days = Date - base_dst,
+         after_dst = case_when(days >= 0 ~ 1, TRUE ~ 0)) 
+
+RDD$days <- unclass(RDD$days)
+
+head(RDD)
+
+
+year   month   day      date       dayofweek   violentcrimes   propertycrimes  base_dst      days    after_dst
+<dbl>  <dbl>  <dbl>    <date>         <dbl>    <int>           <int>
+
+2009	1	7	2009-01-07	4	11	        51             2009-03-08     -60     0
+2015	1	7	2015-01-07	4	7	        41             2015-03-08     -60     0
+2009	1	8	2009-01-08	5	11	        29             2009-03-08     -59     0
+2014	1	8	2014-01-08	4	4	        46             2014-03-09     -60     0
+2015	1	8	2015-01-08	5	2	        48             2015-03-08     -59     0
+2020	1	8	2020-01-08	4	10	        63             2020-03-08     -60     0
+```
