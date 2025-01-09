@@ -114,11 +114,8 @@ In this section, I'll go through all of the R code used for this project and exp
 
 ```
 library(tidyverse)
-library(modelsummary)
-library(vtable)
 library(lubridate)
-library(dagitty)
-library(ggdag)
+library(car)
 ```
 
 ## Reading in the crime data
@@ -200,3 +197,75 @@ year   month   day   dailycrimes     date     dayofweek   avg_temperature   prec
 2003	1	5	132	  2003-01-05	1	  7.05	            0.0             86.5	            7.5
 2003	1	6	161	  2003-01-06	2	  4.85	            0.0             85.0	            4.5
 ```
+
+## Turning the day of week, year, and month variables into factors
+The day of week, year, and month variables are all currently of the double type. If we want to see the effect that each specific day of the week, year, and month has on daily crime when we do a linear regression, we need to switch these variables type to factor.
+
+```
+crimes_and_weather$dayofweek <- as.factor(crimes_and_weather$dayofweek)
+crimes_and_weather$year <- as.factor(crimes_and_weather$year)
+crimes_and_weather$month <- as.factor(crimes_and_weather$month)
+```
+
+## Ordinary Least Squares Linear Regression
+
+```
+dailycrime_model <- lm(dailycrimes ~ avg_temperature + precipitation + avg_relative_humidity + avg_wind_speed + dayofweek + year + month, data = crimes_and_weather)
+
+summary(dailycrime_model)
+```
+
+## Checking our assumptions for the OLS linear regression model
+As discussed before in the Methodology section of this project, this is the code used to check some of the assumptions of required for an OLS estimator.
+
+```
+plot(dailycrime_model)
+
+vif(dailycrime_model)
+
+lmtest::bptest(dailycrime_model)
+```
+
+The first line of code was used the plot the residuals vs the fitted values for the OLS model. This
+
+## Reading in and creating the regression discontinuity data
+
+```
+violentcrime <- read_csv("crimedata_csv_AllNeighbourhoods_AllYears.csv") %>%
+  filter(TYPE == 'Homicide' | TYPE == 'Offence Against a Person') %>%
+  group_by(YEAR, MONTH, DAY) %>%
+  summarize(violentcrimes=n()) %>%
+  mutate(date=make_date(YEAR,MONTH,DAY)) %>%
+  mutate(dayofweek=wday(date))
+
+propertycrime <- read_csv("crimedata_csv_AllNeighbourhoods_AllYears.csv") %>%
+  filter(TYPE == "Mischief" | TYPE == 'Theft from Vehicle' | TYPE == 'Other Theft' | TYPE == 'Theft of Bicycle') %>%
+  group_by(YEAR, MONTH, DAY) %>%
+  summarize(propertycrimes=n()) %>%
+  mutate(date=make_date(YEAR,MONTH,DAY)) %>%
+  mutate(dayofweek=wday(date))  
+
+crimesrd <- right_join(violentcrime, propertycrime) %>%
+  relocate('violentcrimes', .before = 'propertycrimes') %>%
+  arrange(YEAR, MONTH, DAY) %>%
+  rename(year = YEAR) %>% 
+  rename(month = MONTH) %>% 
+  rename(day = DAY) %>%
+  replace(is.na(.), 0)
+
+head(crimesrd)
+
+
+year   month   day      date       dayofweek   violentcrimes   propertycrimes
+<dbl>  <dbl>  <dbl>    <date>         <dbl>    <int>           <int>
+
+2003	1	1	2003-01-01	4	32	        137
+2003	1	2	2003-01-02	5	14	        85
+2003	1	3	2003-01-03	6	14	        108
+2003	1	4	2003-01-04	7	13	        98
+2003	1	5	2003-01-05	1	12	        75
+2003	1	6	2003-01-06	2	13	        103
+
+```
+
+
