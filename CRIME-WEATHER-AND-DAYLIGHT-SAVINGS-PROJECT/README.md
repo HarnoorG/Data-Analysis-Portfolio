@@ -333,3 +333,38 @@ year   month   day      date       dayofweek   violentcrimes   propertycrimes  b
 2015	1	8	2015-01-08	5	2	        48             2015-03-08     -59     0
 2020	1	8	2020-01-08	4	10	        63             2020-03-08     -60     0
 ```
+
+## Aggregating the RD data
+Here, we group the data by the "days" variable and then calculate the means for both property crimes and violent crimes. This gives us 121 different unique values for each mean, each value corresponding to the 121-day date range which includes 60 days before daylight savings and 60 days after. 
+
+```
+RDD_plot <- RDD %>%
+  group_by(days) %>%
+  summarise(propertycrimes = mean(propertycrimes),
+            violentcrimes = mean(violentcrimes),
+            after_dst = after_dst)
+```
+
+## Regression Discontinuity plot for property crimes
+
+```
+ggplot(aes(days, propertycrimes), data = RDD_plot) + 
+  geom_point() + 
+  geom_vline(xintercept = 0, linetype = "dashed", color = "red") + 
+  geom_smooth(aes(group = after_dst), method = "loess", color = "blue") + 
+  labs(x = "Days around DST",
+       y = "Property Crimes",
+       title = "Property crimes before and after DST")
+```
+
+## Regression Discontinuity plot for violent crimes
+
+```
+ggplot(aes(days, violentcrimes), data = RDD_plot) + 
+  geom_point() + 
+  geom_vline(xintercept = 0, linetype = "dashed", color = "red") + 
+  geom_smooth(aes(group = after_dst), method = "loess", color = "blue") + 
+  labs(x = "Days around DST",
+       y = "Violent Crimes",
+       title = "Violent Crimes before and after DST")
+```
