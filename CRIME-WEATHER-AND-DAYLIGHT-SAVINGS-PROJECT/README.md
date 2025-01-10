@@ -357,6 +357,9 @@ ggplot(aes(days, propertycrimes), data = RDD_plot) +
        title = "Property crimes before and after DST")
 ```
 
+![RDDP](https://github.com/user-attachments/assets/8ab16366-5956-4ec5-85ae-d1ea435951fc)
+
+
 ### Regression Discontinuity plot for violent crimes
 
 ```
@@ -368,3 +371,6 @@ ggplot(aes(days, violentcrimes), data = RDD_plot) +
        y = "Violent Crimes",
        title = "Violent Crimes before and after DST")
 ```
+
+![RDDV](https://github.com/user-attachments/assets/37f00e4f-3d04-4441-9ca6-9e3b862e5809)
+
