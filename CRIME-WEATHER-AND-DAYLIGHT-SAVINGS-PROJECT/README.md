@@ -1,4 +1,4 @@
-This project is an extension of the [crime and weather project](https://github.com/HarnoorG/Data-Analysis-Portfolio/tree/main/CRIME-AND-WEATHER-PROJECT) that I previously did. In that project, I looked at the relationship between crime and weather, specifically the summer months when it tends to be hotter. I tried to see if more crime occurred in the heat as well as examine other trends between weather and crime.
+This project is an extension of the [CRIME AND WEATHER PROJECT](https://github.com/HarnoorG/Data-Analysis-Portfolio/tree/main/CRIME-AND-WEATHER-PROJECT) that I previously did. In that project, I looked at the relationship between crime and weather, specifically the summer months when it tends to be hotter. I tried to see if more crime occurred in the heat as well as examine other trends between weather and crime.
 
 # Table of Contents:
 1.	[Introduction](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#introduction)
