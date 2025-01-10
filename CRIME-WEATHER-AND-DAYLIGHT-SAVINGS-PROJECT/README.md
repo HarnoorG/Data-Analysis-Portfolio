@@ -127,11 +127,10 @@ library(car)
 dailycrime <- read_csv("crimedata_csv_AllNeighbourhoods_AllYears.csv") %>%
   group_by(YEAR, MONTH, DAY) %>%
   summarize(dailycrimes=n()) %>%
-  rename(year = YEAR) %>% 
-  rename(month = MONTH) %>% 
-  rename(day = DAY) %>%
-  mutate(date=make_date(year,month,day)) %>%
-  mutate(dayofweek=wday(date))
+  rename(year = YEAR, month = MONTH, day = DAY) %>%
+  mutate(date=make_date(year,month,day), 
+         dayofweek=wday(date))
+
 
 head(dailycrime)
 
@@ -240,23 +239,22 @@ violentcrime <- read_csv("crimedata_csv_AllNeighbourhoods_AllYears.csv") %>%
   filter(TYPE == 'Homicide' | TYPE == 'Offence Against a Person') %>%
   group_by(YEAR, MONTH, DAY) %>%
   summarize(violentcrimes=n()) %>%
-  mutate(date=make_date(YEAR,MONTH,DAY)) %>%
-  mutate(dayofweek=wday(date))
+  mutate(date=make_date(YEAR,MONTH,DAY),
+         dayofweek=wday(date))
 
 propertycrime <- read_csv("crimedata_csv_AllNeighbourhoods_AllYears.csv") %>%
   filter(TYPE == "Mischief" | TYPE == 'Theft from Vehicle' | TYPE == 'Other Theft' | TYPE == 'Theft of Bicycle') %>%
   group_by(YEAR, MONTH, DAY) %>%
   summarize(propertycrimes=n()) %>%
-  mutate(date=make_date(YEAR,MONTH,DAY)) %>%
-  mutate(dayofweek=wday(date))  
+  mutate(date=make_date(YEAR,MONTH,DAY),
+         dayofweek=wday(date))    
 
-crimesrd <- right_join(violentcrime, propertycrime) %>%
+crimerd <- right_join(violentcrime, propertycrime) %>%
   relocate('violentcrimes', .before = 'propertycrimes') %>%
   arrange(YEAR, MONTH, DAY) %>%
-  rename(year = YEAR) %>% 
-  rename(month = MONTH) %>% 
-  rename(day = DAY) %>%
+  rename(year = YEAR, month = MONTH, day = DAY) %>%
   replace(is.na(.), 0)
+
 
 head(crimesrd)
 
@@ -420,3 +418,48 @@ summary(lm(violentcrimes ~ days*after_dst + I(days^2) + I(days^2):after_dst + da
 
 ## Difference-in-Difference Estimation
 
+### Importing the property crime data
+
+```
+propertycrime <- read_csv("crimedata_csv_AllNeighbourhoods_AllYears.csv") %>%
+  filter(TYPE == "Mischief" | TYPE == 'Theft from Vehicle' | TYPE == 'Other Theft' | TYPE == 'Theft of Bicycle') %>%
+  mutate(date=make_date(YEAR, MONTH, DAY),
+         numerictime = HOUR*60 + MINUTE) 
+
+
+
+```
+
+### Importing the weather data
+
+```
+weather <- read_csv("weatherstats_vancouver_daily.csv") %>%
+  select(date, sunset_hhmm)
+```
+
+### Making adjustments to the weather data
+
+```
+weather$date = mdy(weather$date)
+
+weather$shour <- hour(weather$sunset_hhmm)
+weather$sminute <- minute(weather$sunset_hhmm)
+weather$stime <- (weather$shour*60 + weather$sminute)
+```
+
+### Joining the property crime and weather data
+
+```
+crimesdd <- left_join(propertycrime, weather, by="date")
+```
+
+### Preparing the difference-in-difference data to be ready to use
+
+```
+crimesdd <- crimesdd %>%
+  mutate(sunset = case_when(numerictime >= stime ~ 1, TRUE ~ 0)) %>%
+  rename(year = YEAR, month = MONTH, day = DAY) %>%
+  group_by(year, month, day, sunset) %>%
+  summarize(propertycrimes=n()) %>%
+  arrange(year, month, day) 
+```
