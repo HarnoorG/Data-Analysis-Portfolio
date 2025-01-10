@@ -1,4 +1,4 @@
-In this project, 
+This project is an extension of the [crime and weather project](https://github.com/HarnoorG/Data-Analysis-Portfolio/tree/main/CRIME-AND-WEATHER-PROJECT) that I previously did. In that project, I looked at the relationship between crime and weather, specifically the summer months when it tends to be hotter. I tried to see if more crime occurred in the heat as well as examine other trends between weather and crime.
 
 # Table of Contents:
 1.	[Introduction](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#introduction)
@@ -11,9 +11,7 @@ In this project,
     - [Difference-in-Difference Estimation](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#difference-in-difference-estimation)
 
 # Introduction
-This project is an extension of the [crime and weather project](https://github.com/HarnoorG/Data-Analysis-Portfolio/tree/main/CRIME-AND-WEATHER-PROJECT) that I previously did. In that project, I looked at the relationship between crime and weather, specifically the summer months when it tends to be hotter. I tried to see if more crime occurred in the heat as well as examine other trends between weather and crime. 
-
-Here, I want to take it a step further by looking at the impact that weather and daylight savings time have on crime prevalence in Vancouver. In Vancouver, the switch to daylight savings time occurs every year in March, but it used to occur in April before that. This change in date is useful to us in our efforts to use causal inference to find the effect of daylight savings time on crime. British Columbia is considering making daylight saving time the permanent time so estimating the effect of it on crime could be useful to policymakers.
+In this project, I want to take what I did in my last crime and weather project a step further by looking at the impact that weather and daylight savings time have on crime prevalence in Vancouver. In Vancouver, the switch to daylight savings time occurs every year in March, but it used to occur in April before that. This change in date is useful to us in our efforts to use causal inference to find the effect of daylight savings time on crime. British Columbia is considering making daylight saving time the permanent time so estimating the effect of it on crime could be useful to policymakers.
 
 This project will contain three different forms of statistical analysis. The first is a standard ordinary least squares (OLS) linear regression model to analyze the effect that weather has on crime. After that, I’ll use a regression discontinuity design (RDD) model to analyze the effect daylights savings day has on violent crimes and property crimes. Lastly, a difference-in-difference (DID) estimation will be used to try and analyze the effect that changing the daylight savings date from late April to early March had on crimes that specifically occur after sunset compared to crimes that occur before sunset. 
 The procedures in the previous paragraph were heavily inspired by two different research papers. These papers will be discussed in depth in the literature review below
