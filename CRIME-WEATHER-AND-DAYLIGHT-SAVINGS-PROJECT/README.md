@@ -392,11 +392,15 @@ RDD$dayofweek <- as.factor(RDD$dayofweek)
 summary(lm(propertycrimes ~ days*after_dst + dayofweek, data = RDD))
 ```
 
+![LINEAR RDD P](https://github.com/user-attachments/assets/2c7ef8c9-5d2f-4b36-bf84-f64aae4075c9)
+
 ### Linear regression discontinuity design regression for violent crimes
 
 ```
 summary(lm(violentcrimes ~ days*after_dst + dayofweek, data = RDD))
 ```
+
+![LINEAR RDD V](https://github.com/user-attachments/assets/076ce6db-3958-471b-aa6d-2cbfe5df5d6f)
 
 ### Quadratic regression discontinuity design regression for property crimes
 
@@ -404,11 +408,15 @@ summary(lm(violentcrimes ~ days*after_dst + dayofweek, data = RDD))
 summary(lm(propertycrimes ~ days*after_dst + I(days^2) + I(days^2):after_dst + dayofweek, data = RDD))
 ```
 
+![QUADRATIC RDD P](https://github.com/user-attachments/assets/8d4350b5-409b-44e4-957e-6f23781f2ddf)
+
 ### Quadratic regression discontinuity design regression for violent crimes
 
 ```
 summary(lm(violentcrimes ~ days*after_dst + I(days^2) + I(days^2):after_dst + dayofweek, data = RDD))
 ```
+
+![QUADRATIC RDD V](https://github.com/user-attachments/assets/8fb6dec8-67c7-43d7-9344-7d22f53393cf)
 
 ## Difference-in-Difference Estimation
 
