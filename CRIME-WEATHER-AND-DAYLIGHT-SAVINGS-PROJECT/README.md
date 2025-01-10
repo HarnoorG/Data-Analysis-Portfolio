@@ -8,7 +8,7 @@ In this project,
 5.	[R Code and Estimation Results](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#r-code-and-estimation-results)
 	  - [OLS Linear Regression](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#ols-linear-regression)
     - [Regression Discontinuity Design](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#regression-discontinuity-design)
-    - [Difference-in-Difference](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#difference--in--difference)
+    - [Difference-in-Difference Estimation](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#difference-in-difference-estimation)
 
 # Introduction
 This project is an extension of the [crime and weather project](https://github.com/HarnoorG/Data-Analysis-Portfolio/tree/main/CRIME-AND-WEATHER-PROJECT) that I previously did. In that project, I looked at the relationship between crime and weather, specifically the summer months when it tends to be hotter. I tried to see if more crime occurred in the heat as well as examine other trends between weather and crime. 
