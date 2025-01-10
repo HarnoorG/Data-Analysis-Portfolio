@@ -1,13 +1,16 @@
 In this project, 
 
-## Table of Contents:
+# Table of Contents:
 1.	[Introduction](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#introduction)
 2.  [Literature Review](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#literature-review)
 3.  [Methodology](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#methodology)
 4.	[Data Description](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#data-description)
 5.	[R Code and Estimation Results](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#r-code-and-estimation-results)
+	  - [OLS Linear Regression](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#ols-linear-regression)
+    - [Regression Discontinuity Design](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#regression-discontinuity-design)
+    - [Difference-in-Difference](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#difference-in-difference)
 
-## Introduction
+# Introduction
 This project is an extension of the [crime and weather project](https://github.com/HarnoorG/Data-Analysis-Portfolio/tree/main/CRIME-AND-WEATHER-PROJECT) that I previously did. In that project, I looked at the relationship between crime and weather, specifically the summer months when it tends to be hotter. I tried to see if more crime occurred in the heat as well as examine other trends between weather and crime. 
 
 Here, I want to take it a step further by looking at the impact that weather and daylight savings time have on crime prevalence in Vancouver. In Vancouver, the switch to daylight savings time occurs every year in March, but it used to occur in April before that. This change in date is useful to us in our efforts to use causal inference to find the effect of daylight savings time on crime. British Columbia is considering making daylight saving time the permanent time so estimating the effect of it on crime could be useful to policymakers.
@@ -25,7 +28,7 @@ In Doleac and Sander’s RDD, they have the variable days as their running varia
 
 For Doleac and Sander’s DID they used the variation in the impact of DST across the hours of the day and the variation in the timing of daylight saving across years based on the 2007 policy change that moved daylight saving from April to March. The earlier beginning of DST is March 9th (2008), and the latest is April 3rd (2006), so their analysis includes 25 days per year. Just like for their RDD, their two crime variables are crimes per million and the probability of any crime occurring. They then use the day-by-sunset level where the hour of sunset is hour 0 and then just following sunset is hour 1 and this leads to the following regression: crime = α + β<sub>1</sub>Post2007 + β<sub>2</sub>sunset + β<sub>3</sub>(sunset)X(Post2007). In their DID results, they found that there was a significant effect on robbery with there being a 20% decrease.
 
-## Methodology
+# Methodology
 In this paper, I plan on doing estimation to find the effect of weather and daylight saving on crime using both linear models and causal inference. A linear model, specifically Ordinary Least Squares (OLS) will be used to estimate the effect of weather on crime while causal inference through both a regression discontinuity design and a difference-in-difference model will be used to estimate and predict the causal effect that daylight saving has on crime.
 
 For the regression discontinuity design, a similar approach to the one used by Doleac and Sanders is considered using data from 2003 to 2021. We have two crime variables; property crimes and violent crimes and we want to use RDD to see if switching to daylight saving time (DST) leads to a jump in the amount of crime that occurs. We take days as our running variable where our cut-off variable is the day that the daylight saving time switch occurs, and that day is assigned a value of zero. The only observations that we include are the sixty days before daylight saving, the actual daylight saving day, and then the sixty days after daylight saving so we only consider 121 days of the year. For example, if the observation is of the date one day before daylight saving it is assigned a value of – 1 for the days variable, if an observation is five days after daylight saving it is assigned a value of 5 for the days variable. For each of these 121 days we have the associated number of violent crimes and property crimes for each day over 19 years of data so for each day we aggregate the data by taking the mean number of violent crimes and the mean number of property crimes that occurred on that day using the 19 values associated with the day. We then produce a plot of the regression discontinuity over the 121 days to see if we can visually see a jump in the amount of crime that occurs after crossing the cut-off as well as fitting the following linear regression. 
@@ -103,12 +106,14 @@ I did the Breusch-Pagan hypothesis test to see if the model satisfied the homosk
 
 ![Breusch-Pagan Test](https://github.com/user-attachments/assets/8750dccc-00ec-4312-929b-a95fc0c8f5fe)
 
-## Data Description
+# Data Description
 
 When it comes to the dataset used for these methods, we have 6940 observations with each observation belonging to one day from the start of 2003 until the end of 2023. In total, there are 16 variables present in the dataset. 5 of those variables correspond to date with those variables being year, month, day, date, and dayofweek and most of these variables are factorized and then used as controls in the OLS. There are 3 different crime variables that are used as the dependent variable throughout the paper, those variables are dailycrimes, propertycrimes and violent crimes and they record how often a specific crime occurs per day. dailycrimes is used in the OLS, dailycrimes is used in the RDD and lastly, propertycrimes is used in both RDD and DID. Precipitation, avg_temperature, avg_relative_humidity and avg_wind_speed are the weather covariates used in the OLS and they represent how often their respective weather measurement occurs per day. Then we have days which is used as the running variable in our RDD and after_dst to indicate if observations are before or after the cutoff point. DID uses Post2007 to indicate if observations are in the post-treatment or pre-treatment period and sunset to split observations into either the treatment group or control group. 
 
-## R Code and Estimation Results
+# R Code and Estimation Results
 In this section, I'll go through all of the R code used for this project and explain its purpose and its results if it produced any. 
+
+## OLS Linear Regression
 
 ### Loading libraries for necessary packages
 
@@ -227,6 +232,8 @@ lmtest::bptest(dailycrime_model)
 ```
 
 The first line of code was used the plot the residuals vs the fitted values for the OLS model. This
+
+## Regression Discontinuity Design
 
 ### Reading in and creating the regression discontinuity data
 
@@ -373,4 +380,37 @@ ggplot(aes(days, violentcrimes), data = RDD_plot) +
 ```
 
 ![RDDV](https://github.com/user-attachments/assets/37f00e4f-3d04-4441-9ca6-9e3b862e5809)
+
+### Changing data type of the dayofweek variable
+If we want to see the effect that each specific day of the week has on violent and property crime when we do a linear regression, we need to switch these variables type to factor.
+
+```
+RDD$dayofweek <- as.factor(RDD$dayofweek)
+```
+
+### Linear regression discontinuity design regression for property crimes
+
+```
+summary(lm(propertycrimes ~ days*after_dst + dayofweek, data = RDD))
+```
+
+### Linear regression discontinuity design regression for violent crimes
+
+```
+summary(lm(violentcrimes ~ days*after_dst + dayofweek, data = RDD))
+```
+
+### Quadratic regression discontinuity design regression for property crimes
+
+```
+summary(lm(propertycrimes ~ days*after_dst + I(days^2) + I(days^2):after_dst + dayofweek, data = RDD))
+```
+
+### Quadratic regression discontinuity design regression for violent crimes
+
+```
+summary(lm(violentcrimes ~ days*after_dst + I(days^2) + I(days^2):after_dst + dayofweek, data = RDD))
+```
+
+## Difference-in-Difference Estimation
 
