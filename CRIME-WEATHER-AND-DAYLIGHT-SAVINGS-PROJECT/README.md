@@ -106,7 +106,7 @@ I did the Breusch-Pagan hypothesis test to see if the model satisfied the homosk
 
 # Data Description
 
-When it comes to the dataset used for these methods, we have 6940 observations with each observation belonging to one day from the start of 2003 until the end of 2023. In total, there are 16 variables present in the dataset. 5 of those variables correspond to date with those variables being year, month, day, date, and dayofweek and most of these variables are factorized and then used as controls in the OLS. There are 3 different crime variables that are used as the dependent variable throughout the paper, those variables are dailycrimes, propertycrimes and violent crimes and they record how often a specific crime occurs per day. dailycrimes is used in the OLS, dailycrimes is used in the RDD and lastly, propertycrimes is used in both RDD and DID. Precipitation, avg_temperature, avg_relative_humidity and avg_wind_speed are the weather covariates used in the OLS and they represent how often their respective weather measurement occurs per day. Then we have days which is used as the running variable in our RDD and after_dst to indicate if observations are before or after the cutoff point. DID uses Post2007 to indicate if observations are in the post-treatment or pre-treatment period and sunset to split observations into either the treatment group or control group. 
+When it comes to the dataset used for these methods, we have 7669 observations with each observation belonging to one day from the start of 2003 until the end of 2023. In total, there are 16 variables present in the dataset. 5 of those variables correspond to date with those variables being year, month, day, date, and dayofweek and most of these variables are factorized and then used as controls in the OLS. There are 3 different crime variables that are used as the dependent variable throughout the paper, those variables are dailycrimes, propertycrimes and violent crimes and they record how often a specific crime occurs per day. dailycrimes is used in the OLS, dailycrimes is used in the RDD and lastly, propertycrimes is used in both RDD and DID. Precipitation, avg_temperature, avg_relative_humidity and avg_wind_speed are the weather covariates used in the OLS and they represent how often their respective weather measurement occurs per day. Then we have days which is used as the running variable in our RDD and after_dst to indicate if observations are before or after the cutoff point. DID uses Post2007 to indicate if observations are in the post-treatment or pre-treatment period and sunset to split observations into either the treatment group or control group. 
 
 # R Code and Estimation Results
 In this section, I'll go through all of the R code used for this project and explain its purpose and its results if it produced any. 
@@ -251,6 +251,7 @@ The outputs of the code for these lines can be seen in the Methodology section o
 ## Regression Discontinuity Design
 
 ### Reading in the violent crime data
+I read in the crime data again but used the filter() function to only include violent crimes. I then grouped the data by year, month, and day so each observation corresponds to a date and calculated the count of violent crimes that occur per each date using the summarize() function. Lastly, I created a date variable using make_date() and day of the week variable using wday().
 
 ```
 violentcrime <- read_csv("crimedata_csv_AllNeighbourhoods_AllYears.csv") %>%
@@ -275,6 +276,7 @@ YEAR 	MONTH 	DAY 	violentcrimes 	date 		dayofweek
 ```
 
 ### Reading in the property crime data
+Here, I did the exact same thing I did above except I filtered the data to only include property crimes instead of violent crimes.
 
 ```
 propertycrime <- read_csv("crimedata_csv_AllNeighbourhoods_AllYears.csv") %>%
@@ -298,7 +300,8 @@ YEAR 	MONTH 	DAY 	propertycrimes 	date 		dayofweek
 2003	1	6	103		2003-01-06	2
 ```
 
-### Reading in and creating the regression discontinuity data
+### Creating the regression discontinuity data
+I used the right_join() function to join the violent crime and property crime data together. I then used the relocate() function so the violentcrimes and propertycrimes columns appear right next to each other. After that, the arrange() function was then used so the dataframe is sorted by the year, month, and day in that order. Lastly, the replace() and is.na() functions were used to replace any NA values with a zero instead. 
 
 ```
  crimerd <- right_join(violentcrime, propertycrime) %>%
@@ -324,6 +327,7 @@ year   month   day      date       dayofweek   violentcrimes   propertycrimes
 ```
 
 ### Creating a list of the dates Daylight Savings occurred on
+The ymd() and c() functions were used to create a list of all daylight savings dates from 2003 to 2023 in year-moth-day format with the data type date.
 
 ```
 dst_list <- ymd(c("2003-4-6", "2004-4-4", "2005-4-3",
@@ -336,7 +340,7 @@ dst_list <- ymd(c("2003-4-6", "2004-4-4", "2005-4-3",
 ```
 
 ### Creating a sequence of dates
-Here, for every daylight savings day the 60 days before it and the 60 days after it are all included in the list titled "dates_range".
+Here, for every daylight savings day the 60 days before it and the 60 days after it are all included in the list titled "dates_range". sapply() was used with the seq() function to apply minus 60 days and plus 60 days to each of the daylight savings days from the dst_list and then give it the data type date using the as.Date() function.
 
 ```
 dates_range <- sapply(dst_list, function(x){
@@ -345,11 +349,11 @@ dates_range <- sapply(dst_list, function(x){
 ```
 
 ### Filtering the data to dates that are 60 days before daylight savings and 60 days after
+The filter() function is used to only include data that occurs 60 before daylight savings, on daylight savings, and 60 days after daylight savings.
 
 ```
-RDD <- crimesrd %>% 
-  mutate(Date = ymd(paste(year, month, day, sep = "-"))) %>%
-  filter(Date %in% dates_range)
+RDD <- crimerd %>% 
+  filter(date %in% dates_range)
 
 head(RDD)
 
@@ -365,11 +369,11 @@ year   month   day      date       dayofweek   violentcrimes   propertycrimes
 ```
 
 ### Creating a days variable, a base_dst variable, and an after_dst variable
-The days variable displays how many days before/after that date occurred from daylight savings. The base_dst variable displays the date of daylight savings for the year of the corresponding observation. The after_dst variable displays a 0 if the observation is before daylight savings and 1 if it is after
+Here the mutate() function is used to create 3 columns. the base_dst variable uses the match() and year() functions to display the date of daylight savings for the year of the corresponding observation. The days variable displays how many days before/after that date occurred from daylight savings. The after_dst variable uses the case_when() function to display a 0 if the observation is before daylight savings and 1 if it is after. We then unclassed the days variable so instead of having the data type time which does not fit what the variable represents, the unclass() function left it with the double data type.
 
 ```
 RDD <- RDD %>% 
-  mutate(base_dst = dst_list[match(year, year(dst_list))], # Function which() also can be used
+  mutate(base_dst = dst_list[match(year, year(dst_list))],
          days = Date - base_dst,
          after_dst = case_when(days >= 0 ~ 1, TRUE ~ 0)) 
 
@@ -379,7 +383,7 @@ head(RDD)
 
 
 year   month   day      date       dayofweek   violentcrimes   propertycrimes  base_dst      days    after_dst
-<dbl>  <dbl>  <dbl>    <date>         <dbl>    <int>           <int>
+<dbl>  <dbl>  <dbl>    <date>         <dbl>    <int>           <int> 		<date>	     <dbl>   <dbl>
 
 2009	1	7	2009-01-07	4	11	        51             2009-03-08     -60     0
 2015	1	7	2015-01-07	4	7	        41             2015-03-08     -60     0
@@ -401,6 +405,7 @@ RDD_plot <- RDD %>%
 ```
 
 ### Regression Discontinuity plot for property crimes
+Here we used ggplot() to plot the regression discontinuity. We have the days variable on the x-axis which we titled "Days around DST" and the propertycrimes variable on the y-axis which we titled "Property Crimes". We then use the geom_point() function to give us 121 different black points corresponding to the average amount of property crime per day. Next, the geom_vline() function is used to insert a red vertical dashed line to represent where the daylight savings date is. geom_smooth() uses locally estimated scatterplot smoothing to plot blue trend lines to the left and right of the daylight savings date. Lastly, the labs() function was used to name the axes and give the plot the title "Property crimes before and after DST" 
 
 ```
 ggplot(aes(days, propertycrimes), data = RDD_plot) + 
@@ -412,10 +417,15 @@ ggplot(aes(days, propertycrimes), data = RDD_plot) +
        title = "Property crimes before and after DST")
 ```
 
-![RDDP](https://github.com/user-attachments/assets/8ab16366-5956-4ec5-85ae-d1ea435951fc)
+![RDDP](https://github.com/user-attachments/assets/5e57327a-2814-4d7d-831e-b103a7ab4838)
+
+
+Looking at the RD plot for property crimes we don’t seem to see any jump in the curve after we cross the cut-off that switches to daylight saving time. This means that for the effect of daylight saving time on property crimes we estimate that there isn’t any effect so daylight saving most likely doesn’t affect property crime.
+
 
 
 ### Regression Discontinuity plot for violent crimes
+This plot is the exact same as the plot above but instead of using property crimes, it uses violent crimes.
 
 ```
 ggplot(aes(days, violentcrimes), data = RDD_plot) + 
@@ -429,6 +439,9 @@ ggplot(aes(days, violentcrimes), data = RDD_plot) +
 
 ![RDDV](https://github.com/user-attachments/assets/37f00e4f-3d04-4441-9ca6-9e3b862e5809)
 
+Just like we said for the RD plot of property crimes, when it comes to the RD plot of violent crimes there doesn't seem to be any significant jump in the curve after we cross the cut-off that switches to daylight saving time. This means that for the effect of daylight
+saving time on violent crimes we estimate that there isn’t any effect so daylight saving most likely doesn’t affect violent crime.
+
 ### Changing data type of the dayofweek variable
 If we want to see the effect that each specific day of the week has on violent and property crime when we do a linear regression, we need to switch these variables type to factor.
 
@@ -437,6 +450,7 @@ RDD$dayofweek <- as.factor(RDD$dayofweek)
 ```
 
 ### Linear regression discontinuity design regression for property crimes
+Now, we do a regression discontinuity regression where property crimes is our response variable and the interaction between days and after_dst as our explanatory variables with day of the week used as a control variable as daylight saving occurs on a Sunday every year and this could interfere with the true effect of the RDD.
 
 ```
 summary(lm(propertycrimes ~ days*after_dst + dayofweek, data = RDD))
@@ -444,7 +458,10 @@ summary(lm(propertycrimes ~ days*after_dst + dayofweek, data = RDD))
 
 ![LINEAR RDD P](https://github.com/user-attachments/assets/2c7ef8c9-5d2f-4b36-bf84-f64aae4075c9)
 
+Here the effect we are interested in is given by the coefficient estimate corresponding to the after DST variable as this parameter represents our RDD estimate. For property crimes, we see that crossing the cut-off point leads to a small increase of approximately 2.11 units. This effect is insignificant, and the results align with the RDD plot above that we estimate daylight saving to not have any effect on property crime.
+
 ### Linear regression discontinuity design regression for violent crimes
+Here we do a regression discontinuity regression using violent crimes as the response variable, the interaction between days and after_dst as the explanatory variables and day of the week as the control variable.
 
 ```
 summary(lm(violentcrimes ~ days*after_dst + dayofweek, data = RDD))
@@ -452,7 +469,10 @@ summary(lm(violentcrimes ~ days*after_dst + dayofweek, data = RDD))
 
 ![LINEAR RDD V](https://github.com/user-attachments/assets/076ce6db-3958-471b-aa6d-2cbfe5df5d6f)
 
+Again, the effect we are interested in is given by the coefficient estimate corresponding to the after DST variable as this parameter represents our RDD estimate. For violent crimes, we see that crossing the cut-off point leads to an even smaller increase of approximately 0.26 units. This effect is very insignificant, and the results align with the RDD plot above that we estimate daylight saving to not have any effect on violent crime.
+
 ### Quadratic regression discontinuity design regression for property crimes
+After the linear fit appeared not to be the best model for property crimes, we will now try to improve the model by including quadratics as polynomials make the model more flexible and can potentially help us catch patterns beyond linearity. This time we keep the interaction between days and after_dst and keep controlling for the day of the week, but we also add the days variable with a quadratic form using the I() function as well as adding a form of the interaction between days and after_dst where days takes on a quadratic form.
 
 ```
 summary(lm(propertycrimes ~ days*after_dst + I(days^2) + I(days^2):after_dst + dayofweek, data = RDD))
@@ -460,13 +480,18 @@ summary(lm(propertycrimes ~ days*after_dst + I(days^2) + I(days^2):after_dst + d
 
 ![QUADRATIC RDD P](https://github.com/user-attachments/assets/8d4350b5-409b-44e4-957e-6f23781f2ddf)
 
+Once again even after using a quadratic model, our RDD estimate once again has no significant effect on property crimes. On top of that, in this model, the effect is now moving in the opposite direction so instead of crime increasing due to daylights savings like it was in the linear model, in the quadratic model daylight savings is decreasing crime even though it is a very insignificant effect.
+
 ### Quadratic regression discontinuity design regression for violent crimes
+After the linear fit appeared not to be the best model for violent crimes, we will now try to improve the model by including quadratics as polynomials make the model more flexible and can potentially help us catch patterns beyond linearity. This time we keep the interaction between days and after_dst and keep controlling for the day of the week, but we also add the days variable with a quadratic form using the I() function as well as adding a form of the interaction between days and after_dst where days takes on a quadratic form.
 
 ```
 summary(lm(violentcrimes ~ days*after_dst + I(days^2) + I(days^2):after_dst + dayofweek, data = RDD))
 ```
 
 ![QUADRATIC RDD V](https://github.com/user-attachments/assets/8fb6dec8-67c7-43d7-9344-7d22f53393cf)
+
+Unfortunately, again it seems to be a similar story to the linear model as our RDD estimate once again has no significant effect on property crimes. For violent crimes, there seems to be the slightest bit of significance for the RDD estimate as the average number of violent crimes increases by approximately 0.89 when the threshold value is passed. However, the model still doesn’t seem to be too effective so I don’t think we can claim that daylight saving time has a significant effect on violent crimes in this scenario.
 
 ## Difference-in-Difference Estimation
 
