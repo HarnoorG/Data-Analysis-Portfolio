@@ -580,7 +580,6 @@ crimesdd_plot <- crimesdd %>%
   summarise(propertycrimes = mean(propertycrimes),
             Post2007 = Post2007) %>% distinct()
 
-# plotting the difference-in-difference
 ggplot(aes(year, propertycrimes), data = crimesdd_plot) + 
   geom_point(aes(color = sunset)) + 
   geom_vline(xintercept = 2007, linetype = "dashed", color = "grey", size = 0.8) + 
