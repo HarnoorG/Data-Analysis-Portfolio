@@ -246,7 +246,7 @@ head(violentcrime)
 
 
 YEAR 	MONTH 	DAY 	violentcrimes 	date 		dayofweek
-<dbl>	<dbl>	<dbl>	<dbl>		<date>		<dbl>
+<dbl>	<dbl>	<dbl>	<int>		<date>		<dbl>
 
 2003	1	1	32		2003-01-01	4
 2003	1	2	14		2003-01-02	5
@@ -270,7 +270,7 @@ head(propertycrime)
 
 
 YEAR 	MONTH 	DAY 	propertycrimes 	date 		dayofweek
-<dbl>	<dbl>	<dbl>	<dbl>		<date>		<dbl>
+<dbl>	<dbl>	<dbl>	<int>		<date>		<dbl>
 
 2003	1	1	137		2003-01-01	4
 2003	1	2	85		2003-01-02	5
@@ -506,19 +506,105 @@ weather$sminute <- minute(weather$sunset_hhmm)
 weather$stime <- (weather$shour*60 + weather$sminute)
 ```
 
-### Joining the property crime and weather data
+### Joining the property crime and weather data and preparing the difference-in-difference data to be ready to use
 
 ```
-crimesdd <- left_join(propertycrime, weather, by="date")
-```
-
-### Preparing the difference-in-difference data to be ready to use
-
-```
-crimesdd <- crimesdd %>%
+crimesdd <- left_join(propertycrime, weather, by="date") %>%
   mutate(sunset = case_when(numerictime >= stime ~ 1, TRUE ~ 0)) %>%
   rename(year = YEAR, month = MONTH, day = DAY) %>%
   group_by(year, month, day, sunset) %>%
   summarize(propertycrimes=n()) %>%
-  arrange(year, month, day) 
+  arrange(year, month, day)
+
+head(crimesdd)
+
+
+year	month	day	sunset	propertycrimes
+<dbl>	<dbl>	<dbl>	<dbl>	<int>
+
+2003	1	1	0	130
+2003	1	1	1	7
+2003	1	2	0	79
+2003	1	2	1	6
+2003	1	3	0	99
+2003	1	3	1	9
 ```
+
+### Changing the type of the sunset variable
+
+```
+crimesdd$sunset <- as.character(crimesdd$sunset)
+```
+
+### Creating a list of all the years between 2003 and 2023
+
+```
+year_list <- seq(2003, 2023, by = 1)
+```
+
+### Creating a list of all of the dates between March 9th and April 3rd for all of the years
+
+```
+date_list <- sapply(year_list, function(x){
+  seq(as.Date(paste0(x, "-3-9"), origin = "1970-01-01"), as.Date(paste0(x, "-4-3"), origin = "1970-01-01"), by = "days" )
+}) %>% as.Date(origin = "1970-01-01")
+```
+
+### Filtering the difference-in-difference data only to include dates from the date list and creating a Post2007 variable
+
+```
+crimesdd <- crimesdd %>% 
+  mutate(date = ymd(paste(year, month, day, sep = "-")),
+         Post2007 = ifelse(year >= 2007, 1, 0)) %>%
+  filter(Date %in% date_list)
+
+head(crimesdd)
+
+year 	month 	day 	sunset 	propertycrimes 	date 		Post2007
+
+
+2003	3	9	0	51		2003-03-09	0
+2003	3	9	1	5		2003-03-09	0
+2004	3	9	0	62		2004-03-09	0
+2004	3	9	1	7		2004-03-09	0
+2005	3	9	0	59		2005-03-09	0
+2005	3	9	1	13		2005-03-09	0
+
+```
+
+### Preparing the data to plot and then plotting the difference-in-difference
+
+```
+crimesdd_plot <- crimesdd %>%
+  group_by(year, sunset) %>%
+  summarise(propertycrimes = mean(propertycrimes),
+            Post2007 = Post2007) %>% distinct()
+
+# plotting the difference-in-difference
+ggplot(aes(year, propertycrimes), data = crimesdd_plot) + 
+  geom_point(aes(color = sunset)) + 
+  geom_vline(xintercept = 2007, linetype = "dashed", color = "grey", size = 0.8) + 
+  geom_line(aes(color = sunset)) + 
+  labs(x = "Year",
+       y = "Property Crimes",
+       title = "Average property crimes per year",
+       color = "After sunset?") +
+  scale_color_discrete(name = "After sunset?",
+                       labels = c("No", "Yes"))
+```
+
+![DID](https://github.com/user-attachments/assets/efc23b4a-4b0e-418d-83a8-e62f2e37886d)
+
+### Changing the data type of the Post2007 variable for the regression
+
+```
+crimesdd$Post2007 <- as.character(crimesdd$Post2007)
+```
+
+### Doing the difference-in-difference estimation
+
+```
+summary(lm(propertycrimes ~ sunset + Post2007 + sunset:Post2007, data = crimesdd))
+```
+
+![DID ESTIMATION RESULTS](https://github.com/user-attachments/assets/31c23859-43cc-481c-bba5-488c1429a230)
