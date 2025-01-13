@@ -232,7 +232,7 @@ The first line of code was used the plot the residuals vs the fitted values for 
 
 ## Regression Discontinuity Design
 
-### Reading in and creating the regression discontinuity data
+### Reading in the violent crime data
 
 ```
 violentcrime <- read_csv("crimedata_csv_AllNeighbourhoods_AllYears.csv") %>%
@@ -242,14 +242,48 @@ violentcrime <- read_csv("crimedata_csv_AllNeighbourhoods_AllYears.csv") %>%
   mutate(date=make_date(YEAR,MONTH,DAY),
          dayofweek=wday(date))
 
+head(violentcrime)
+
+
+YEAR 	MONTH 	DAY 	violentcrimes 	date 		dayofweek
+<dbl>	<dbl>	<dbl>	<dbl>		<date>		<dbl>
+
+2003	1	1	32		2003-01-01	4
+2003	1	2	14		2003-01-02	5
+2003	1	3	14		2003-01-03	6
+2003	1	4	13		2003-01-04	7
+2003	1	5	12		2003-01-05	1
+2003	1	6	13		2003-01-06	2
+```
+
+### Reading in the property crime data
+
+```
 propertycrime <- read_csv("crimedata_csv_AllNeighbourhoods_AllYears.csv") %>%
   filter(TYPE == "Mischief" | TYPE == 'Theft from Vehicle' | TYPE == 'Other Theft' | TYPE == 'Theft of Bicycle') %>%
   group_by(YEAR, MONTH, DAY) %>%
   summarize(propertycrimes=n()) %>%
   mutate(date=make_date(YEAR,MONTH,DAY),
-         dayofweek=wday(date))    
+         dayofweek=wday(date))
 
-crimerd <- right_join(violentcrime, propertycrime) %>%
+head(propertycrime)
+
+
+YEAR 	MONTH 	DAY 	propertycrimes 	date 		dayofweek
+<dbl>	<dbl>	<dbl>	<dbl>		<date>		<dbl>
+
+2003	1	1	137		2003-01-01	4
+2003	1	2	85		2003-01-02	5
+2003	1	3	108		2003-01-03	6
+2003	1	4	98		2003-01-04	7
+2003	1	5	75		2003-01-05	1
+2003	1	6	103		2003-01-06	2
+```
+
+### Reading in and creating the regression discontinuity data
+
+```
+ crimerd <- right_join(violentcrime, propertycrime) %>%
   relocate('violentcrimes', .before = 'propertycrimes') %>%
   arrange(YEAR, MONTH, DAY) %>%
   rename(year = YEAR, month = MONTH, day = DAY) %>%
@@ -424,9 +458,21 @@ summary(lm(violentcrimes ~ days*after_dst + I(days^2) + I(days^2):after_dst + da
 propertycrime <- read_csv("crimedata_csv_AllNeighbourhoods_AllYears.csv") %>%
   filter(TYPE == "Mischief" | TYPE == 'Theft from Vehicle' | TYPE == 'Other Theft' | TYPE == 'Theft of Bicycle') %>%
   mutate(date=make_date(YEAR, MONTH, DAY),
-         numerictime = HOUR*60 + MINUTE) 
+         numerictime = HOUR*60 + MINUTE) %>%
+  select(YEAR, MONTH, DAY, HOUR, MINUTE, date, numerictime)
+
+head(propertycrime)
 
 
+YEAR 	MONTH 	DAY 	HOUR 	MINUTE 	date 		numerictime
+<dbl>	<dbl>	<dbl>	<dbl>	<dbl>	<date>		<dbl>
+
+2019	2	3	4	4	2019-02-03	244
+2004	6	17	21	25	2004-06-17	1285
+2008	5	22	21	0	2008-05-22	1260
+2022	2	1	15	0	2022-02-01	900
+2023	1	2	3	33	2023-01-02	213
+2020	7	28	19	12	2020-07-28	1152
 
 ```
 
@@ -435,6 +481,19 @@ propertycrime <- read_csv("crimedata_csv_AllNeighbourhoods_AllYears.csv") %>%
 ```
 weather <- read_csv("weatherstats_vancouver_daily.csv") %>%
   select(date, sunset_hhmm)
+
+head(weather)
+
+
+date		sunset_hhmm
+<chr>		<S3: hms>
+
+12/31/2023	16:24:00			
+12/30/2023	16:23:00			
+12/29/2023	16:22:00			
+12/28/2023	16:21:00			
+12/27/2023	16:20:00			
+12/26/2023	16:19:00	
 ```
 
 ### Making adjustments to the weather data
