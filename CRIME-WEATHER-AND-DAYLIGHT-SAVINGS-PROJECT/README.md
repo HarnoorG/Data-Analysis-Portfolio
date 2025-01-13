@@ -114,6 +114,7 @@ In this section, I'll go through all of the R code used for this project and exp
 ## OLS Linear Regression
 
 ### Loading libraries for necessary packages
+Here we load tidyverse which is the most important library as it allows use to use functions like mutate(), filter(), group_by(), summarize(), pipes, etc. We also load the lubridate package which is very useful when working with dates and times. Lastly, the car package is necessary for when we calculate the variance inflation factor (VIF) later on.
 
 ```
 library(tidyverse)
@@ -122,6 +123,7 @@ library(car)
 ```
 
 ### Reading in the crime data
+I started by reading in the crime data with read_csv() and using to group_by() to group the data by year, month, and day so each observation corresponds to a particular date. I then used the summarize() and n() together to get the count of crime that occurs for each date. Next, I used rename() to switch some of the columns from being written in upper case to lower case. Lastly, mutate() was used with the make_date() to create a date variable from the year, month, and day variables and then wday() was used to get a day of the week variable from the newly made date column. The head() function was used here and will be used a lot in the code that follows to display the first 6 rows of the data
 
 ```
 dailycrime <- read_csv("crimedata_csv_AllNeighbourhoods_AllYears.csv") %>%
@@ -147,6 +149,7 @@ year   month   day   dailycrimes   date         dayofweek
 ```
 
 ### Reading in the weather data
+Here, I used read_csv() again to read in the weather data. This data has around 70 variables so I used the select() function to select only the variables I need which are date, average temperature, precipitation, average relative humidity, and average wind speed.
 
 ```
 weather <- read_csv("weatherstats_vancouver_daily.csv") %>%
@@ -181,6 +184,7 @@ weather$date = mdy(weather$date)
 ```
 
 ### Joining the crime and weather data
+I used a left join to join the crime and weather data by their date variables.
 
 ```
 crimes_and_weather <- dailycrime %>% 
@@ -210,12 +214,19 @@ crimes_and_weather$month <- as.factor(crimes_and_weather$month)
 ```
 
 ### Ordinary Least Squares Linear Regression
+Here the lm() function is used to create a linear model which conducts an OLS linear regression where daily crime is the response variable, it is the variable that we want to see how it is affected by the explanatory variables. Our explanatory variables are the 4 weather variables: temperature, precipitation, humidity and wind speed. We also have 3 control variables: day of the week, year, and month. The summary() function is then used to print the results of the regression.
 
 ```
 dailycrime_model <- lm(dailycrimes ~ avg_temperature + precipitation + avg_relative_humidity + avg_wind_speed + dayofweek + year + month, data = crimes_and_weather)
 
 summary(dailycrime_model)
 ```
+
+![OLS LINEAR REGRESSION](https://github.com/user-attachments/assets/64a335a5-9df9-4aab-ba2a-bfd877a9224c)
+
+
+To interpret the results of the estimated effect that our four weather covariates have on daily crimes we look at the “Estimate” column of the table above as these values correspond to our coefficient estimates. We see that one-unit increases in precipitation and average relative humidity lead to very small decreases in the number of daily crimes. A one-unit increase in average wind speed on the other hand leads to a very small increase in the number of daily crimes. However, for all three of the covariates, the effect is insignificant, so we don’t have the
+evidence to conclude that any of these variables affect daily crimes. When it comes to average temperature a one-degree increase in the variable is estimated to increase the number of daily crimes by approximately 0.57 crimes. This is a very significant increase. We also see that controlling for the days of the week was particularly helpful as there were huge increases in daily crime on the weekend as seen by the estimates of dayofweek6 and dayofweek7. This can likely be attributed to more people not having to work on the weekends and having free time to do whatever they please.
 
 ### Checking our assumptions for the OLS linear regression model
 As discussed before in the Methodology section of this project, this is the code used to check some of the assumptions of required for an OLS estimator.
@@ -228,7 +239,14 @@ vif(dailycrime_model)
 lmtest::bptest(dailycrime_model)
 ```
 
-The first line of code was used the plot the residuals vs the fitted values for the OLS model. This
+The first line of code used the plot() function to plot the residuals vs the fitted values for the OLS model. This was used to test the assumption that the model is linear in the parameters. To see if our model satisfied this assumption, we produced the graph of the residual vs. fitted values and then
+observed if the red locally weighted smoothing line was fairly horizontal around 0 on the y-axis. In our case, the red line did very well with little variation from being 90 degrees, so it seems safe to claim linearity. 
+
+The second line of code used the vif() function to calculate the variance inflation factor of the linear model. This was used to test the assumption that there is no collinearity present in the model. The results did not return any irregular values as all of the covariates had values significantly below 10, so it seems fair to say that the no collinearity assumption is satisfied. 
+
+The final line of code used the bptest() function to conduct a Breusch-Pagan hypothesis test to test the final assumption that there is Homoskedasticity in the model. Unfortunately, the tests returned p-values that were smaller than 0.05which led to the null hypothesis being rejected which isn’t very supportive of there being homoskedasticity.
+
+The outputs of the code for these lines can be seen in the Methodology section of this project.
 
 ## Regression Discontinuity Design
 
