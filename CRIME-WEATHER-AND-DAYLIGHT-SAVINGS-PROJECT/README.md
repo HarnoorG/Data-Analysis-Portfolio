@@ -2,14 +2,15 @@ This project is an extension of the [CRIME AND WEATHER PROJECT](https://github.c
 
 # Table of Contents:
 1.	[Introduction](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#introduction)
-2.  [Literature Review](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#literature-review)
-3.  [Methodology](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#methodology)
-4.	[Data Description](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#data-description)
-5.	[R Code and Estimation Results](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#r-code-and-estimation-results)
+2. 	[Literature Review](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#literature-review)
+3. 	[Methodology](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#methodology)
+4. 	[Data Cleaning](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#data-cleaning)
+5. 	[Data Description](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#data-description)
+6.	[R Code and Estimation Results](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#r-code-and-estimation-results)
 	  - [OLS Linear Regression](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#ols-linear-regression)
     - [Regression Discontinuity Design](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#regression-discontinuity-design)
     - [Difference-in-Difference Estimation](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#difference-in-difference-estimation)
-6. [Conclusion](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#conclusion)
+7. [Conclusion](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#conclusion)
 
 # Introduction
 In this project, I want to take what I did in my last crime and weather project a step further by looking at the impact that weather and daylight savings time have on crime prevalence in Vancouver. In Vancouver, the switch to daylight savings time occurs every year in March, but it used to occur in April before that. This change in date is useful to us in our efforts to use causal inference to find the effect of daylight savings time on crime. British Columbia is considering making daylight saving time the permanent time so estimating the effect of it on crime could be useful to policymakers.
@@ -105,9 +106,30 @@ I did the Breusch-Pagan hypothesis test to see if the model satisfied the homosk
 
 ![Breusch-Pagan Test](https://github.com/user-attachments/assets/8750dccc-00ec-4312-929b-a95fc0c8f5fe)
 
+# Data Cleaning
+
+I applied the following steps to the crime data and the weather data
+
+1. I opened the .csv file in Excel
+2. I checked how many rows and columns were in the file
+   - The crime data has 893,689 rows and 10 columns
+   - The weather data has 7670 rows and 51 variables
+3. I inspected what each column represented
+   - The crime data has columns type, year, month, day, hour, minute, hundred_block, neighbourhood, x, and y
+   - The weather data has too many columns to list out but the 6 columns I knew were going to be relevant to me are date, avg_temperature, precipitation, avg_relative_humidity, avg_wind_speed, and sunset_hhmm
+4. I then edited the sheet to get rid of unnecessary columns
+   - I felt like I might get use out of all of the crime data columns so I deleted none of them and was left with 10 columns
+   - For the weather data there were the 6 columns I listed that would be useful, so I deleted the other 45 columns
+6. I then applied a filter to all of the columns that checked to see if there were any null values present
+   - The crime data contained null values in hundred_block, neighbourhoods, x, and y columns. These were the 4 columns that I was pretty certain I wasn't going to work with so I made no adjustments to the nulls as I would address them only if I ended up actually using any of those columns.
+   - The weather data contained no nulls
+7. Next, I looked for any rows where all of the columns were duplicates of a different row. To do this, in an empty column, I concatenated all of the other columns using the TEXTJOIN function. I then used conditional formatting to highlight duplicate values to find duplicate rows and remove these rows. I also used filters here to see which cells were highlighted
+   - None of the tables contained duplicate rows
+
 # Data Description
 
-When it comes to the dataset used for these methods, we have 7669 observations with each observation belonging to one day from the start of 2003 until the end of 2023. In total, there are 16 variables present in the dataset. 5 of those variables correspond to date with those variables being year, month, day, date, and dayofweek and most of these variables are factorized and then used as controls in the OLS. There are 3 different crime variables that are used as the dependent variable throughout the paper, those variables are dailycrimes, propertycrimes and violent crimes and they record how often a specific crime occurs per day. dailycrimes is used in the OLS, dailycrimes is used in the RDD and lastly, propertycrimes is used in both RDD and DID. Precipitation, avg_temperature, avg_relative_humidity and avg_wind_speed are the weather covariates used in the OLS and they represent how often their respective weather measurement occurs per day. Then we have days which is used as the running variable in our RDD and after_dst to indicate if observations are before or after the cutoff point. DID uses Post2007 to indicate if observations are in the post-treatment or pre-treatment period and sunset to split observations into either the treatment group or control group. 
+When it comes to the dataset used for these methods, we have 7670 observations for the weather data with each observation belonging to one day from the start of 2003 until the end of 2023. The crime data has 893,689 observations with each observation corresponding to a unique crime that occurred between 2003 and 2023. In total, before any work in r is done to the data, there are 16 variables present across both datasets. 5 of those variables correspond to date with those variables being year, month, day, date, and dayofweek and most of these variables are factorized and then used as controls in the OLS. There are 3 different crime variables that are used as the dependent variable throughout the paper, those variables are dailycrimes, propertycrimes and violent crimes and they record how often a specific crime occurs per day. dailycrimes is used in the OLS, dailycrimes is used in the RDD and lastly, propertycrimes is used in both RDD and DID. Precipitation, avg_temperature, avg_relative_humidity and avg_wind_speed are the weather covariates used in the OLS and they represent how often their respective weather measurement occurs per day. Then we have days which is used as the running variable in our RDD and after_dst to indicate if observations are before or after the cutoff point. DID uses Post2007 to indicate if observations are in the post-treatment or pre-treatment period and sunset to split observations into either the treatment group or control group. 
+
 
 # R Code and Estimation Results
 In this section, I'll go through all of the R code used for this project and explain its purpose and its results if it produced any. 
@@ -150,7 +172,7 @@ year   month   day   dailycrimes   date         dayofweek
 ```
 
 ### Reading in the weather data
-Here, I used read_csv() again to read in the weather data. This data has around 70 variables so I used the select() function to select only the variables I need which are date, average temperature, precipitation, average relative humidity, and average wind speed.
+Here, I used read_csv() again to read in the weather data. This data has around 50 variables so I used the select() function to select only the variables I need which are date, average temperature, precipitation, average relative humidity, and average wind speed.
 
 ```
 weather <- read_csv("weatherstats_vancouver_daily.csv") %>%
