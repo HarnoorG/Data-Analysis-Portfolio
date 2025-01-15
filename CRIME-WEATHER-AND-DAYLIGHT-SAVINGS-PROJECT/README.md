@@ -113,7 +113,7 @@ I applied the following steps to the crime data and the weather data
 1. I opened the .csv file in Excel
 2. I checked how many rows and columns were in the file
    - The crime data has 893,689 rows and 10 columns
-   - The weather data has 7670 rows and 51 variables
+   - The weather data has 7670 rows and 51 columns
 3. I inspected what each column represented
    - The crime data has columns type, year, month, day, hour, minute, hundred_block, neighbourhood, x, and y
    - The weather data has too many columns to list out but the 6 columns I knew were going to be relevant to me are date, avg_temperature, precipitation, avg_relative_humidity, avg_wind_speed, and sunset_hhmm
