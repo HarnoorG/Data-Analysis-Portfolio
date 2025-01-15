@@ -124,7 +124,7 @@ I applied the following steps to the crime data and the weather data
    - The crime data contained null values in hundred_block, neighbourhoods, x, and y columns. These were the 4 columns that I was pretty certain I wasn't going to work with so I made no adjustments to the nulls as I would address them only if I ended up actually using any of those columns.
    - The weather data contained no nulls
 7. Next, I looked for any rows where all of the columns were duplicates of a different row. To do this, in an empty column, I concatenated all of the other columns using the TEXTJOIN function. I then used conditional formatting to highlight duplicate values to find duplicate rows and remove these rows. I also used filters here to see which cells were highlighted
-   - None of the tables contained duplicate rows
+   - Neither of the tables contained duplicate rows
 
 # Data Description
 
