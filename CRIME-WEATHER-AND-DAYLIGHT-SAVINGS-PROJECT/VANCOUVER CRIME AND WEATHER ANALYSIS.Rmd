@@ -1,0 +1,225 @@
+---
+title: "VANCOUVER CRIME AND WEATHER ANALYSIS"
+output: html_document
+date: "2025-01-06"
+---
+
+# LOADING LIBRARIES
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE
+)
+
+#loading libraries for necessary packages
+library(tidyverse)
+library(lubridate)
+```
+
+# LINEAR REGRESSION MODEL
+
+```{r message=FALSE, warning=FALSE}
+# reading in crime data
+dailycrime <- read_csv("crimedata_csv_AllNeighbourhoods_AllYears.csv") %>%
+  group_by(YEAR, MONTH, DAY) %>%
+  summarize(dailycrimes=n()) %>%
+  rename(year = YEAR, month = MONTH, day = DAY) %>%
+  mutate(date=make_date(year,month,day), 
+         dayofweek=wday(date))
+
+# reading in weather data
+weather <- read_csv("weatherstats_vancouver_daily.csv") %>%
+  select(date, avg_temperature,  precipitation, avg_relative_humidity, avg_wind_speed)
+
+# changing the weather data's to a date format so it can be joined to the crime data
+weather$date = mdy(weather$date)
+
+# joining the crime and weather data
+crimes_and_weather <- dailycrime %>% left_join(weather, by="date")
+
+# turning the day of week, year, and month variables into factors for the regression
+crimes_and_weather$dayofweek <- as.factor(crimes_and_weather$dayofweek)
+crimes_and_weather$year <- as.factor(crimes_and_weather$year)
+crimes_and_weather$month <- as.factor(crimes_and_weather$month)
+
+# Linear Regression
+dailycrime_model <- lm(dailycrimes ~ avg_temperature + precipitation + avg_relative_humidity + avg_wind_speed + dayofweek + year + month, data = crimes_and_weather)
+summary(dailycrime_model)
+```
+
+# CHECKING OUR ASSUMPTIONS FOR THE DATA
+
+```{r, message=FALSE}
+# assumption 1: linear in parameters
+plot(dailycrime_model)
+
+# assumption 4: no collinearity
+library(car)
+vif(dailycrime_model)
+
+# assumption 5: homoscedasticity 
+lmtest::bptest(dailycrime_model)
+```
+
+# REGRESSION DISCONTINUITY
+
+```{r}
+violentcrime <- read_csv("crimedata_csv_AllNeighbourhoods_AllYears.csv") %>%
+  filter(TYPE == 'Homicide' | TYPE == 'Offence Against a Person') %>%
+  group_by(YEAR, MONTH, DAY) %>%
+  summarize(violentcrimes=n()) %>%
+  mutate(date=make_date(YEAR,MONTH,DAY),
+         dayofweek=wday(date))
+
+propertycrime <- read_csv("crimedata_csv_AllNeighbourhoods_AllYears.csv") %>%
+  filter(TYPE == "Mischief" | TYPE == 'Theft from Vehicle' | TYPE == 'Other Theft' | TYPE == 'Theft of Bicycle') %>%
+  group_by(YEAR, MONTH, DAY) %>%
+  summarize(propertycrimes=n()) %>%
+  mutate(date=make_date(YEAR,MONTH,DAY),
+         dayofweek=wday(date))  
+
+
+crimerd <- right_join(violentcrime, propertycrime) %>%
+  relocate('violentcrimes', .before = 'propertycrimes') %>%
+  arrange(YEAR, MONTH, DAY) %>%
+  rename(year = YEAR, month = MONTH, day = DAY) %>%
+  replace(is.na(.), 0)
+
+# creating a list of the dates that daylight savings occur on
+dst_list <- ymd(c("2003-4-6", "2004-4-4", "2005-4-3", "2006-4-2", "2007-3-11", "2008-3-9" , "2009-3-8", "2010-3-14", "2011-3-13", "2012-3-11", "2013-3-10", "2014-3-9", "2015-3-8", "2016-3-13", "2017-3-12", "2018-3-11", "2019-3-10", "2020-3-8", "2021-3-14", "2022-3-13", "2023-03-12"))
+
+# Using sapply to create a sequence of dates
+dates_range <- sapply(dst_list, function(x){
+  seq(x - 60, x + 60, by = "days")
+}) %>% as.Date(origin = "1970-01-01")
+
+# Leaving in only the dates that are 60 days before daylight savings and 60 days after
+RDD <- crimerd %>% 
+  filter(date %in% dates_range)
+
+# Creating a days variable to display how many days before/after that date occurred from daylight savings and an after_dst variable that displays a 0 if its before daylight savings and 1 if its after
+RDD <- RDD %>% 
+  mutate(base_dst = dst_list[match(year, year(dst_list))],
+         days = date - base_dst,
+         after_dst = case_when(days >= 0 ~ 1, TRUE ~ 0)) 
+
+# changing data type from being time
+RDD$days <- unclass(RDD$days)
+
+# Aggregate
+RDD_plot <- RDD %>%
+  group_by(days) %>%
+  summarise(propertycrimes = mean(propertycrimes),
+            violentcrimes = mean(violentcrimes),
+            after_dst = after_dst)
+
+# regression discontinuity plot for property crimes
+ggplot(aes(days, propertycrimes), data = RDD_plot) + 
+  geom_point() + 
+  geom_vline(xintercept = 0, linetype = "dashed", color = "red") + 
+  geom_smooth(aes(group = after_dst), method = "loess", color = "blue") + 
+  labs(x = "Days around DST",
+       y = "Property Crimes",
+       title = "Property crimes before and after DST")
+
+# regression discontinuity plot for violent crimes
+ggplot(aes(days, violentcrimes), data = RDD_plot) + 
+  geom_point() + 
+  geom_vline(xintercept = 0, linetype = "dashed", color = "red") + 
+  geom_smooth(aes(group = after_dst), method = "loess", color = "blue") + 
+  labs(x = "Days around DST",
+       y = "Violent Crimes",
+       title = "Violent Crimes before and after DST")
+
+# Converting the day of the week variable to a factor for the regression
+RDD$dayofweek <- as.factor(RDD$dayofweek)
+ 
+# linear regression for property crimes
+summary(lm(propertycrimes ~ days*after_dst + dayofweek, data = RDD))
+
+# linear regression for violent crimes
+summary(lm(violentcrimes ~ days*after_dst + dayofweek, data = RDD))
+
+# quadratic regression for property crimes
+summary(lm(propertycrimes ~ days*after_dst + I(days^2) + I(days^2):after_dst + dayofweek, data = RDD))
+
+# quadratic regression for violent crimes
+summary(lm(violentcrimes ~ days*after_dst + I(days^2) + I(days^2):after_dst + dayofweek, data = RDD))
+
+# Overall, our plots and RD estimates suggest that there is not a significant impact of the DST switch on daily crime in Vancouver.
+```
+
+# DIFFERENCE-IN-DIFFERENCES ESTIMATION
+
+```{r}
+# reading in property crime date
+propertycrime <- read_csv("crimedata_csv_AllNeighbourhoods_AllYears.csv") %>%
+  filter(TYPE == "Mischief" | TYPE == 'Theft from Vehicle' | TYPE == 'Other Theft' | TYPE == 'Theft of Bicycle') %>%
+  mutate(date=make_date(YEAR, MONTH, DAY),
+         numerictime = HOUR*60 + MINUTE) %>%
+  select(YEAR, MONTH, DAY, HOUR, MINUTE, date, numerictime)
+
+# reading in weather data
+weather <- read_csv("weatherstats_vancouver_daily.csv") %>%
+  select(date, sunset_hhmm)
+
+# weather adjustments
+weather$date = mdy(weather$date)
+
+weather$shour <- hour(weather$sunset_hhmm)
+weather$sminute <- minute(weather$sunset_hhmm)
+weather$stime <- (weather$shour*60 + weather$sminute)
+
+# crime DID data
+crimesdd <- left_join(propertycrime, weather, by="date") %>%
+  mutate(sunset = case_when(numerictime >= stime ~ 1, TRUE ~ 0)) %>%
+  rename(year = YEAR, month = MONTH, day = DAY) %>%
+  group_by(year, month, day, sunset) %>%
+  summarize(propertycrimes=n()) %>%
+  arrange(year, month, day) 
+
+# changing the type of the sunset variable
+crimesdd$sunset <- as.character(crimesdd$sunset)
+
+# creating a list of all of years between 2003 and 2023
+year_list <- seq(2003, 2023, by = 1)
+
+# For each year create a sequence between March 9 and April 3
+date_list <- sapply(year_list, function(x){
+  seq(as.Date(paste0(x, "-3-9"), origin = "1970-01-01"), as.Date(paste0(x, "-4-3"), origin = "1970-01-01"), by = "days" )
+}) %>% as.Date(origin = "1970-01-01")
+
+# Keeping only dates in range and creating a new variable called post2007
+crimesdd <- crimesdd %>% 
+  mutate(date = ymd(paste(year, month, day, sep = "-")),
+         Post2007 = ifelse(year >= 2007, 1, 0)) %>%
+  filter(date %in% date_list)
+
+
+# preparing the data to plot the difference-in-difference
+crimesdd_plot <- crimesdd %>%
+  group_by(year, sunset) %>%
+  summarise(propertycrimes = mean(propertycrimes),
+            Post2007 = Post2007) %>% distinct()
+
+# plotting the difference-in-difference
+ggplot(aes(year, propertycrimes), data = crimesdd_plot) + 
+  geom_point(aes(color = sunset)) + 
+  geom_vline(xintercept = 2007, linetype = "dashed", color = "grey", size = 0.8) + 
+  geom_line(aes(color = sunset)) + 
+  labs(x = "Year",
+       y = "Property Crimes",
+       title = "Average property crimes per year") +
+  scale_color_discrete(name = "After sunset?",
+                       labels = c("No", "Yes"))
+
+# estimations
+
+crimesdd$Post2007 <- as.character(crimesdd$Post2007)
+
+summary(lm(propertycrimes ~ sunset + Post2007 + sunset:Post2007, data = crimesdd))
+```
+
+
