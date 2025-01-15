@@ -9,6 +9,7 @@ This project is an extension of the [CRIME AND WEATHER PROJECT](https://github.c
 	  - [OLS Linear Regression](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#ols-linear-regression)
     - [Regression Discontinuity Design](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#regression-discontinuity-design)
     - [Difference-in-Difference Estimation](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#difference-in-difference-estimation)
+6. [Conclusion](https://github.com/HarnoorG/SQL-Portfolio/tree/main/CRIME-WEATHER-AND-DAYLIGHT-SAVINGS-PROJECT#conclusion)
 
 # Introduction
 In this project, I want to take what I did in my last crime and weather project a step further by looking at the impact that weather and daylight savings time have on crime prevalence in Vancouver. In Vancouver, the switch to daylight savings time occurs every year in March, but it used to occur in April before that. This change in date is useful to us in our efforts to use causal inference to find the effect of daylight savings time on crime. British Columbia is considering making daylight saving time the permanent time so estimating the effect of it on crime could be useful to policymakers.
@@ -57,7 +58,7 @@ E[Y<sup>0</sup><sub>i</sub>|D = 1, T = 1] – E[Y<sup>0</sup><sub>i</sub>|D = 1,
 
 In simpler words, this means the difference of the control group between the post-treatment period and the pre-treatment period is equal to the difference of the treatment group between the post-treatment period and the pre-treatment period had the treatment group did not receive any treatment. A violation of this assumption would lead to inaccurate estimates of the causal effect because there would still be some group-specific variation present, and this would lead to us not isolating the pure treatment effect.
 
-Even though it is impossible to verify this assumption because it involves a counterfactual, I can try and find evidence in favour of the assumption by creating a graph of the control group and the treatment group in the pre-treatment and post-treatment periods. When I did plot this graph, the evidence seemed to favour that the parallel trends assumption was violated as the graph did not seem to display the control group and treatment group being parallel to each other in the pre-treatment period. This can be seen directly below.
+Even though it is impossible to verify this assumption because it involves a counterfactual, I can try and find evidence in favour of the assumption by creating a graph of the control group and the treatment group in the pre-treatment and post-treatment periods. When I did plot this graph, the evidence seemed to favour that the parallel trends assumption is safe to assume as the graph seems to display the control group and treatment group being parallel to each other in the pre-treatment period. This can be seen directly below.
 
 ![DID](https://github.com/user-attachments/assets/0ee81a93-6e67-4b75-af95-d0c101340565)
 
@@ -491,11 +492,12 @@ summary(lm(violentcrimes ~ days*after_dst + I(days^2) + I(days^2):after_dst + da
 
 ![QUADRATIC RDD V](https://github.com/user-attachments/assets/8fb6dec8-67c7-43d7-9344-7d22f53393cf)
 
-Unfortunately, again it seems to be a similar story to the linear model as our RDD estimate once again has no significant effect on property crimes. For violent crimes, there seems to be the slightest bit of significance for the RDD estimate as the average number of violent crimes increases by approximately 0.89 when the threshold value is passed. However, the model still doesn’t seem to be too effective so I don’t think we can claim that daylight saving time has a significant effect on violent crimes in this scenario.
+Unfortunately, once again it seems to be a similar story to the linear model as our RDD estimate once again has no significant effect on property crimes. For violent crimes, there seems to be the slightest bit of significance for the RDD estimate as the average number of violent crimes increases by approximately 0.89 when the threshold value is passed. However, the model still doesn’t seem to be too effective so I don’t think we can claim that daylight saving time has a significant effect on violent crimes in this scenario.
 
 ## Difference-in-Difference Estimation
 
 ### Importing the property crime data
+Once again I had to read in the property crime using read_csv(), this time for the difference-in-difference. I used filter() to include only crime types that make up the property crime category and then used mutate() and make_date() to make a date variable. I also mutated a new column called "numerictime" which uses the hour and minute columns to calculate how many minutes into the day the crime occurred. Lastly, I used select() to only include, the variables that I need.
 
 ```
 propertycrime <- read_csv("crimedata_csv_AllNeighbourhoods_AllYears.csv") %>%
@@ -520,6 +522,7 @@ YEAR 	MONTH 	DAY 	HOUR 	MINUTE 	date 		numerictime
 ```
 
 ### Importing the weather data
+Here I imported the weather data and only selected the date column and the column that records what time the sunset occurs at for each date.
 
 ```
 weather <- read_csv("weatherstats_vancouver_daily.csv") %>%
@@ -540,6 +543,7 @@ date		sunset_hhmm
 ```
 
 ### Making adjustments to the weather data
+First off, I had to get the date column to have a date data type so I used the mdy() function to do so. Then I used the hour() and minute() functions to create new columns titled "shour" and "sminute" which extracted the hour the sunset occurred and the minute the sunset occurred respectively. Lastly, I used the "shour" and "sminute" columns to calculate how many minutes into the day each sunset occurs at and saved it in a column called "stime".
 
 ```
 weather$date = mdy(weather$date)
@@ -550,6 +554,7 @@ weather$stime <- (weather$shour*60 + weather$sminute)
 ```
 
 ### Joining the property crime and weather data and preparing the difference-in-difference data to be ready to use
+I started by using left_join() to join the property crime and weather data by their date columns. I then created a variable called "sunset" using the case_when() function that returns a value of 1 when the time of a crime was after the time of the sunset and it returns a 0 if the crime occurred before the sunset. Next, I renamed a few columns so that all my columns would be lowercase and used the group_by() function to group_by() to group the data by year, month, day, and sunset in that order. By doing so, each unique date has two corresponding observations, one where the sunset value is 0 and one where the value is 1. After that, I used summarize() and n() to calculate the count of property crimes that occurs for each observation. Lastly, I used the arrange() function to sort the data by the year, month, and day.
 
 ```
 crimesdd <- left_join(propertycrime, weather, by="date") %>%
@@ -574,18 +579,21 @@ year	month	day	sunset	propertycrimes
 ```
 
 ### Changing the type of the sunset variable
+As we can see above the sunset column currently has the double data type. We don't want it to be treated as a double as even though it uses numbers it doesn't serve a numeric purpose. Therefore, we use as.character() to change its data type to character.
 
 ```
 crimesdd$sunset <- as.character(crimesdd$sunset)
 ```
 
 ### Creating a list of all the years between 2003 and 2023
+Here, the seq() function is used to get a list of the years from 2003 to 2023
 
 ```
 year_list <- seq(2003, 2023, by = 1)
 ```
 
 ### Creating a list of all of the dates between March 9th and April 3rd for all of the years
+Next, sapply() is used with seq() and paste0() to take the list of years we just created and make a new list of all of the dates between March 9th and April 3rd for each year. The as.Date() function was also used to save these as the date data type.
 
 ```
 date_list <- sapply(year_list, function(x){
@@ -594,17 +602,18 @@ date_list <- sapply(year_list, function(x){
 ```
 
 ### Filtering the difference-in-difference data only to include dates from the date list and creating a Post2007 variable
+I used mutate() with ymd() and paste() to create a date variable in the year, month, day format. I then used the ifelse() function to create a variable called "Post2007" that returned a value of 1 if the year was in or after 2007 and a value of 0 if the year was before 2007. Lastly, filter() was used to only include dates from the date list which meant only dates between March 9th and April 3rd.
 
 ```
 crimesdd <- crimesdd %>% 
   mutate(date = ymd(paste(year, month, day, sep = "-")),
          Post2007 = ifelse(year >= 2007, 1, 0)) %>%
-  filter(Date %in% date_list)
+  filter(date %in% date_list)
 
 head(crimesdd)
 
 year 	month 	day 	sunset 	propertycrimes 	date 		Post2007
-
+<dbl>	<dbl>	<dbl>	<chr>	<int>		<date>		<dbl>
 
 2003	3	9	0	51		2003-03-09	0
 2003	3	9	1	5		2003-03-09	0
@@ -616,6 +625,9 @@ year 	month 	day 	sunset 	propertycrimes 	date 		Post2007
 ```
 
 ### Preparing the data to plot and then plotting the difference-in-difference
+To prepare the data for plotting I grouped the data by year and sunset, that way I can plot the year-by-year trends with two different lines, one for crime before the sunset and the other for crime after the sunset. Next, I used summarise() and mean() to calculate the mean property crime value for each observation. The distinct() function was used so I would only get two values for each year, one before and one after sunset. If I didn't use the distinct function I'd have over 1000 observations as when you calculate the mean as I did the same mean value gets assigned to each observation of that specific year.
+
+Next, I used ggplot() to plot the difference-in-difference where year is on the x-axis and property crime is on the y-axis. I used geom_point() to place a point for the mean value of property crimes for each year and geom_line() to trace a line through these points, the colour of the points and line correspond to whether or not it occurred before or after the sunset. geom_vline() was used to place a grey dashed vertical line at 2007 on the x-axis, the year where the daylight savings date change from March to April occurred. labs() was used to label the x-axis "Year", the y-axis "Property Crimes" and give the plot the title "Average property crimes per year". Lastly, the scale_color_discrete() function was used to name the legend "After sunset?" and label the options "No" and "Yes".
 
 ```
 crimesdd_plot <- crimesdd %>%
@@ -629,24 +641,40 @@ ggplot(aes(year, propertycrimes), data = crimesdd_plot) +
   geom_line(aes(color = sunset)) + 
   labs(x = "Year",
        y = "Property Crimes",
-       title = "Average property crimes per year",
-       color = "After sunset?") +
+       title = "Average property crimes per year") +
   scale_color_discrete(name = "After sunset?",
                        labels = c("No", "Yes"))
 ```
 
 ![DID](https://github.com/user-attachments/assets/efc23b4a-4b0e-418d-83a8-e62f2e37886d)
 
+In the plot, it appears that the parallel trends assumption was not violated as the graph seems to display the control group and treatment group being parallel to each other in the pre-treatment period.
+
 ### Changing the data type of the Post2007 variable for the regression
+The Post2007 variable has a double data type when we need it to be of character type for our regression so we use as.character() to change it.
 
 ```
 crimesdd$Post2007 <- as.character(crimesdd$Post2007)
 ```
 
 ### Doing the difference-in-difference estimation
+In the final line of code, we use a linear regression using the lm() function to estimate the effect of the sunset date change on property crime. In this regression we have property crime as our response variable and sunset, the Post2007 variable, and the interaction between the sunset and Post2007 varialbes as our explanatory variables. The summary() function was used to print the results.
 
 ```
 summary(lm(propertycrimes ~ sunset + Post2007 + sunset:Post2007, data = crimesdd))
 ```
 
 ![DID ESTIMATION RESULTS](https://github.com/user-attachments/assets/31c23859-43cc-481c-bba5-488c1429a230)
+
+Here, the effect of daylight savings on crime that we're interested in finding is seen in the coefficient estimate corresponding to sunset1:Post20071. In the table, we can see that this coefficient estimate has a value of 20.3968 which means that the average number of property crimes increased by over 20 crimes for the sunset hours treatment group after the 2007 policy that changed the daylight saving date was implemented. This is a very significant effect as a twenty-crime increase is massive.
+
+# Conclusion
+In this project, I planned to use an ordinary least squares estimator to estimate the effect that weather has on crime prevalence in Vancouver. I then used two causal inference methods, a regression discontinuity design, and a difference-in-difference model to estimate and predict the effect that switching to daylight saving time has on crime prevalence in Vancouver. I started with a quick literature review of other papers that studied similar topics. I then introduced the three methods that I was going to use and made sure that for OLS the four key assumptions were likely to be satisfied while for the RDD and DID models I made sure their two respective assumptions were likely to be satisfied. After briefly describing the dataset we then got to the results of the models.
+
+In the OLS we found that out of the four weather covariates, precipitation, average relative humidity, and average wind speed had insignificant effects while average temperature led to a significant increase of 0.57 daily crimes for just a one-degree increase. We also see that controlling for the days of the week was particularly helpful as there were huge increases in daily crime on the weekend as seen by the estimates of dayofweek6 and dayofweek7. This can likely be attributed to more people not having to work on the weekends.
+
+I proceeded with using an RDD strategy because there is a sharp change in which hours have light and which hours don’t when daylight saving time switches every year making this strategy seem applicable. We found for both of the dependent variables, property crimes and violent crimes, by looking at the plots and the regression summaries we were not able to estimate a switch to daylight saving time having any significant effect on crime. In the summaries of the RDD regression, it is seen that the adjusted R-squared values never reach 0.1 which is a really small number and represents the model having poor predictive power. So even though I controlled for the day of the week, there were a lot more variables that we needed to control that I simply did not have the resources to control.
+
+The last method we used was DID and unlike the RDD, this model produced a significant effect. We saw that the average number of property crimes increased by over 20 crimes for the sunset hours treatment group after the 2007 policy that changed the daylight saving date was implemented. This is a huge increase, especially for a city that is as relatively safe as Vancouver. 
+
+There are a few other things not done in this project that would have potentially improved it. Firstly, since it was likely that the homoskedasticity assumption was violated for our OLS estimator, using heteroskedasticity-robust standard errors could have possibly given the OLS a more unbiased model by lowering the variance present and leading to better estimates. I could have also tried to estimate the effect of weather on crime prevalence by using a different regression technique such as a ridge regression or a Least absolute shrinkage and selection operator (LASSO) regression but in the interest of the length of the paper I elected against it and I felt that OLS was the best choice to use because of how linear the data was and how it satisfied the assumptions well.
