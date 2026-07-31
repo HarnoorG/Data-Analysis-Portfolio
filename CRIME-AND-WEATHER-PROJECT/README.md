@@ -275,19 +275,19 @@ ORDER BY
 	number_of_crimes DESC
 
 
-Month		number_of_crimes	avg_high_temp
-August		80274			22.8
-July		77402			22.9
-October		77062			13.8
-September	76328			19.1
-June		74857			20
-May		74569			17.3
-January		73432			7.3
-March		73227			10.2
-November	71655			9.4
-April		70996			13.1
-December	69438			6.9
-February	65969			7.9
+Month			number_of_crimes	avg_high_temp
+August			80274				22.8
+July			77402				22.9
+October			77062				13.8
+September		76328				19.1
+June			74857				20
+May				74569				17.3
+January			73432				7.3
+March			73227				10.2
+November		71655				9.4
+April			70996				13.1
+December		69438				6.9
+February		65969				7.9
 ```
 
 ##### Months with the most violent crimes committed
@@ -310,19 +310,19 @@ ORDER BY
 	number_of_crimes DESC
 
 
-Month		number_of_crimes	avg_high_temp
-August		7258			22.8
-July		7091			23
-January		6746			7.1
-May		6713			17.3
-September	6661			19.2
-October		6539			13.7
-June		6516			20
-March		6362			10.2
-November	6180			9.4
-December	6177			6.9
-April		6027			13
-February	5678			7.8
+Month			number_of_crimes	avg_high_temp
+August			7258				22.8
+July			7091				23
+January			6746				7.1
+May				6713				17.3
+September		6661				19.2
+October			6539				13.7
+June			6516				20
+March			6362				10.2
+November		6180				9.4
+December		6177				6.9
+April			6027				13
+February		5678				7.8
 ```
 
 ##### Years with the most violent crimes committed
