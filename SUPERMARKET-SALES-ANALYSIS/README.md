@@ -203,21 +203,21 @@ ORDER BY
 		revenue DESC;	
 
 
-item_name	    total_quantity_sold	    revenue
-Broccoli                27556	            270067.27
-Net Lotus Root (1)      27166	            211769.94
-Xixia Mushroom (1)      11929	            211356.72
-Wuhu Green Pepper (1)	28181	            205219.94
-Yunnan Shengcai	        15915	            129797.07
-Eggplant (2)	        13608	            117797.53
-Paopaojiao (Jingpin)	9707	            95610.68
-Luosi Pepper	        7794	            82031.93
-Yunnan Lettuces	        10309	            70692.25
-Chinese Cabbage	        20905	            65729.65
+item_name	   		    total_quantity_sold	    revenue
+Broccoli                27556	            	270067.27
+Net Lotus Root (1)      27166	            	211769.94
+Xixia Mushroom (1)      11929	            	211356.72
+Wuhu Green Pepper (1)	28181	            	205219.94
+Yunnan Shengcai	        15915	            	129797.07
+Eggplant (2)	        13608	            	117797.53
+Paopaojiao (Jingpin)	9707	            	95610.68
+Luosi Pepper	        7794	            	82031.93
+Yunnan Lettuces	        10309	            	70692.25
+Chinese Cabbage	        20905	            	65729.65
 ```
 Here we see that Broccoli is the top seller by a significant margin in terms of revenue. If you look at it from a quantity-sold perspective, Wuhu Green Pepper is the top seller.
 
-##### Finding the best selling dates
+##### Finding the best-selling dates
 For this query, I did practically the exact same thing I did in the previous query except this time I looked at dates instead of items which means I had to group the data by date instead of grouping by item name.
 
 ```
