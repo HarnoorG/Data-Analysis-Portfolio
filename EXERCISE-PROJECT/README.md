@@ -194,17 +194,17 @@ INNER JOIN exercises
 	workout.exercise_id = exercises.exercise_id;
 
 
-workout_id 	workout_date  exercise_id  exercise_name      	weight_lbs  total_reps 	reps_per_set 	volume_lbs   one_rep_max
-1		2023-05-10	1	   Dumbbell Rows		60	32	   8		1920		74.5
-1		2023-05-10	2	   Dumbbell Bench Press		60	26	   6.5		1560		70.83
-1		2023-05-10	3	   Reverse Curls		25	24	   8		600		31.04
-1		2023-05-10	4	   Skull Crushers		20	16	   5.33		320		22.74
-1		2023-05-10	5	   Bicep Curls			35	16	   5.33		560		39.79
-2		2023-05-17	7	   Military Press		30	32	   8		960		37.25
-2		2023-05-17	8	   Zottman Curls		30	24	   8		720		37.25
-2		2023-05-17	9	   Incline Bench Press		50	21	   7		1050		60.01
-2		2023-05-17	10	   Incline Dumbbell Rows	60	24	   8		1440		74.5
-2		2023-05-17	12	   Close Grip Bench Press	50	21	   7		1050		60.01
+workout_id 	workout_date  exercise_id  	exercise_name      		weight_lbs  total_reps 	reps_per_set 	volume_lbs   one_rep_max
+1			2023-05-10		1	   		Dumbbell Rows				60			32	  		 8				1920		74.5
+1			2023-05-10		2	   		Dumbbell Bench Press		60			26	   		6.5				1560		70.83
+1			2023-05-10		3	   		Reverse Curls				25			24	   		8				600			31.04
+1			2023-05-10		4	   		Skull Crushers				20			16	   		5.33			320			22.74
+1			2023-05-10		5	   		Bicep Curls					35			16	   		5.33			560			39.79
+2			2023-05-17		7	   		Military Press				30			32	   		8				960			37.25
+2			2023-05-17		8	   		Zottman Curls				30			24	   		8				720			37.25
+2			2023-05-17		9	   		Incline Bench Press			50			21	   		7				1050		60.01
+2			2023-05-17		10	   		Incline Dumbbell Rows		60			24	   		8				1440		74.5
+2			2023-05-17		12	   		Close Grip Bench Press		50			21	   		7				1050		60.01
 ```
 
 
