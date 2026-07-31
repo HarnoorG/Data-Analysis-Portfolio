@@ -83,17 +83,17 @@ Workout_id	workout_date	 exercise_id		exercise_name
 SELECT TOP 10 * FROM exercises;
 
 
-Workout_id	exercise_id	weight_lbs     sets  total_reps      reps_per_set   volume_lbs
-1		1		 60		4	32		8		1920
-1		2		 60		4	26		6.5		1560
-1		3		 25		3	24		8		600
-1		4		 20		3	16		5.33		320
-1		5		 35		3	16		5.33		560
-2		7		 30		4	32		8		960
-2		8		 30		3	24		8		720
-2		9		 50		3	21		7		1050
-2		10		 60		3	24		8		1440
-2		12		 50		3	21		7		1050
+Workout_id	exercise_id		weight_lbs     sets  total_reps      reps_per_set   volume_lbs
+1				1		 		60			4		32				8			1920
+1				2		 		60			4		26				6.5			1560
+1				3		 		25			3		24				8			600
+1				4		 		20			3		16				5.33		320
+1				5		 		35			3		16				5.33		560
+2				7		 		30			4		32				8			960
+2				8		 		30			3		24				8			720
+2				9		 		50			3		21				7			1050
+2				10		 		60			3		24				8			1440
+2				12		 		50			3		21				7			1050
 ```
 
 ##### Displaying the unique exercises and workout dates
