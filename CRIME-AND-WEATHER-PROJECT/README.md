@@ -202,12 +202,12 @@ ORDER by
 	number_of_crimes DESC
 
 
-neighbourhood			number_of_crimes
+neighbourhood				number_of_crimes
 Central Business District	239121
-West End			79287
-Strathcona			57116
-Mount Pleasant			55701
-Fairview			54098
+West End					79287
+Strathcona					57116
+Mount Pleasant				55701
+Fairview					54098
 ```
 
 ##### Five neighbourhoods least affected by crime
@@ -228,9 +228,9 @@ ORDER BY
 
 
 neighbourhood	number_of_Crimes
-Musqueam	1016
+Musqueam		1016
 Stanley Park	5681
-Shaughnessy	8715
+Shaughnessy		8715
 South Cambie	8987
 Arbutus Ridge	9433
 ```
