@@ -61,7 +61,7 @@ The first few queries I ran were to get a preview of how the four tables look. I
 SELECT TOP 10 * FROM item_category;
 
 
-Item_Code	        Item_Name        Category_Code	            Category_Name
+Item_Code	        Item_Name        		Category_Code	    Category_Name
 102900005115168	    Niushou Shengcai	    1011010101	        Flower/Leaf Vegetables
 102900005115199	    Sichuan Red Cedar	    1011010101	        Flower/Leaf Vegetables
 102900005115625	    Local Xiaomao Cabbage   1011010101	        Flower/Leaf Vegetables
@@ -78,10 +78,10 @@ Item_Code	        Item_Name        Category_Code	            Category_Name
 SELECT TOP 10 * FROM everyday_sales;
 
 
-Date                Time                Item_Code           Quantity_Sold_Kilo      Unit_Selling_Price_RMB_kg           Sale_or_Return      Discount_Yes_No
+Date            Time                Item_Code           Quantity_Sold_Kilo      Unit_Selling_Price_RMB_kg       Sale_or_Return      Discount_Yes_No
 2020-07-01	    09:15:07.9240000	102900005117056	    0.396	                7.6	                            sale	            No
 2020-07-01	    09:17:27.2950000	102900005115960	    0.849	                3.2	                            sale	            No
-2020-07-01          09:17:33.9050000	102900005117056	    0.409	                7.6	                            sale	            No
+2020-07-01      09:17:33.9050000	102900005117056	    0.409	                7.6	                            sale	            No
 2020-07-01	    09:19:45.4500000	102900005115823	    0.421	                10	                            sale	            No
 2020-07-01	    09:20:23.6860000	102900005115908	    0.539	                8	                            sale	            No
 2020-07-01	    09:21:55.5560000	102900005117056	    0.277	                7.6	                            sale	            No
@@ -95,7 +95,7 @@ Date                Time                Item_Code           Quantity_Sold_Kilo  
 SELECT TOP 10 * FROM everyday_wholesale;
 
 
-Date                Item_Code           Wholesale_Price_RMB_kg
+Date            Item_Code           Wholesale_Price_RMB_kg
 2020-07-01	    102900005115762	    3.88000011444092
 2020-07-01	    102900005115779	    6.71999979019165
 2020-07-01	    102900005115786	    3.19000005722046
@@ -112,7 +112,7 @@ Date                Item_Code           Wholesale_Price_RMB_kg
 SELECT TOP 10 * FROM avg_loss_rate;
 
 
-Item_Code	        Item_Name	           Loss_Rate
+Item_Code	        Item_Name	           		Loss_Rate
 102900005115168	    Niushou Shengcai	        4.3899998664856
 102900005115199	    Sichuan Red Cedar	        10.460000038147
 102900005115250	    Xixia Black Mushroom (1)	10.8000001907349
