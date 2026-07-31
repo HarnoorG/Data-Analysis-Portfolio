@@ -47,17 +47,17 @@ The first query I ran was simply to get a preview of how the "crimedata" table l
 SELECT TOP 10 * FROM cw.dbo.crimedata
 
 
-TYPE	                            YEAR	MONTH	DAY	HOUR	MINUTE	NEIGHBOURHOOD
-Break and Enter Commercial        	2003	1	    1	0	    0	    Victoria-Fraserview
-Break and Enter Residential/Other	2003	1	    1	0	    0	    Fairview
-Mischief	                        2003	1	    1	0	    0	    Grandview-Woodland
-Offence Against a Person	        2003	1	    1	0	    0	    West End
-Offence Against a Person	        2003	1	    1	0	    0	    West End
-Offence Against a Person	        2003	1	    1	0	    0	    West End
-Offence Against a Person	        2003	1	    1	0	    0	    Central Business District
-Offence Against a Person	        2003	1	    1	0	    0	    West End
-Offence Against a Person	        2003	1	    1	0	    0	    Strathcona
-Offence Against a Person	        2003	1	    1	0	    0	    Strathcona
+TYPE	                            YEAR	MONTH	DAY		HOUR	MINUTE	NEIGHBOURHOOD
+Break and Enter Commercial        	2003	1	    1		0	    0	    Victoria-Fraserview
+Break and Enter Residential/Other	2003	1	    1		0	    0	    Fairview
+Mischief	                        2003	1	    1		0	    0	    Grandview-Woodland
+Offence Against a Person	        2003	1	    1		0	    0	    West End
+Offence Against a Person	        2003	1	    1		0	    0	    West End
+Offence Against a Person	        2003	1	    1		0	    0	    West End
+Offence Against a Person	        2003	1	    1		0	    0	    Central Business District
+Offence Against a Person	        2003	1	    1		0	    0	    West End
+Offence Against a Person	        2003	1	    1		0	    0	    Strathcona
+Offence Against a Person	        2003	1	    1		0	    0	    Strathcona
 ```
 
 ##### Displaying the unique types of crimes and neighbourhoods in Vancouver
