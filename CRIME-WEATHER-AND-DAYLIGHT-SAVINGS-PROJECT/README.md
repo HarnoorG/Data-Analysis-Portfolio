@@ -531,15 +531,15 @@ propertycrime <- read_csv("crimedata_csv_AllNeighbourhoods_AllYears.csv") %>%
 head(propertycrime)
 
 
-YEAR 	MONTH 	DAY 	HOUR 	MINUTE 	date 		numerictime
-<dbl>	<dbl>	<dbl>	<dbl>	<dbl>	<date>		<dbl>
+YEAR 	MONTH 	DAY 	HOUR 	MINUTE 		date 		numerictime
+<dbl>	<dbl>	<dbl>	<dbl>	<dbl>	   <date>		  <dbl>
 
-2019	2	3	4	4	2019-02-03	244
-2004	6	17	21	25	2004-06-17	1285
-2008	5	22	21	0	2008-05-22	1260
-2022	2	1	15	0	2022-02-01	900
-2023	1	2	3	33	2023-01-02	213
-2020	7	28	19	12	2020-07-28	1152
+2019	2		3		4		4		2019-02-03		244
+2004	6		17		21		25		2004-06-17		1285
+2008	5		22		21		0		2008-05-22		1260
+2022	2		1		15		0		2022-02-01		900
+2023	1		2		3		33		2023-01-02		213
+2020	7		28		19		12		2020-07-28		1152
 
 ```
 
@@ -589,15 +589,15 @@ crimesdd <- left_join(propertycrime, weather, by="date") %>%
 head(crimesdd)
 
 
-year	month	day	sunset	propertycrimes
-<dbl>	<dbl>	<dbl>	<dbl>	<int>
+year	month	day		sunset		propertycrimes
+<dbl>	<dbl>	<dbl>	<dbl>			<int>
 
-2003	1	1	0	130
-2003	1	1	1	7
-2003	1	2	0	79
-2003	1	2	1	6
-2003	1	3	0	99
-2003	1	3	1	9
+2003	1		1		0			130
+2003	1		1		1			7
+2003	1		2		0			79
+2003	1		2		1			6
+2003	1		3		0			99
+2003	1		3		1			9
 ```
 
 ### Changing the type of the sunset variable
@@ -634,15 +634,15 @@ crimesdd <- crimesdd %>%
 
 head(crimesdd)
 
-year 	month 	day 	sunset 	propertycrimes 	date 		Post2007
-<dbl>	<dbl>	<dbl>	<chr>	<int>		<date>		<dbl>
+year 	month 	day 	sunset 	propertycrimes 		date 		Post2007
+<dbl>	<dbl>	<dbl>	<chr>	<int>			   <date>		 <dbl>
 
-2003	3	9	0	51		2003-03-09	0
-2003	3	9	1	5		2003-03-09	0
-2004	3	9	0	62		2004-03-09	0
-2004	3	9	1	7		2004-03-09	0
-2005	3	9	0	59		2005-03-09	0
-2005	3	9	1	13		2005-03-09	0
+2003	3		9		0		51				2003-03-09		0
+2003	3		9		1		5				2003-03-09		0
+2004	3		9		0		62				2004-03-09		0
+2004	3		9		1		7				2004-03-09		0
+2005	3		9		0		59				2005-03-09		0
+2005	3		9		1		13				2005-03-09		0
 
 ```
 
