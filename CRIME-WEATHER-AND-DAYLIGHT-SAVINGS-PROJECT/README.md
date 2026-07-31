@@ -160,15 +160,15 @@ dailycrime <- read_csv("crimedata_csv_AllNeighbourhoods_AllYears.csv") %>%
 head(dailycrime)
 
 
-year   month   day   dailycrimes   date         dayofweek
-<dbl>  <dbl>  <dbl>     <int>     <date>        <dbl>
+year   month   day   dailycrimes   date       dayofweek
+<dbl>  <dbl>  <dbl>    <int>      <date>       <dbl>
 
-2003	1	1	 223	  2003-01-01	  4
-2003	1	2	 161	  2003-01-02	  5
-2003	1	3	 181	  2003-01-03	  6
-2003	1	4	 162	  2003-01-04	  7
-2003	1	5	 132	  2003-01-05	  1
-2003	1	6	 161	  2003-01-06	  2
+2003	1		1	 	223	  	2003-01-01	  	4
+2003	1		2	 	161	  	2003-01-02	  	5
+2003	1		3	 	181	  	2003-01-03	  	6
+2003	1		4	 	162	  	2003-01-04	  	7
+2003	1		5	 	132	  	2003-01-05	  	1
+2003	1		6	 	161	  	2003-01-06	  	2
 ```
 
 ### Reading in the weather data
@@ -188,12 +188,12 @@ head(weather)
 date         avg_temperature   precipitation   avg_relative_humidity   avg_wind_speed
 <chr>          <dbl>           <dbl>           <dbl>                   <dbl>
 
-12/31/2023	7.25	        0.0	        90.0	                10.0
-12/30/2023	10.80	        6.4	        84.5	                12.0
-12/29/2023	9.94	        1.4	        85.0	                9.0
-12/28/2023	10.64	        4.3	        85.5	                21.0
-12/27/2023	9.19	        1.1	        77.5	                18.5
-12/26/2023	7.95	        2.8	        83.0	                19.5
+12/31/2023		7.25	        0.0	        	90.0	                10.0
+12/30/2023		10.80	        6.4	        	84.5	                12.0
+12/29/2023		9.94	        1.4	        	85.0	                9.0
+12/28/2023		10.64	        4.3	        	85.5	                21.0
+12/27/2023		9.19	        1.1	        	77.5	                18.5
+12/26/2023		7.95	        2.8	        	83.0	                19.5
 
 ```
 
@@ -216,15 +216,15 @@ crimes_and_weather <- dailycrime %>%
 head(crimes_and_weather)
 
 
-year   month   day   dailycrimes     date     dayofweek   avg_temperature   precipitation   avg_relative_humidity   avg_wind_speed
-<dbl>  <dbl>  <dbl>    <int>        <date>    <dbl>       <dbl>             <dbl>           <dbl>                   <dbl>
+year   month   day   dailycrimes     date     dayofweek   avg_temperature   	precipitation   avg_relative_humidity   avg_wind_speed
+<dbl>  <dbl>  <dbl>    <int>        <date>    <dbl>       	<dbl>             	<dbl>           	<dbl>                   <dbl>
 
-2003	1	1	223	  2003-01-01	4	  5.90	            21.6	    86.5	            26.0
-2003	1	2	161	  2003-01-02	5	  8.80	            23.4	    86.5	            31.0
-2003	1	3	181	  2003-01-03	6	  8.80	            2.8             78.5	            36.0
-2003	1	4	162	  2003-01-04	7	  9.25	            13.9	    84.0	            14.0
-2003	1	5	132	  2003-01-05	1	  7.05	            0.0             86.5	            7.5
-2003	1	6	161	  2003-01-06	2	  4.85	            0.0             85.0	            4.5
+2003	1		1		223	  	2003-01-01		4	  		5.90	            21.6	   		86.5	            	26.0
+2003	1		2		161	  	2003-01-02		5	  		8.80	            23.4	    	86.5	            	31.0
+2003	1		3		181	  	2003-01-03		6	  		8.80	            2.8             78.5	            	36.0
+2003	1		4		162	  	2003-01-04		7	  		9.25	            13.9	    	84.0	            	14.0
+2003	1		5		132	  	2003-01-05		1	  		7.05	            0.0             86.5	            	7.5
+2003	1		6		161	  	2003-01-06		2	  		4.85	            0.0             85.0	            	4.5
 ```
 
 ### Turning the day of week, year, and month variables into factors
@@ -287,15 +287,15 @@ violentcrime <- read_csv("crimedata_csv_AllNeighbourhoods_AllYears.csv") %>%
 head(violentcrime)
 
 
-YEAR 	MONTH 	DAY 	violentcrimes 	date 		dayofweek
-<dbl>	<dbl>	<dbl>	<int>		<date>		<dbl>
+YEAR 	MONTH 	DAY 	violentcrimes 	  date 			dayofweek
+<dbl>	<dbl>	<dbl>		<int>		 <date>			<dbl>
 
-2003	1	1	32		2003-01-01	4
-2003	1	2	14		2003-01-02	5
-2003	1	3	14		2003-01-03	6
-2003	1	4	13		2003-01-04	7
-2003	1	5	12		2003-01-05	1
-2003	1	6	13		2003-01-06	2
+2003	1		1			32			2003-01-01		4
+2003	1		2			14			2003-01-02		5
+2003	1		3			14			2003-01-03		6
+2003	1		4			13			2003-01-04		7
+2003	1		5			12			2003-01-05		1
+2003	1		6			13			2003-01-06		2
 ```
 
 ### Reading in the property crime data
@@ -312,15 +312,15 @@ propertycrime <- read_csv("crimedata_csv_AllNeighbourhoods_AllYears.csv") %>%
 head(propertycrime)
 
 
-YEAR 	MONTH 	DAY 	propertycrimes 	date 		dayofweek
-<dbl>	<dbl>	<dbl>	<int>		<date>		<dbl>
+YEAR 	MONTH 	DAY 	propertycrimes 		 date 			dayofweek
+<dbl>	<dbl>	<dbl>		<int>			<date>			<dbl>
 
-2003	1	1	137		2003-01-01	4
-2003	1	2	85		2003-01-02	5
-2003	1	3	108		2003-01-03	6
-2003	1	4	98		2003-01-04	7
-2003	1	5	75		2003-01-05	1
-2003	1	6	103		2003-01-06	2
+2003	1		1			137				2003-01-01		4
+2003	1		2			85				2003-01-02		5
+2003	1		3			108				2003-01-03		6
+2003	1		4			98				2003-01-04		7
+2003	1		5			75				2003-01-05		1
+2003	1		6			103				2003-01-06		2
 ```
 
 ### Creating the regression discontinuity data
