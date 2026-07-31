@@ -235,27 +235,27 @@ ORDER BY
 		revenue DESC;
 
 
-date	    total_quantity_sold	    revenue
-2021-02-10	2103	            28748.89
-2021-02-09	1471	            18775.41
-2023-01-20	2121	            18382.79
-2022-01-30	1210	            16480.13
-2022-01-29	1138	            14270.39
-2023-01-19	1429	            13111
-2021-02-08	1068	            11443.58
-2022-11-19	2484	            10126.29
-2022-01-28	892	            9984.54
-2022-11-21	1969	            9411.84
-2022-10-21	1534	            9384.91
-2021-02-15	829	            8462.71
-2023-01-25	801	            8216.6
-2023-01-26	869	            8068.93
-2023-01-18	897	            7735.37
-2023-01-27	972	            7674.41
-2021-02-16	719	            7621.67
-2022-08-19	1248	            7547.71
-2021-02-07	700	            7274.54
-2023-01-14	1049	            7036.98
+date	    	total_quantity_sold	    revenue
+2021-02-10		2103	            	28748.89
+2021-02-09		1471	            	18775.41
+2023-01-20		2121	            	18382.79
+2022-01-30		1210	            	16480.13
+2022-01-29		1138	            	14270.39
+2023-01-19		1429	            	13111
+2021-02-08		1068	            	11443.58
+2022-11-19		2484	            	10126.29
+2022-01-28		892	            		9984.54
+2022-11-21		1969	            	9411.84
+2022-10-21		1534	            	9384.91
+2021-02-15		829	            		8462.71
+2023-01-25		801	            		8216.6
+2023-01-26		869	            		8068.93
+2023-01-18		897	            		7735.37
+2023-01-27		972	            		7674.41
+2021-02-16		719	            		7621.67
+2022-08-19		1248	            	7547.71
+2021-02-07		700	            		7274.54
+2023-01-14		1049	            	7036.98
 ```
 
 We see that the majority of the best-selling dates occur in January and February. These dates align well with the start of the Chinese New Year and are likely to explain the uptick in revenue for those dates.
@@ -282,13 +282,13 @@ ORDER BY
 		revenue DESC;
 
 
-category_name	        total_quantity_sold	revenue
-Flower/Leaf Vegetables	    198659	        1079834.83
-Capsicum	            91645	        754564.42
-Edible Mushroom	            76131	        620110.2
-Cabbage	                    41789	        375980.84
-Aquatic Tuberous Vegetables 40607	        350306.06
-Solanum	                    22442	        191226.98
+category_name	        	total_quantity_sold		revenue
+Flower/Leaf Vegetables	    198659	        		1079834.83
+Capsicum	            	91645	        		754564.42
+Edible Mushroom	            76131	        		620110.2
+Cabbage	                    41789	        		375980.84
+Aquatic Tuberous Vegetables 40607	        		350306.06
+Solanum	                    22442	        		191226.98
 ```
 
 Flower/Leaf Vegetables is clearly the top category as it has sold more than double the total quantity that the next highest category, capsicum has sold. It also did more than 250,000 RMB more in revenue compared to Capsicum.
@@ -314,16 +314,16 @@ ORDER BY
 		returned DESC;
 
 
-item_name		returned
+item_name				returned
 Wuhu Green Pepper (1)	38
-Broccoli		36
-Xixia Mushroom (1)	34
-Net Lotus Root (1)	22
-Wawacai			18
-Zhuyecai		14
-Millet Pepper (Bag)	13
-Huangbaicai (2)		11
-Eggplant (2)		10
+Broccoli				36
+Xixia Mushroom (1)		34
+Net Lotus Root (1)		22
+Wawacai					18
+Zhuyecai				14
+Millet Pepper (Bag)		13
+Huangbaicai (2)			11
+Eggplant (2)			10
 Yunnan Lettuce (Bag)	10
 ```
 
@@ -357,27 +357,27 @@ ORDER BY
 		percentage_returned DESC;
 
 
-item_name		percentage_returned
+item_name					percentage_returned
 Wuhu Green Pepper (1)		8.24
-Broccoli			7.81
-Xixia Mushroom (1)		7.38
-Net Lotus Root (1)		4.77
-Wawacai				3.90
-Zhuyecai			3.04
-Millet Pepper (Bag)		2.82
-Huangbaicai (2)			2.39
-Eggplant (2)			2.17
-Yunnan Shengcai			2.17
+Broccoli					7.81
+Xixia Mushroom (1)			7.38
+Net Lotus Root (1)			4.77
+Wawacai						3.90
+Zhuyecai					3.04
+Millet Pepper (Bag)			2.82
+Huangbaicai (2)				2.39
+Eggplant (2)				2.17
+Yunnan Shengcai				2.17
 Yunnan Lettuce (Bag)		2.17
 Garden Chrysanthemum		1.95
 Zhijiang Qinggengsanhua		1.95
-Yunnan Lettuces			1.74
+Yunnan Lettuces				1.74
 Paopaojiao (Jingpin)		1.74
-Naibaicai			1.74
+Naibaicai					1.74
 Yunnan Leaf Lettuce (Bag)	1.74
-Amaranth			1.52
+Amaranth					1.52
 Xixia Black Mushroom (1)	1.52
-Niushou Youcai			1.30
+Niushou Youcai				1.30
 ```
 
 ##### What percentage of each specific product sold is returned
