@@ -67,16 +67,16 @@ SELECT TOP 10 * FROM workout;
 
 
 Workout_id	workout_date	 exercise_id		exercise_name
-1		2023-05-10		1		Dumbbell Rows
-1		2023-05-10		2		Dumbbell Bench Press
-1		2023-05-10		3		Reverse Curls
-1		2023-05-10		4		Skull Crushers
-1		2023-05-10		5		Bicep Curls
-2		2023-05-17		7		Military Press
-2		2023-05-17		8		Zottman Curls
-2		2023-05-17		9		Incline Bench Press
-2		2023-05-17		10		Incline Dumbbell Rows
-2		2023-05-17		12		Close Grip Bench Press
+1		2023-05-10				1				Dumbbell Rows
+1		2023-05-10				2				Dumbbell Bench Press
+1		2023-05-10				3				Reverse Curls
+1		2023-05-10				4				Skull Crushers
+1		2023-05-10				5				Bicep Curls
+2		2023-05-17				7				Military Press
+2		2023-05-17				8				Zottman Curls
+2		2023-05-17				9				Incline Bench Press
+2		2023-05-17				10				Incline Dumbbell Rows
+2		2023-05-17				12				Close Grip Bench Press
 ```
 
 ```
