@@ -1,12 +1,12 @@
--- Preview the crime data
+-- Previewing the crime data
 
 SELECT * FROM cw.dbo.crimedata
 
--- List the unique types of crimes in Vancouver
+-- Listing the unique types of crimes in Vancouver
 
 SELECT DISTINCT type FROM cw.dbo.crimedata
 
--- List the unique neighbourhoods in Vancouver
+-- Listing the unique neighbourhoods in Vancouver
 
 SELECT DISTINCT neighbourhood FROM cw.dbo.crimedata
 
@@ -17,7 +17,7 @@ SELECT
 FROM 
 	cw.dbo.crimedata
 
--- List the total amount of Homicides and Offences Against a Person reported between 2003 and 2023
+-- Listing the total amount of Homicides and Offences Against a Person reported between 2003 and 2023
 
 SELECT 
 	type 
