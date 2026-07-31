@@ -224,16 +224,16 @@ GROUP BY exercise_name;
 
 
 max_weight	exercise_name
-40		Bicep Curls
-70		Close Grip Bench Press
-80		Dumbbell Bench Press
-80		Dumbbell Rows
-35		Hammer Curls
-70		Incline Bench Press
-70		Incline Dumbbell Rows
-25		Lateral Raises
-50		Military Press
-35		Preacher Curls
+40			Bicep Curls
+70			Close Grip Bench Press
+80			Dumbbell Bench Press
+80			Dumbbell Rows
+35			Hammer Curls
+70			Incline Bench Press
+70			Incline Dumbbell Rows
+25			Lateral Raises
+50			Military Press
+35			Preacher Curls
 ```
 
 
@@ -249,16 +249,16 @@ GROUP BY exercise_name;
 
 
 min_weight	exercise_name
-30		Bicep Curls
-50		Close Grip Bench Press
-60		Dumbbell Bench Press
-60		Dumbbell Rows
-30		Hammer Curls
-50		Incline Bench Press
-60		Incline Dumbbell Rows
-25		Lateral Raises
-30		Military Press
-30		Preacher Curls
+30			Bicep Curls
+50			Close Grip Bench Press
+60			Dumbbell Bench Press
+60			Dumbbell Rows
+30			Hammer Curls
+50			Incline Bench Press
+60			Incline Dumbbell Rows
+25			Lateral Raises
+30			Military Press
+30			Preacher Curls
 ```
 
 
@@ -274,15 +274,15 @@ GROUP BY exercise_name;
 
 
 avg_weight	exercise_name
-35		Bicep Curls
+35			Bicep Curls
 57.5		Close Grip Bench Press
 69.41		Dumbbell Bench Press
-70		Dumbbell Rows
-33		Hammer Curls
+70			Dumbbell Rows
+33			Hammer Curls
 59.38		Incline Bench Press
 64.67		Incline Dumbbell Rows
-25		Lateral Raises
-40		Military Press
+25			Lateral Raises
+40			Military Press
 33.33		Preacher Curls
 ```
 
@@ -300,17 +300,17 @@ GROUP BY workout_date
 ORDER BY workout_date;
 
 
-number_of_exercises	workout_date
-5			2023-05-10
-5			2023-05-17
-5			2023-05-24
-6			2023-05-29
-5			2023-06-05
-7			2023-06-08
-6			2023-06-12
-7			2023-06-14
-6			2023-06-16
-6			2023-06-19
+number_of_exercises		workout_date
+5						2023-05-10
+5						2023-05-17
+5						2023-05-24
+6						2023-05-29
+5						2023-06-05
+7						2023-06-08
+6						2023-06-12
+7						2023-06-14
+6						2023-06-16
+6						2023-06-19
 ```
 
 
@@ -330,11 +330,11 @@ ORDER BY workout_date;
 
 
 avg_weight	workout_date
-40		2023-05-10
-44		2023-05-17
-39		2023-05-24
+40			2023-05-10
+44			2023-05-17
+39			2023-05-24
 42.5		2023-05-29
-38		2023-06-05
+38			2023-06-05
 47.86		2023-06-08
 36.67		2023-06-12
 47.86		2023-06-14
@@ -359,16 +359,16 @@ ORDER BY workout_date
 
 
 total_volume	workout_date
-24800		2023-05-10
-26100		2023-05-17
-24600		2023-05-24
-36300		2023-05-29
-26200		2023-06-05
-57890		2023-06-08
-36420		2023-06-12
-58240		2023-06-14
-37440		2023-06-16
-48000		2023-06-19
+24800			2023-05-10
+26100			2023-05-17
+24600			2023-05-24
+36300			2023-05-29
+26200			2023-06-05
+57890			2023-06-08
+36420			2023-06-12
+58240			2023-06-14
+37440			2023-06-16
+48000			2023-06-19
 ```
 
 
@@ -394,8 +394,8 @@ avg_total_reps 	workout_date
 24.4			2023-05-24
 24.17			2023-05-29
 25.8			2023-06-05
-25			2023-06-08
-26			2023-06-12
+25				2023-06-08
+26				2023-06-12
 25.14			2023-06-14
 26.33			2023-06-16
 25.33			2023-06-19
@@ -415,16 +415,16 @@ ORDER BY workout_date
 
 
 avg_reps_per_set	workout_date
-6.63			  2023-05-10
-7.6			  2023-05-17
-7.6			  2023-05-24
-7.61			  2023-05-29
-7.58			  2023-06-05
-7.95			  2023-06-08
-7.8			  2023-06-12
-8			  2023-06-14
-7.92			  2023-06-16
-8			  2023-06-19
+6.63			  	2023-05-10
+7.6			  		2023-05-17
+7.6			  		2023-05-24
+7.61			  	2023-05-29
+7.58			  	2023-06-05
+7.95			  	2023-06-08
+7.8			  		2023-06-12
+8			  		2023-06-14
+7.92			  	2023-06-16
+8			  		2023-06-19
 ```
 
 ##### Total and average amounts of volume lifted 
@@ -437,7 +437,7 @@ FROM exercises
 
 
 total_volume	avg_volume
-237835		1213.44
+237835			1213.44
 ```
 ##### Total and average amounts of repetitions done 
 
