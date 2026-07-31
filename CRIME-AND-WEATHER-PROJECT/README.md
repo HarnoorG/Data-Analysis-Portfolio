@@ -442,29 +442,29 @@ ORDER BY
 	t1.year
 
 
-year	day_of_week	avg_precipitation	avg_high_temp	number_of_crimes	day_of_week	avg_high_temp	number_of_crimes	crime_difference
-2003	Saturday	5.19			13.1		4487			Tuesday		16.91		5051			564
-2004	Saturday	11.42			12.48		4838			Sunday		18		4713			-125
-2005	Saturday	7.89			12.82		4187			Thursday	16.33		5231			1044
-2006	Thursday	6.02			11.79		3888			Monday		18.09		4055			167
-2007	Saturday	6.6			10.97		3749			Friday		16.4		3605			-144
-2008	Saturday	4.08			11.2		3456			Wednesday	15.14		3662			206
-2009	Thursday	5.58			11.16		2586			Friday		15.9		3865			1279
-2010	Saturday	5.73			12.6		3038			Wednesday	16.18		3186			148
-2011	Wednesday	5.92			12.29		2761			Saturday	14.62		3175			414
-2012	Friday		6.98			11.24		2839			Saturday	17.28		2995			156
-2013	Saturday	5.79			12.61		2691			Sunday		15.37		3276			585
-2014	Friday		6.37			15.22		3011			Monday		16.24		3610			599
-2015	Friday		7.55			12.86		2718			Wednesday	16.15		3784			1066
-2016	Saturday	8.99			12.73		3634			Friday		17.5		3632			-2
-2017	Friday		4.98			11.17		3477			Sunday		15.63		4092			615
-2018	Friday		7.98			11.34		3912			Monday		15.17		4310			398
-2018	Saturday	6.51			12.34		3912			Monday		15.17		4310			398
-2019	Friday		5.3			12.95		3696			Sunday		15.4		4683			987
-2020	Saturday	4.62			12.36		3065			Sunday		15.57		3019			-46
-2021	Saturday	9.04			11.21		2352			Wednesday	16.14		2772			420
-2022	Wednesday	3.59			12.91		2273			Saturday	16.03		3412			1139
-2023	Wednesday	4.25			11.13		2204			Friday		18.08		3469			1265
+year	day_of_week		avg_precipitation	avg_high_temp	number_of_crimes	day_of_week		avg_high_temp	number_of_crimes	crime_difference
+2003	Saturday		5.19				13.1			4487				Tuesday			16.91			5051				564
+2004	Saturday		11.42				12.48			4838				Sunday			18				4713				-125
+2005	Saturday		7.89				12.82			4187				Thursday		16.33			5231				1044
+2006	Thursday		6.02				11.79			3888				Monday			18.09			4055				167
+2007	Saturday		6.6					10.97			3749				Friday			16.4			3605				-144
+2008	Saturday		4.08				11.2			3456				Wednesday		15.14			3662				206
+2009	Thursday		5.58				11.16			2586				Friday			15.9			3865				1279
+2010	Saturday		5.73				12.6			3038				Wednesday		16.18			3186				148
+2011	Wednesday		5.92				12.29			2761				Saturday		14.62			3175				414
+2012	Friday			6.98				11.24			2839				Saturday		17.28			2995				156
+2013	Saturday		5.79				12.61			2691				Sunday			15.37			3276				585
+2014	Friday			6.37				15.22			3011				Monday			16.24			3610				599
+2015	Friday			7.55				12.86			2718				Wednesday		16.15			3784				1066
+2016	Saturday		8.99				12.73			3634				Friday			17.5			3632				-2
+2017	Friday			4.98				11.17			3477				Sunday			15.63			4092				615
+2018	Friday			7.98				11.34			3912				Monday			15.17			4310				398
+2018	Saturday		6.51				12.34			3912				Monday			15.17			4310				398
+2019	Friday			5.3					12.95			3696				Sunday			15.4			4683				987
+2020	Saturday		4.62				12.36			3065				Sunday			15.57			3019				-46
+2021	Saturday		9.04				11.21			2352				Wednesday		16.14			2772				420
+2022	Wednesday		3.59				12.91			2273				Saturday		16.03			3412				1139
+2023	Wednesday		4.25				11.13			2204				Friday			18.08			3469				1265
 ```
 
 ##### Day with most crime when there is no precipitation versus when there is greater than 10mm of precipitation
@@ -533,9 +533,9 @@ ORDER BY
 	number_of_crimes DESC
 
 
-crime_date	day_of_week	max_temperature		precipitation		number_of_crimes
-2008-03-12	Wednesday	9.5			0			228
-2003-01-01	Wednesday	6.80000019073486	21.6000003814697	223
+crime_date		day_of_week		max_temperature		precipitation		number_of_crimes
+2008-03-12		Wednesday		9.5					0					228
+2003-01-01		Wednesday		6.80000019073486	21.6000003814697	223
 ```
 
 ##### The most consecutive days a violent crime occurred
@@ -589,7 +589,7 @@ WHERE
 
 
 most_consecutive_days		consecutive_days_timeframe
-4774				2005-07-05 to 2018-07-30
+4774						2005-07-05 to 2018-07-30
 ```
 
 ##### Year-over-year growth in crime
@@ -618,28 +618,28 @@ FROM
 	year_count;
 
 
-year		number_of_crimes	previous_year_count	year_over_year
-2003		58814			NULL			NULL
-2004		58111			58814			-1.20
-2005		53401			58111			-8.11
-2006		49634			53401			-7.05
-2007		44385			49634			-10.58
-2008		41700			44385			-6.05
-2009		37965			41700			-8.96
-2010		35639			37965			-6.13
-2011		34410			35639			-3.45
-2012		35497			34410			3.16
-2013		35781			35497			0.80
-2014		39201			35781			9.56
-2015		40235			39201			2.64
-2016		44090			40235			9.58
-2017		43229			44090			-1.95
-2018		44283			43229			2.44
-2019		48169			44283			8.78
-2020		37523			48169			-22.10
-2021		32205			37523			-14.17
-2022		34315			32205			6.55
-2023		36622			34315			6.72
+year		number_of_crimes	previous_year_count		year_over_year
+2003		58814				NULL					NULL
+2004		58111				58814					-1.20
+2005		53401				58111					-8.11
+2006		49634				53401					-7.05
+2007		44385				49634					-10.58
+2008		41700				44385					-6.05
+2009		37965				41700					-8.96
+2010		35639				37965					-6.13
+2011		34410				35639					-3.45
+2012		35497				34410					 3.16
+2013		35781				35497					 0.80
+2014		39201				35781					 9.56
+2015		40235				39201					 2.64
+2016		44090				40235					 9.58
+2017		43229				44090					-1.95
+2018		44283				43229					 2.44
+2019		48169				44283					 8.78
+2020		37523				48169					-22.10
+2021		32205				37523					-14.17
+2022		34315				32205					 6.55
+2023		36622				34315					 6.72
 ```
 
 ##### Crimes per season of each year
@@ -727,91 +727,91 @@ FROM
 	buckets;
 
 
-year		season		avg_temp	total_crime_growth	seasonal_growth
-2003		Winter		8.07		NULL			NULL
-2003		Spring		13.09		0.08			Gain
-2003		Summer		22.57		0.02			Gain
-2003		Autumn		14.12		-0.05			Loss
-2004		Autumn		13.57		0.07			Gain
-2004		Summer		23.2		-0.07			Loss
-2004		Spring		15.07		-0.01			Loss
-2004		Winter		8.12		-0.06			Loss
-2005		Winter		7.67		-0.06			Loss
-2005		Spring		14.63		0.09			Gain
-2005		Summer		21.52		-0.01			Loss
-2005		Autumn		13.74		-0.05			Loss
-2006		Autumn		14.15		-0.07			Loss
-2006		Summer		21.87		0.07			Gain
-2006		Spring		13.43		-0.07			Loss
-2006		Winter		7.88		0.03			Gain
-2007		Winter		6.9		-0.15			Loss
-2007		Spring		13.06		0.04			Gain
-2007		Summer		21.24		0.09			Gain
-2007		Autumn		13.14		-0.08			Loss
-2008		Autumn		14.21		-0.04			Loss
-2008		Summer		20.65		0.03			Gain
-2008		Spring		12.33		0.00			Gain
-2008		Winter		6.64		-0.11			Loss
-2009		Winter		5.69		-0.06			Loss
-2009		Spring		12.73		0.03			Gain
-2009		Summer		22.58		0.06			Gain
-2009		Autumn		14.38		-0.03			Loss
-2010		Autumn		14.14		-0.07			Loss
-2010		Summer		21.11		0.05			Gain
-2010		Spring		13.35		-0.06			Loss
-2010		Winter		9.28		-0.04			Loss
-2011		Winter		6.89		-0.05			Loss
-2011		Spring		11.71		0.01			Gain
-2011		Summer		20.7		0.19			Gain
-2011		Autumn		13.97		-0.13			Loss
-2012		Autumn		14.41		0.10			Gain
-2012		Summer		20.97		0.01			Gain
-2012		Spring		12.66		-0.07			Loss
-2012		Winter		6.93		-0.05			Loss
-2013		Winter		6.31		-0.03			Loss
-2013		Spring		13.49		0.13			Gain
-2013		Summer		21.81		0.06			Gain
-2013		Autumn		13.47		-0.05			Loss
-2014		Autumn		15.15		0.12			Gain
-2014		Summer		22.05		0.07			Gain
-2014		Spring		13.76		-0.14			Loss
-2014		Winter		6.78		-0.08			Loss
-2015		Winter		8.87		0.11			Gain
-2015		Spring		14.66		-0.03			Loss
-2015		Summer		22.67		0.15			Gain
-2015		Autumn		13.75		0.02			Gain
-2016		Autumn		14.6		-0.02			Loss
-2016		Summer		21.43		0.12			Gain
-2016		Spring		15.31		-0.04			Loss
-2016		Winter		7.31		-0.11			Loss
-2017		Winter		5.87		-0.07			Loss
-2017		Spring		12.9		0.11			Gain
-2017		Summer		21.88		0.08			Gain
-2017		Autumn		14.39		0.02			Gain
-2018		Autumn		14.2		-0.05			Loss
-2018		Summer		22.24		0.01			Gain
-2018		Spring		13.69		-0.03			Loss
-2018		Winter		7.35		0.01			Gain
-2019		Winter		6.63		-0.01			Loss
-2019		Spring		13.98		0.05			Gain
-2019		Summer		22.31		0.12			Gain
-2019		Autumn		13.64		0.02			Gain
-2020		Autumn		14.4		-0.30			Loss
-2020		Summer		21.03		-0.08			Loss
-2020		Spring		13.49		0.09			Gain
-2020		Winter		7.75		0.15			Gain
-2021		Winter		6.76		-0.26			Loss
-2021		Spring		13.34		-0.02			Loss
-2021		Summer		23.1		0.12			Gain
-2021		Autumn		13.75		-0.03			Loss
-2022		Autumn		14.79		0.04			Gain
-2022		Summer		22.13		0.06			Gain
-2022		Spring		12.21		-0.03			Loss
-2022		Winter		6.7		-0.12			Loss
-2023		Winter		8.03		0.09			Gain
-2023		Spring		13.69		0.07			Gain
-2023		Summer		22.36		0.12			Gain
-2023		Autumn		14.56		-0.11			Loss
+year		season		avg_temp	 total_crime_growth		seasonal_growth
+2003		Winter		8.07		 NULL					NULL
+2003		Spring		13.09		 0.08					Gain
+2003		Summer		22.57		 0.02					Gain
+2003		Autumn		14.12		-0.05					Loss
+2004		Autumn		13.57		 0.07					Gain
+2004		Summer		23.2		-0.07					Loss
+2004		Spring		15.07		-0.01					Loss
+2004		Winter		8.12		-0.06					Loss
+2005		Winter		7.67		-0.06					Loss
+2005		Spring		14.63		 0.09					Gain
+2005		Summer		21.52		-0.01					Loss
+2005		Autumn		13.74		-0.05					Loss
+2006		Autumn		14.15		-0.07					Loss
+2006		Summer		21.87		 0.07					Gain
+2006		Spring		13.43		-0.07					Loss
+2006		Winter		7.88		 0.03					Gain
+2007		Winter		6.9		    -0.15					Loss
+2007		Spring		13.06		 0.04					Gain
+2007		Summer		21.24		 0.09					Gain
+2007		Autumn		13.14		-0.08					Loss
+2008		Autumn		14.21		-0.04					Loss
+2008		Summer		20.65		 0.03					Gain
+2008		Spring		12.33		 0.00					Gain
+2008		Winter		6.64		-0.11					Loss
+2009		Winter		5.69		-0.06					Loss
+2009		Spring		12.73		 0.03					Gain
+2009		Summer		22.58		 0.06					Gain
+2009		Autumn		14.38		-0.03					Loss
+2010		Autumn		14.14		-0.07					Loss
+2010		Summer		21.11		 0.05					Gain
+2010		Spring		13.35		-0.06					Loss
+2010		Winter		9.28		-0.04					Loss
+2011		Winter		6.89		-0.05					Loss
+2011		Spring		11.71		 0.01					Gain
+2011		Summer		20.7		 0.19					Gain
+2011		Autumn		13.97		-0.13					Loss
+2012		Autumn		14.41		 0.10					Gain
+2012		Summer		20.97		 0.01					Gain
+2012		Spring		12.66		-0.07					Loss
+2012		Winter		6.93		-0.05					Loss
+2013		Winter		6.31		-0.03					Loss
+2013		Spring		13.49		 0.13					Gain
+2013		Summer		21.81		 0.06					Gain
+2013		Autumn		13.47		-0.05					Loss
+2014		Autumn		15.15		 0.12					Gain
+2014		Summer		22.05		 0.07					Gain
+2014		Spring		13.76		-0.14					Loss
+2014		Winter		6.78		-0.08					Loss
+2015		Winter		8.87		 0.11					Gain
+2015		Spring		14.66		-0.03					Loss
+2015		Summer		22.67		 0.15					Gain
+2015		Autumn		13.75		 0.02					Gain
+2016		Autumn		14.6		-0.02					Loss
+2016		Summer		21.43		 0.12					Gain
+2016		Spring		15.31		-0.04					Loss
+2016		Winter		7.31		-0.11					Loss
+2017		Winter		5.87		-0.07					Loss
+2017		Spring		12.9		 0.11					Gain
+2017		Summer		21.88		 0.08					Gain
+2017		Autumn		14.39		 0.02					Gain
+2018		Autumn		14.2		-0.05					Loss
+2018		Summer		22.24		 0.01					Gain
+2018		Spring		13.69		-0.03					Loss
+2018		Winter		7.35		 0.01					Gain
+2019		Winter		6.63		-0.01					Loss
+2019		Spring		13.98		 0.05					Gain
+2019		Summer		22.31		 0.12					Gain
+2019		Autumn		13.64		 0.02					Gain
+2020		Autumn		14.4		-0.30					Loss
+2020		Summer		21.03		-0.08					Loss
+2020		Spring		13.49		 0.09					Gain
+2020		Winter		7.75		 0.15					Gain
+2021		Winter		6.76		-0.26					Loss
+2021		Spring		13.34		-0.02					Loss
+2021		Summer		23.1		 0.12					Gain
+2021		Autumn		13.75		-0.03					Loss
+2022		Autumn		14.79		 0.04					Gain
+2022		Summer		22.13		 0.06					Gain
+2022		Spring		12.21		-0.03					Loss
+2022		Winter		6.7		    -0.12					Loss
+2023		Winter		8.03		 0.09					Gain
+2023		Spring		13.69		 0.07					Gain
+2023		Summer		22.36		 0.12					Gain
+2023		Autumn		14.56		-0.11					Loss
 ```
 
 
