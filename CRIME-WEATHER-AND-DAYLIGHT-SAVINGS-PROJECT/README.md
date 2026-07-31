@@ -405,15 +405,15 @@ RDD$days <- unclass(RDD$days)
 head(RDD)
 
 
-year   month   day      date       dayofweek   violentcrimes   propertycrimes  base_dst      days    after_dst
-<dbl>  <dbl>  <dbl>    <date>         <dbl>    <int>           <int> 		<date>	     <dbl>   <dbl>
+year   month   day      date       dayofweek   violentcrimes   propertycrimes  	base_dst      days    after_dst
+<dbl>  <dbl>  <dbl>    <date>         <dbl>    	 <int>           <int> 			 <date>	     <dbl>   	<dbl>
 
-2009	1	7	2009-01-07	4	11	        51             2009-03-08     -60     0
-2015	1	7	2015-01-07	4	7	        41             2015-03-08     -60     0
-2009	1	8	2009-01-08	5	11	        29             2009-03-08     -59     0
-2014	1	8	2014-01-08	4	4	        46             2014-03-09     -60     0
-2015	1	8	2015-01-08	5	2	        48             2015-03-08     -59     0
-2020	1	8	2020-01-08	4	10	        63             2020-03-08     -60     0
+2009	1		7		2009-01-07		4		11	        	51             	2009-03-08     -60     0
+2015	1		7		2015-01-07		4		7	        	41             	2015-03-08     -60     0
+2009	1		8		2009-01-08		5		11	        	29             	2009-03-08     -59     0
+2014	1		8		2014-01-08		4		4	        	46             	2014-03-09     -60     0
+2015	1		8		2015-01-08		5		2	        	48             	2015-03-08     -59     0
+2020	1		8		2020-01-08		4		10	        	63             	2020-03-08     -60     0
 ```
 
 ### Aggregating the RD data
