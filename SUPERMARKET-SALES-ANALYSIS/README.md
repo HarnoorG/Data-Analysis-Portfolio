@@ -424,27 +424,27 @@ ORDER BY
 		percentage_returned DESC;
 
 
-item_name			number_of_returns	total_sales	percentage_returned
-The Steak Mushrooms (Box)	1			36		2.778
-Yellow Baicai (1)		2			445		0.449
-Lameizi				2			455		0.440
-Red Line Pepper			1			248		0.403
-Tremella (Flower)		1			289		0.346
-Machixian			1			313		0.319
-Pepper Mix			2			641		0.312
-Chinese Cabbage (Bag)		1			343		0.292
-Red Lotus Root Zone		1			353		0.283
-The Crab Flavor Mushroom (Bag)	1			401		0.249
-Wild Lotus Root (1)		2			892		0.224
-Wawacai				18			8994		0.200
-Needle Mushroom (Bag) (2)	6			3185		0.188
-Jigu Mushroom (Bunch)		2			1075		0.186
-Red Hot Peppers			3			1872		0.160
-Xixia Xianggu Mushroom (2)	3			1881		0.159
-Haixian Mushroom (Bag)		2			1305		0.153
-Jigu (Bag)			1			684		0.146
-Red Hang Pepper (Bag)		1			709		0.141
-Haixian Mushroom (Bag) (2)	1			709		0.141
+item_name						number_of_returns	total_sales		percentage_returned
+The Steak Mushrooms (Box)		1					36				2.778
+Yellow Baicai (1)				2					445				0.449
+Lameizi							2					455				0.440
+Red Line Pepper					1					248				0.403
+Tremella (Flower)				1					289				0.346
+Machixian						1					313				0.319
+Pepper Mix						2					641				0.312
+Chinese Cabbage (Bag)			1					343				0.292
+Red Lotus Root Zone				1					353				0.283
+The Crab Flavor Mushroom (Bag)	1					401				0.249
+Wild Lotus Root (1)				2					892				0.224
+Wawacai							18					8994			0.200
+Needle Mushroom (Bag) (2)		6					3185			0.188
+Jigu Mushroom (Bunch)			2					1075			0.186
+Red Hot Peppers					3					1872			0.160
+Xixia Xianggu Mushroom (2)		3					1881			0.159
+Haixian Mushroom (Bag)			2					1305			0.153
+Jigu (Bag)						1					684				0.146
+Red Hang Pepper (Bag)			1					709				0.141
+Haixian Mushroom (Bag) (2)		1					709				0.141
 ```
 
 In the top 20 returned items by percentage, the only item returned a double-digit amount of times was Wawacai which was returned 18 times. 0.2% of all Wawacais sold were returned.
@@ -462,8 +462,8 @@ WHERE
 		discount_yes_no = 'Yes';
 
 
-total_discount_uses	discount_percentage
-47366			5.39
+total_discount_uses		discount_percentage
+47366					5.39
 ```
 For this supermarket, there were 47,366 discount uses in total. Discounted purchases made up 5.39% of all purchases
 
@@ -493,7 +493,7 @@ November	3702
 March		3664
 April		3278
 February	2387
-May		2289
+May			2289
 January		2129
 December	2110
 June		1872
