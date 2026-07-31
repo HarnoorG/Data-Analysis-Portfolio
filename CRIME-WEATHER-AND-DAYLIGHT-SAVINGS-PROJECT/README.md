@@ -337,15 +337,15 @@ I used the right_join() function to join the violent crime and property crime da
 head(crimesrd)
 
 
-year   month   day      date       dayofweek   violentcrimes   propertycrimes
-<dbl>  <dbl>  <dbl>    <date>         <dbl>    <int>           <int>
+year   month   day       date      dayofweek   violentcrimes   propertycrimes
+<dbl>  <dbl>  <dbl>     <date>        <dbl>    	  <int>           <int>
 
-2003	1	1	2003-01-01	4	32	        137
-2003	1	2	2003-01-02	5	14	        85
-2003	1	3	2003-01-03	6	14	        108
-2003	1	4	2003-01-04	7	13	        98
-2003	1	5	2003-01-05	1	12	        75
-2003	1	6	2003-01-06	2	13	        103
+2003	1		1		2003-01-01		4		32	        	137
+2003	1		2		2003-01-02		5		14	        	85
+2003	1		3		2003-01-03		6		14	        	108
+2003	1		4		2003-01-04		7		13	        	98
+2003	1		5		2003-01-05		1		12	        	75
+2003	1		6		2003-01-06		2		13	        	103
 
 ```
 
@@ -381,14 +381,14 @@ RDD <- crimerd %>%
 head(RDD)
 
 year   month   day      date       dayofweek   violentcrimes   propertycrimes
-<dbl>  <dbl>  <dbl>    <date>         <dbl>    <int>           <int>
+<dbl>  <dbl>  <dbl>    <date>         <dbl>    	  <int>           <int>
 
-2009	1	7	2009-01-07	4	11	        51
-2015	1	7	2015-01-07	4	7	        41
-2009	1	8	2009-01-08	5	11	        29
-2014	1	8	2014-01-08	4	4	        46
-2015	1	8	2015-01-08	5	2	        48
-2020	1	8	2020-01-08	4	10	        63
+2009	1		7		2009-01-07		4		11	        	51
+2015	1		7		2015-01-07		4		7	        	41
+2009	1		8		2009-01-08		5		11	        	29
+2014	1		8		2014-01-08		4		4	        	46
+2015	1		8		2015-01-08		5		2	        	48
+2020	1		8		2020-01-08		4		10	        	63
 ```
 
 ### Creating a days variable, a base_dst variable, and an after_dst variable
