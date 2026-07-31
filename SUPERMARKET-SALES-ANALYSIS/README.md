@@ -526,27 +526,27 @@ ORDER BY
 		difference DESC;
 
 
-item_name					avg_unit_price		avg_wholesale_price	difference
-Black Chicken Mushroom				104.89			62.79			42.11
-Malan Head					47.05			29.98			17.07
-Chinese Caterpillar Fungus Flowers		28.88			14.91			13.97
-Black Porcini					77.65			64.41			13.24
-The Steak Mushrooms				28.36			15.59			12.77
-Huanghuacai					67.85			55.31			12.55
-Pepper Mix					14.68			2.4			12.28
-Xixia Black Mushroom (2)			19.26			7.23			12.03
-Green Hangjiao (1)				17.48			5.91			11.57
-7 Colour Pepper (2)				24.04			12.84			11.2
-The Dandelion					29.79			19			10.79
-Ganlanye					12			2			10
-7 Colour Pepper (1)				21.26			11.75			9.51
-Chinese Caterpillar Fungus Flowers (Box) (2)	12.9			3.5			9.4
-Millet Pepper					26.58			17.27			9.31
-Wild Lotus Root (2)				13			3.83			9.17
-Sophora Japonica				19.32			10.52			8.8
-Round Eggplant					12.29			3.68			8.61
-Xixia Xianggu Mushroom (2)			21.79			13.25			8.54
-Artemisia Stelleriana				26.16			17.75			8.41
+item_name										avg_unit_price		avg_wholesale_price		difference
+Black Chicken Mushroom							104.89				62.79					42.11
+Malan Head										47.05				29.98					17.07
+Chinese Caterpillar Fungus Flowers				28.88				14.91					13.97
+Black Porcini									77.65				64.41					13.24
+The Steak Mushrooms								28.36				15.59					12.77
+Huanghuacai										67.85				55.31					12.55
+Pepper Mix										14.68				2.4						12.28
+Xixia Black Mushroom (2)						19.26				7.23					12.03
+Green Hangjiao (1)								17.48				5.91					11.57
+7 Colour Pepper (2)								24.04				12.84					11.2
+The Dandelion									29.79				19						10.79
+Ganlanye										12					2						10
+7 Colour Pepper (1)								21.26				11.75					9.51
+Chinese Caterpillar Fungus Flowers (Box) (2)	12.9				3.5						9.4
+Millet Pepper									26.58				17.27					9.31
+Wild Lotus Root (2)								13					3.83					9.17
+Sophora Japonica								19.32				10.52					8.8
+Round Eggplant									12.29				3.68					8.61
+Xixia Xianggu Mushroom (2)						21.79				13.25					8.54
+Artemisia Stelleriana							26.16				17.75					8.41
 ```
 
 Black Chicken Mushroom had the highest difference in unit and wholesale price by a substantial margin. Its difference of 42.11 Chinese Yuan (RMB) was more than 25 RMB larger than the item with the second highest difference, Malan Head.
@@ -569,14 +569,14 @@ ORDER BY
 		total_revenue DESC;
 
 
-day_of_week	avg_price	avg_quantity	avg_revenue	total_revenue
-Saturday	8.872		0.539		3.833		609259.8
-Sunday		8.959		0.531		3.834		596645.41
-Friday		8.857		0.547		3.892		470955.96
-Wednesday	9.158		0.53		3.888		435496.44
-Monday		8.78		0.535		3.765		425199.52
-Tuesday		8.953		0.531		3.818		418815.7
-Thursday	8.848		0.539		3.818		413393.64
+day_of_week		avg_price	avg_quantity	avg_revenue		total_revenue
+Saturday		8.872		0.539			3.833			609259.8
+Sunday			8.959		0.531			3.834			596645.41
+Friday			8.857		0.547			3.892			470955.96
+Wednesday		9.158		0.53			3.888			435496.44
+Monday			8.78		0.535			3.765			425199.52
+Tuesday			8.953		0.531			3.818			418815.7
+Thursday		8.848		0.539			3.818			413393.64
 ```
 For the average price, average quantity and average revenue we see very few differences across the seven days. However, for total revenue, we see substantially higher revenues for Sunday and Saturday. This could potentially indicate that the purchase amounts and prices don't really vary day by day but the number of purchases made does vary among the days of the week with significantly more purchases occurring on the weekend. This could explain the total revenue jumps for Saturday and Sunday (and even Friday slightly) but not really any changes for the average revenue of these days.
 
@@ -624,19 +624,19 @@ ORDER BY
 		avg_revenue DESC;
 
 
-month		avg_price	avg_quantity	avg_revenue	total_revenue
-February	11.288		0.575		4.907		351241.42
-January		10.358		0.594		4.851		407091.31
-March		9.408		0.548		4.045		259619.1
-September	9.557		0.514		4.044		309878.73
-October		8.898		0.546		3.884		326784.25
-April		8.663		0.542		3.721		215570.98
-August		8.441		0.523		3.645		361641.74
-December	7.755		0.597		3.474		233662.39
-July		9.183		0.445		3.473		297347.88
-November	7.453		0.576		3.296		215501.41
-May		7.695		0.494		3.229		201546.5
-June		7.584		0.488		3.153		189880.77
+month		avg_price	avg_quantity	avg_revenue		total_revenue
+February	11.288		0.575			4.907			351241.42
+January		10.358		0.594			4.851			407091.31
+March		9.408		0.548			4.045			259619.1
+September	9.557		0.514			4.044			309878.73
+October		8.898		0.546			3.884			326784.25
+April		8.663		0.542			3.721			215570.98
+August		8.441		0.523			3.645			361641.74
+December	7.755		0.597			3.474			233662.39
+July		9.183		0.445			3.473			297347.88
+November	7.453		0.576			3.296			215501.41
+May			7.695		0.494			3.229			201546.5
+June		7.584		0.488			3.153			189880.77
 ```
 
 Here we see that the higher/lower the average price is, the higher/lower the average revenue except for July where it has the 5th highest average price but the fourth worst average revenue. This is due to July having the lowest average quantity sold. We also see that January and February are the top 2 selling months which checks out when we think back to the best-selling dates we looked at earlier having so many January and February dates. March is the third highest month for average month which could indicate that something to do with the Winter leads to an increase in sales for this supermarket as January, February and March are all winter months.
@@ -659,11 +659,11 @@ ORDER BY
 		avg_revenue DESC;
 
 
-year	avg_price	avg_quantity	avg_revenue	total_revenue
-2023	8.353		0.659		4.333		563102.15
-2022	8.179		0.611		3.928		1036772.4
-2021	9.518		0.46		3.683		1100362.65
-2020	9.394		0.466		3.603		669529.27
+year	avg_price	avg_quantity	avg_revenue		total_revenue
+2023	8.353		0.659			4.333			563102.15
+2022	8.179		0.611			3.928			1036772.4
+2021	9.518		0.46			3.683			1100362.65
+2020	9.394		0.466			3.603			669529.27
 ```
 
 We see that from 2020 to 2023, every year the average price gradually came down while the average quantity and average revenue increased year by year. These could be signs that this is a successful business that was able to lower their costs but still make more and more money every year as they establish a larger customer base with each coming year. However, these numbers could instead reflect the effect of COVID-19 in 2020 and then the business slowly recovering from those effects with each coming year. No judgments can be made based on the total revenue because we're missing the data for half of 2020 and 2023.
@@ -689,19 +689,19 @@ ORDER BY
 		, quarter
 
 
-year	quarter		avg_price	avg_quantity	avg_revenue	total_revenue
-2020	3		9.824		0.419		3.692		363001.46
-2020	4		8.91		0.519		3.503		306527.81
-2021	1		11.533		0.511		4.594		406644.76
-2021	2		7.791		0.438		2.875		209600.68
-2021	3		9.022		0.431		3.445		283048.91
-2021	4		9.305		0.451		3.643		201068.31
-2022	1		10.698		0.537		4.679		271073.25
-2022	2		8.359		0.47		3.426		174529.24
-2022	3		8.013		0.652		3.986		322817.99
-2022	4		6.268		0.721		3.622		268351.93
-2023	1		8.745		0.681		4.646		340233.82
-2023	2		7.846		0.631		3.93		222868.32
+year	quarter		avg_price	avg_quantity	avg_revenue		total_revenue
+2020	3			9.824		0.419			3.692			363001.46
+2020	4			8.91		0.519			3.503			306527.81
+2021	1			11.533		0.511			4.594			406644.76
+2021	2			7.791		0.438			2.875			209600.68
+2021	3			9.022		0.431			3.445			283048.91
+2021	4			9.305		0.451			3.643			201068.31
+2022	1			10.698		0.537			4.679			271073.25
+2022	2			8.359		0.47			3.426			174529.24
+2022	3			8.013		0.652			3.986			322817.99
+2022	4			6.268		0.721			3.622			268351.93
+2023	1			8.745		0.681			4.646			340233.82
+2023	2			7.846		0.631			3.93			222868.32
 ```
 
 We see that the average price is always the highest in the first quarter. It seems to be this way because demand seems to be the most inelastic in the months of January, February, and March so even though prices are higher the supermarket still does well sales and revenue-wise.
@@ -719,26 +719,26 @@ ORDER BY
 		loss_rate DESC;
 
 
-item_name			loss_rate
-High Melon (1)			29.25
-Chuncai				29.03
-Dongmenkou Xiaobaicai		27.84
+item_name						loss_rate
+High Melon (1)					29.25
+Chuncai							29.03
+Dongmenkou Xiaobaicai			27.84
 Foreign Garland Chrysanthemum 	26.16
-Purple Cabbage (1)		25.53
-Honghu Lotus Root		24.05
-Chinese Cabbage			22.27
-Kuaicai				20.38
-The Steak Mushrooms (Box)	19.8
-Purple Beicai			19.58
-Amaranth			18.52
-Spinach				18.51
-Qinggengsanhua			17.06
-Panax Notoginseng		16.95
-Huanghuacai			16.89
-Sophora Japonica		16.8
-Red Lotus Root Zone		16.63
-Bell Pepper (1)			16.33
-Hericium 			16.19
+Purple Cabbage (1)				25.53
+Honghu Lotus Root				24.05
+Chinese Cabbage					22.27
+Kuaicai							20.38
+The Steak Mushrooms (Box)		19.8
+Purple Beicai					19.58
+Amaranth						18.52
+Spinach							18.51
+Qinggengsanhua					17.06
+Panax Notoginseng				16.95
+Huanghuacai						16.89
+Sophora Japonica				16.8
+Red Lotus Root Zone				16.63
+Bell Pepper (1)					16.33
+Hericium 						16.19
 The Crab Flavor Mushroom (2)	16.04
 ```
 
@@ -757,29 +757,29 @@ WHERE
 		loss_rate = 0;
 
 
-item_name				loss_rate
-Green Hangjiao (1)			0
-Lameizi					0
-Purple Screw Pepper			0
-Hongshan Shoutidai			0
-Hongshan Gift Box			0
-Chopped Red Pine (Box)			0
+item_name						loss_rate
+Green Hangjiao (1)					0
+Lameizi								0
+Purple Screw Pepper					0
+Hongshan Shoutidai					0
+Hongshan Gift Box					0
+Chopped Red Pine (Box)				0
 The Pork Stomach Mushroom (Box)		0
-Black Porcini (Box)			0
+Black Porcini (Box)					0
 Black Chicken Fir Bacteria (Box)	0
-Xiangtianhongcaitai (Bag)		0
-Artemisia Stelleriana			0
-Zhimaxiancai				0
-Xianzongye				0
-Xianzongye (Bag) (1)			0
-Chinese Cabbage Seedling		0
+Xiangtianhongcaitai (Bag)			0
+Artemisia Stelleriana				0
+Zhimaxiancai						0
+Xianzongye							0
+Xianzongye (Bag) (1)				0
+Chinese Cabbage Seedling			0
 Velvet Antler Mushroom (Box)		0
-Lotus Root Tip				0
-Haixian Mushroom (Bag) (2)		0
-The White Mushroom (Box)		0
+Lotus Root Tip						0
+Haixian Mushroom (Bag) (2)			0
+The White Mushroom (Box)			0
 The Crab Flavor Mushroom (Box)		0
-Haixian Mushroom (Bunch)		0
-Xianzongye (Bag) (2)			0
+Haixian Mushroom (Bunch)			0
+Xianzongye (Bag) (2)				0
 ```
 
 We see 22 items that have not been affected by loss at all.
@@ -803,13 +803,13 @@ ORDER BY
 		avg_rate_of_loss DESC;
 
 
-category_name			avg_rate_of_loss
-Cabbage				14.14
+category_name				avg_rate_of_loss
+Cabbage						14.14
 Aquatic Tuberous Vegetables	11.97
 Flower/Leaf Vegetables		10.28
-Capsicum			8.52
-Edible Mushroom			8.13
-Solanum				7.12
+Capsicum					8.52
+Edible Mushroom				8.13
+Solanum						7.12
 ```
 
 There isn't too large of a difference in loss rate across the categories.
@@ -834,27 +834,27 @@ ORDER BY
 		lost_revenue DESC
 
 
-item_name				loss_rate	lost_revenue
-Xixia Mushroom (1)			13.82		29187.62
-Broccoli				9.26		24990.99
-Yunnan Shengcai				15.25		19787.94
-Net Lotus Root (1)			5.54		11725.53
-Wuhu Green Pepper (1)			5.7		11691.48
-Chinese Cabbage				19.23		10674.54
-Qinggengsanhua				17.06		9941.41
-Spinach					18.51		9689.9
-Yunnan Lettuces				12.81		9052.2
-Luosi Pepper				10.18		8348.55
-Huangbaicai (2)				15.61		8347.94
-Shanghaiqing				14.43		8209.44
-Honghu Lotus Root Powder (Fenou)	11.81		7598.51
-Eggplant (2)				6.07		7146.18
-Paopaojiao (Jingpin)			7.08		6766.26
-Red Pepper (1)				11.76		6736.82
-Xixia Black Mushroom (1)		10.8		6492.57
-Yunnan Lettuce (Bag)			9.43		6034.72
-Zhuyecai				13.62		5302.91
-Millet Pepper (Bag)			9.43		5184.56
+item_name							loss_rate		lost_revenue
+Xixia Mushroom (1)					13.82			29187.62
+Broccoli							9.26			24990.99
+Yunnan Shengcai						15.25			19787.94
+Net Lotus Root (1)					5.54			11725.53
+Wuhu Green Pepper (1)				5.7				11691.48
+Chinese Cabbage						19.23			10674.54
+Qinggengsanhua						17.06			9941.41
+Spinach								18.51			9689.9
+Yunnan Lettuces						12.81			9052.2
+Luosi Pepper						10.18			8348.55
+Huangbaicai (2)						15.61			8347.94
+Shanghaiqing						14.43			8209.44
+Honghu Lotus Root Powder (Fenou)	11.81			7598.51
+Eggplant (2)						6.07			7146.18
+Paopaojiao (Jingpin)				7.08			6766.26
+Red Pepper (1)						11.76			6736.82
+Xixia Black Mushroom (1)			10.8			6492.57
+Yunnan Lettuce (Bag)				9.43			6034.72
+Zhuyecai							13.62			5302.91
+Millet Pepper (Bag)					9.43			5184.56
 ```
 
 This list of items sorted by revenue potentially lost is nearly identical to the list of best-selling items.
