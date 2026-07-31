@@ -442,29 +442,29 @@ ORDER BY
 	t1.year
 
 
-year	day_of_week		avg_precipitation	avg_high_temp	number_of_crimes	day_of_week		avg_high_temp	number_of_crimes	crime_difference
-2003	Saturday		5.19				13.1			4487				Tuesday			16.91			5051				564
+year	day_of_week		avg_precipitation	avg_high_temp	number_of_crimes	day_of_week		avg_high_temp	number_of_crimes	 crime_difference
+2003	Saturday		5.19				13.1			4487				Tuesday			16.91			5051				 564
 2004	Saturday		11.42				12.48			4838				Sunday			18				4713				-125
-2005	Saturday		7.89				12.82			4187				Thursday		16.33			5231				1044
-2006	Thursday		6.02				11.79			3888				Monday			18.09			4055				167
+2005	Saturday		7.89				12.82			4187				Thursday		16.33			5231				 1044
+2006	Thursday		6.02				11.79			3888				Monday			18.09			4055				 167
 2007	Saturday		6.6					10.97			3749				Friday			16.4			3605				-144
-2008	Saturday		4.08				11.2			3456				Wednesday		15.14			3662				206
-2009	Thursday		5.58				11.16			2586				Friday			15.9			3865				1279
-2010	Saturday		5.73				12.6			3038				Wednesday		16.18			3186				148
-2011	Wednesday		5.92				12.29			2761				Saturday		14.62			3175				414
-2012	Friday			6.98				11.24			2839				Saturday		17.28			2995				156
-2013	Saturday		5.79				12.61			2691				Sunday			15.37			3276				585
-2014	Friday			6.37				15.22			3011				Monday			16.24			3610				599
-2015	Friday			7.55				12.86			2718				Wednesday		16.15			3784				1066
+2008	Saturday		4.08				11.2			3456				Wednesday		15.14			3662				 206
+2009	Thursday		5.58				11.16			2586				Friday			15.9			3865				 1279
+2010	Saturday		5.73				12.6			3038				Wednesday		16.18			3186				 148
+2011	Wednesday		5.92				12.29			2761				Saturday		14.62			3175				 414
+2012	Friday			6.98				11.24			2839				Saturday		17.28			2995				 156
+2013	Saturday		5.79				12.61			2691				Sunday			15.37			3276				 585
+2014	Friday			6.37				15.22			3011				Monday			16.24			3610				 599
+2015	Friday			7.55				12.86			2718				Wednesday		16.15			3784				 1066
 2016	Saturday		8.99				12.73			3634				Friday			17.5			3632				-2
-2017	Friday			4.98				11.17			3477				Sunday			15.63			4092				615
-2018	Friday			7.98				11.34			3912				Monday			15.17			4310				398
-2018	Saturday		6.51				12.34			3912				Monday			15.17			4310				398
-2019	Friday			5.3					12.95			3696				Sunday			15.4			4683				987
+2017	Friday			4.98				11.17			3477				Sunday			15.63			4092				 615
+2018	Friday			7.98				11.34			3912				Monday			15.17			4310				 398
+2018	Saturday		6.51				12.34			3912				Monday			15.17			4310				 398
+2019	Friday			5.3					12.95			3696				Sunday			15.4			4683				 987
 2020	Saturday		4.62				12.36			3065				Sunday			15.57			3019				-46
-2021	Saturday		9.04				11.21			2352				Wednesday		16.14			2772				420
-2022	Wednesday		3.59				12.91			2273				Saturday		16.03			3412				1139
-2023	Wednesday		4.25				11.13			2204				Friday			18.08			3469				1265
+2021	Saturday		9.04				11.21			2352				Wednesday		16.14			2772				 420
+2022	Wednesday		3.59				12.91			2273				Saturday		16.03			3412				 1139
+2023	Wednesday		4.25				11.13			2204				Friday			18.08			3469				 1265
 ```
 
 ##### Day with most crime when there is no precipitation versus when there is greater than 10mm of precipitation
@@ -618,8 +618,8 @@ FROM
 	year_count;
 
 
-year		number_of_crimes	previous_year_count		year_over_year
-2003		58814				NULL					NULL
+year		number_of_crimes	previous_year_count		 year_over_year
+2003		58814				NULL					 NULL
 2004		58111				58814					-1.20
 2005		53401				58111					-8.11
 2006		49634				53401					-7.05
