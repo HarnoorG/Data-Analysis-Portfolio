@@ -155,22 +155,22 @@ FROM workout
 ORDER BY exercise_id;
 
 
-exercise_id    exercise_name
-1		Dumbbell Rows
-2		Dumbbell Bench Press
-3		Reverse Curls
-4		Skull Crushers
-5		Bicep Curls
-6		Tricep Extension
-7		Military Press
-8		Zottman Curls
-9		Incline Bench Press
-10		Incline Dumbbell Rows
-11		Hammer Curls
-12		Close Grip Bench Press
-13		Seated Shrugs
-14		Lateral Raises
-15		Preacher Curls
+exercise_id     exercise_name
+1				Dumbbell Rows
+2				Dumbbell Bench Press
+3				Reverse Curls
+4				Skull Crushers
+5				Bicep Curls
+6				Tricep Extension
+7				Military Press
+8				Zottman Curls
+9				Incline Bench Press
+10				Incline Dumbbell Rows
+11				Hammer Curls
+12				Close Grip Bench Press
+13				Seated Shrugs
+14				Lateral Raises
+15				Preacher Curls
 ```
 
 ##### Joining the workout table and exercises table
