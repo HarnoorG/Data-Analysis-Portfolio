@@ -16,7 +16,7 @@ SELECT
 FROM workout
 ORDER BY exercise_id;
 
--- Selecting all of the variables and creating a new variable to estimate one rep max
+-- Selecting all of the variables and creating a new variable to estimate the one rep max
 SELECT workout.workout_id, 
        workout_date,
        workout.exercise_id,
